@@ -1,10 +1,4 @@
-/* contact.css */
-body {
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-    background: #eaf6ff;
-    color: #222;
-  }
+
   
   .contact-section {
     padding: 50px 20px;
@@ -12,7 +6,7 @@ body {
     justify-content: center;
   }
   
-  .container {
+  .container-contact {
     background: white;
     padding: 40px;
     border-radius: 16px;
