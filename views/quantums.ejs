@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- bootsrap -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   <!-- css -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="../script.js"></script>
+    <!-- font -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <title>Quantums</title>
+</head>
+<body>
+
+    <%- include('partials/navbar') %>
+
+<!-- navigation end -->
+
+<div class="container my-4">
+    <h2 class="text-center mb-4 text-primary">Quantums</h2>
+    
+    <!-- Search Bar -->
+    <div class="row mb-3">
+        <div class="col-md-6 mx-auto">
+            <input type="text" id="searchBox" class="form-control shadow-sm" placeholder="🔍 Search notices...">
+        </div>
+    </div> 
+  
+    <!-- Category Tabs for Filtering Notices -->
+    <ul class="nav nav-pills justify-content-center category-tabs mb-3" id="noticeTabs">
+        <li class="nav-item">
+            <button class="nav-link active" data-category="all">All</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-category="3rd_year">📢 3rd Year</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-category="2nd_year">📅 2nd Year</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" data-category="1st_year">📅 1st Year</button>
+        </li>
+     
+       
+       
+    </ul>
+  
+    <div class="d-flex justify-content-center align-items-center vh-10">
+        <div class="container">
+            <div class="row justify-content-center g-4" id="noticeContainer">
+
+<!-- SPM -->
+            <div class="col-md-4 notice-item" data-category="3rd_year">
+                <div class="card text-center">
+                    <img src="/images/quantum/SPM.png" class="card-img-top" alt="...">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h5 class="card-title">SOFTWARE PROJECT MANAGEMENT ( BOE 068 ) Quantum</h5>
+                        <a href="https://drive.google.com/uc?export=download&id=18JaEQ7-81w6Vf0LzGb-38ZMrY8r5EWyd" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- DSTL -->
+            <div class="col-md-4 notice-item" data-category="2nd_year">
+                <div class="card text-center">
+                    <img src="/images/quantum/DSTL.png" class="card-img-top" alt="...">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h5 class="card-title">DISCRETE STRUCTURES & THEORY OF LOGIC( BAS 303 ) Quantum</h5>
+                        <a href="https://drive.google.com/uc?export=download&id=1fVh_jMEDpe-LRBfweUapKx7NqOeqvzrK" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
+                    </div>
+                </div>
+            </div>
+
+             <!-- UHV -->
+            <div class="col-md-4 notice-item" data-category="2nd_year">
+                <div class="card text-center">
+                    <img src="/images/quantum/UHV.png" class="card-img-top" alt="...">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h5 class="card-title">UNIVERSAL HUMAN VALUES & PROFESSIONAL ETHICS ( BVE401  ) Quantum</h5>
+                        <a href="https://drive.google.com/uc?export=download&id=1fVh_jMEDpe-LRBfweUapKx7NqOeqvzrK" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
+                    </div>
+                </div>
+            </div>
+
+         
+           
+
+                 <!-- COA-->
+                  <div class="col-md-4 notice-item" data-category="2nd_year">
+                    <div class="card text-center">
+                        <img src="/images/quantum/COA.png" class="card-img-top" alt="...">
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <h5 class="card-title">Computer Organization and Architecture BCS302  Quantum</h5>
+                              <a href="https://drive.google.com/uc?export=download&id=12ipNITryhNyivmZRrd4nWWIMKRvI1e5N" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
+                    </div>
+                    </div>
+                </div>
+               
+              <!-- Maths 4-->
+                  <div class="col-md-4 notice-item" data-category="2nd_year">
+                    <div class="card text-center">
+                        <img src="/images/quantum/MATHS4.png" class="card-img-top" alt="...">
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <h5 class="card-title">Mathmatics 4 (BAS 403)  Quantum</h5>
+                              <a href="https://drive.google.com/uc?export=download&id=1fQPN3eSiaW-R79557Kd3_zgeh9X7QZ6Z" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
+                    </div>
+                    </div>
+                </div>
+               
+                 <!-- Data structure-->
+                  <div class="col-md-4 notice-item" data-category="2nd_year">
+                    <div class="card text-center">
+                        <img src="/images/quantum/data structure.png" class="card-img-top" alt="...">
+                        <div class="card-body d-flex flex-column align-items-center">
+                            <h5 class="card-title">Data Structure (BCS 301)  Quantum</h5>
+                              <a href="https://drive.google.com/file/d/1eSQP2B4N-q92Gl-RlafX8kSpux0Q9AEC/view?usp=drive_link" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
+                    </div>
+                    </div>
+                </div>
+         
+        
+ 
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Search and Filtering -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const searchBox = document.getElementById("searchBox");
+        const noticeContainer = document.getElementById("noticeContainer");
+        const noticeItems = document.querySelectorAll(".notice-item");
+        const categoryButtons = document.querySelectorAll(".category-tabs .nav-link");
+
+        // Search Functionality
+        searchBox.addEventListener("keyup", function () {
+            const input = searchBox.value.toLowerCase();
+            noticeItems.forEach(notice => {
+                const title = notice.querySelector(".card-title").innerText.toLowerCase();
+                notice.style.display = title.includes(input) ? "block" : "none";
+            });
+        });
+
+        // Category Filtering
+        categoryButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                categoryButtons.forEach(btn => btn.classList.remove("active"));
+                this.classList.add("active");
+                const category = this.getAttribute("data-category");
+                noticeItems.forEach(notice => {
+                    notice.style.display = (category === "all" || notice.getAttribute("data-category") === category) ? "block" : "none";
+                });
+            });
+        });
+    });
+</script>
+
+
+
+
+<%- include('partials/footer') %>
+
+
+</body>
+</html>

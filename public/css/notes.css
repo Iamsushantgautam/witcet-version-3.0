@@ -1,0 +1,91 @@
+
+        /* Container for centering content and setting max width */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* Main heading style */
+        h1 {
+            text-align: center;
+            color: #333; /* Dark grey color for text */
+            margin-bottom: 20px;
+        }
+
+        /* Section styling */
+        .section {
+            background-color: #ffffff; /* White background for sections */
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+            padding: 20px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        /* Section heading style */
+        .section h2 {
+            font-size: 26px;
+            color: #007bff; /* Bright blue for headings */
+            border-bottom: 3px solid #007bff; /* Blue underline for headings */
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* Content box styling */
+        .content-box {
+            background-color: #f8f9fa; /* Light grey background for content boxes */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+        }
+
+        /* Link styling inside content boxes */
+        .content-box a {
+            text-decoration: none; /* Remove underline from links */
+            color: #333; /* Dark grey color for links */
+        }
+
+        /* Paragraph styling inside content boxes */
+        .content-box p {
+            margin: 0;
+            transition: color 0.3s ease; /* Smooth color transition on hover */
+        }
+
+        /* Hover effect for content boxes */
+        .content-box:hover {
+            background-color: #e2e6ea; /* Slightly darker grey on hover */
+            transform: scale(1.02); /* Slight zoom effect */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* Darker shadow on hover */
+        }
+
+        /* Paragraph color change on hover */
+        .content-box:hover p {
+            color: #007bff; /* Change text color to blue on hover */
+        }
+
+        /* Owner name styling */
+        .owner {
+            margin-top: 10px;
+            font-weight: bold;
+            color:#ff152a; /* Blue color for owner names */
+            text-align: right; /* Align to the right */
+        }
+
+        /* Subsection styling */
+        .subsection {
+            background-color: #f1f5f9; /* Light background to distinguish from main section */
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        /* Subsection heading style */
+        .subsection h3 {
+            font-size: 22px;
+            color: #0056b3; /* Darker blue for subsection headings */
+            border-bottom: 2px solid #0056b3; /* Underline for subsection headings */
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
