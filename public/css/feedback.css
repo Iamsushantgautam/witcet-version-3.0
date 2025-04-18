@@ -1,0 +1,59 @@
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f1f8ff; /* Light Blue Background */
+  }
+  
+  header {
+    background-color: #00BFFF; /* Light Blue header */
+  }
+  
+  .card {
+    border-radius: 12px;
+  }
+  
+  .card-body {
+    padding: 2rem;
+  }
+  
+  .form-label {
+    font-weight: 600;
+    color: #007b8c; /* Darker Blue for labels */
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+  
+  button,.btn-f {
+    border-radius: 25px;
+    font-weight: 500;
+    background-color: #00BFFF; /* Light Blue button */
+    color: white;
+    transition: background-color 0.3s ease;
+    border: none;
+  }
+  
+  button:hover {
+    background-color: #00BFFF; /* Darker shade for button hover */
+  }
+  .btn-f:hover {
+    background-color:#00BFFF; /* Darker shade for button hover */
+    border-radius: 20px;
+    color:white;
+  }
+ 
+  
+  @media (max-width: 576px) {
+    .card-body {
+      padding: 1.5rem;
+    }
+  
+    h1 {
+      font-size: 1.8rem;
+    }
+  
+    .lead {
+      font-size: 1rem;
+    }
+  }
+  

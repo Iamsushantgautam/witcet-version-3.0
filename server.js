@@ -1,6 +1,11 @@
 const express = require("express");
 const path = require("path");
-require("dotenv").config();
+require('dotenv').config();
+
+const apiKey = process.env.WEB3FORM_API_KEY;
+
+// Now you can use apiKey in your API requests to Web3Form
+
 
 const app = express();
 
@@ -24,6 +29,9 @@ app.get("/quantums", (req, res) => res.render("quantums"));
 app.get("/about", (req, res) => res.render("about"));
 app.get("/feedback", (req, res) => res.render("feedback"));
 app.get("/policy", (req, res) => res.render("policy"));
+app.get("/contact", (req, res) => res.render("contact"));
+
+
 
 // Start server
 const PORT = process.env.PORT || 5001;
