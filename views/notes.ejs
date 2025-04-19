@@ -49,117 +49,31 @@
     
       
     </ul>
+
+   
   
     <div class="d-flex justify-content-center align-items-center vh-10">
         <div class="container">
             <div class="row justify-content-center g-4" id="noticeContainer">
                 
-            
-            <!-- <div class="col-md-4 notice-item" data-category="3rd_year">
-                <div class="card text-center">
-                    <img src="../images/courses/3/DBMS.png" class="card-img-top" alt="...">
+                <% courses.forEach(course => { %>
+             <div class="col-md-4 notice-item" data-category="<%= course.tag %>">
+                <div class="card text-center h-100 shadow-sm">
+                    <img src="../images/<%= course.image %>" class="card-img-top" alt="...">
                     <div class="card-body d-flex flex-column align-items-center">
-                        <h5 class="card-title">Database Management System <BR>( BCS 501) Complete Notes</h5>
-                        <a href="/notes/DBMS" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now </a>
+                        <h5 class="card-title"><%= course.name %></h5>
+                        <a href="<%=course.pageLink %>" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download</a>
                     </div>
                 </div>
-            </div> -->
-
-<!--             
-            <div class="col-md-4 notice-item" data-category="3rd_year">
-                <div class="card text-center">
-                    <img src="../images/courses/3/DAA.png" class="card-img-top" alt="...">
-                    <div class="card-body d-flex flex-column align-items-center">
-                        <h5 class="card-title">Update Notice</h5>
-                        <a href="#" class="btn btn-primary">Read More</a>
-                    </div>
-                </div>
-            </div> -->
-
-            
-            <!-- <div class="col-md-4 notice-item" data-category="3rd_year">
-                <div class="card text-center">
-                    <img src="../images/courses/3/WT.png" class="card-img-top" alt="...">
-                    <div class="card-body d-flex flex-column align-items-center">
-                        <h5 class="card-title">Update Notice</h5>
-                        <a href="#" class="btn btn-primary">Read More</a>
-                    </div>
-                </div>
-            </div> -->
+            </div> 
         
-                <!-- SPM -->
-             <div class="col-md-4 notice-item" data-category="3rd_year">
-                <div class="card text-center">
-                    <img src="../images/courses/3/SPM.png" class="card-img-top" alt="...">
-                    <div class="card-body d-flex flex-column align-items-center">
-                        <h5 class="card-title">SOFTWARE PROJECT MANAGEMENT (BOE 068 )  Complete Notes </h5>
-                        <a href="/notes/SPM" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
-                    </div>
-                </div>
-            </div>
-
-    <!-- UHV -->
-                <div class="col-md-4 notice-item" data-category="2nd_year">
-                    <div class="card text-center">
-                        <img src="../images/courses/2/UHV.png" class="card-img-top" alt="...">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <h5 class="card-title">UNIVERSAL HUMAN VALUES & PROFESSIONAL ETHICS ( BVE401  )Complete Notes</h5>
-                            <a href="/notes/UHV" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                   <!-- DSTL -->
-                <div class="col-md-4 notice-item" data-category="2nd_year">
-                    <div class="card text-center">
-                        <img src="../images/courses/2/dstl.png" class="card-img-top" alt="...">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <h5 class="card-title">Discrete Structures & Theory
-                                of Logic (BCS303) Complete Notes</h5>
-                            <a href="/notes/DSTL" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                    <!-- COA -->
-                 <div class="col-md-4 notice-item" data-category="2nd_year">
-                    <div class="card text-center">
-                        <img src="../images/courses/2/Coa.png" class="card-img-top" alt="...">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <h5 class="card-title">Computer Organization and Architecture ( BCS 302 ) Complete Notes</h5>
-                            <a href="/notes/coa" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
-                        </div>
-                    </div>
-                </div>
-               
-        
-        
-                 <!-- <div class="col-md-4 notice-item" data-category="1st_year">
-                    <div class="card text-center">
-                        <img src="../images/courses/1/Ss5.png" class="card-img-top" alt="...">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <h5 class="card-title">2nd Year Notes</h5>
-                            <a href="#" class="btn btn-primary">Read More</a>
-                        </div>
-                    </div>
-                </div> -->
-
-<!--                 
-                <div class="col-md-4 notice-item" data-category="1st_year">
-                    <div class="card text-center">
-                        <img src="../images/courses/1/Chemistry 5.png" class="card-img-top" alt="...">
-                        <div class="card-body d-flex flex-column align-items-center">
-                            <h5 class="card-title">Chemistry (BAS 102 ) Notes All 5 Units </h5>
-                            <a href="#" class="btn btn-primary">Download Notes</a>
-                        </div>
-                    </div>
-                </div> -->
-
-                
+            <% }); %>
+                    
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- JavaScript for Search and Filtering -->
 <script>
@@ -192,7 +106,7 @@
     });
 </script>
 
-
+<div class="space"></div>
 
 
 <%- include('partials/footer') %>

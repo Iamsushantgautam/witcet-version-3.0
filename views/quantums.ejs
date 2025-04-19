@@ -53,8 +53,22 @@
         <div class="container">
             <div class="row justify-content-center g-4" id="noticeContainer">
 
+
+                <% courses.forEach(course => { %>
+                    <div class="col-md-4 notice-item" data-category="<%= course.tag %>">
+                       <div class="card text-center h-100 shadow-sm">
+                           <img src="/images/<%= course.qimage %>" class="card-img-top" alt="...">
+                           <div class="card-body d-flex flex-column align-items-center">
+                               <h5 class="card-title"><%= course.qname %></h5>
+                               <a href="<%= course.quantum %>" class="btn btn-primary"><i class="fa fa-cloud-download" aria-hidden="true"></i> Download</a>
+                           </div>
+                       </div>
+                   </div> 
+               
+                   <% }); %>
+
 <!-- SPM -->
-            <div class="col-md-4 notice-item" data-category="3rd_year">
+            <!-- <div class="col-md-4 notice-item" data-category="3rd_year">
                 <div class="card text-center">
                     <img src="/images/quantum/SPM.png" class="card-img-top" alt="...">
                     <div class="card-body d-flex flex-column align-items-center">
@@ -62,11 +76,11 @@
                         <a href="https://drive.google.com/uc?export=download&id=18JaEQ7-81w6Vf0LzGb-38ZMrY8r5EWyd" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
 
             <!-- DSTL -->
-            <div class="col-md-4 notice-item" data-category="2nd_year">
+            <!-- <div class="col-md-4 notice-item" data-category="2nd_year">
                 <div class="card text-center">
                     <img src="/images/quantum/DSTL.png" class="card-img-top" alt="...">
                     <div class="card-body d-flex flex-column align-items-center">
@@ -74,10 +88,10 @@
                         <a href="https://drive.google.com/uc?export=download&id=1fVh_jMEDpe-LRBfweUapKx7NqOeqvzrK" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
              <!-- UHV -->
-            <div class="col-md-4 notice-item" data-category="2nd_year">
+            <!-- <div class="col-md-4 notice-item" data-category="2nd_year">
                 <div class="card text-center">
                     <img src="/images/quantum/UHV.png" class="card-img-top" alt="...">
                     <div class="card-body d-flex flex-column align-items-center">
@@ -85,13 +99,13 @@
                         <a href="https://drive.google.com/uc?export=download&id=1fVh_jMEDpe-LRBfweUapKx7NqOeqvzrK" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
          
            
 
                  <!-- COA-->
-                  <div class="col-md-4 notice-item" data-category="2nd_year">
+                  <!-- <div class="col-md-4 notice-item" data-category="2nd_year">
                     <div class="card text-center">
                         <img src="/images/quantum/COA.png" class="card-img-top" alt="...">
                         <div class="card-body d-flex flex-column align-items-center">
@@ -99,10 +113,10 @@
                               <a href="https://drive.google.com/uc?export=download&id=12ipNITryhNyivmZRrd4nWWIMKRvI1e5N" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
                     </div>
                     </div>
-                </div>
+                </div> -->
                
               <!-- Maths 4-->
-                  <div class="col-md-4 notice-item" data-category="2nd_year">
+                  <!-- <div class="col-md-4 notice-item" data-category="2nd_year">
                     <div class="card text-center">
                         <img src="/images/quantum/MATHS4.png" class="card-img-top" alt="...">
                         <div class="card-body d-flex flex-column align-items-center">
@@ -110,10 +124,10 @@
                               <a href="https://drive.google.com/uc?export=download&id=1fQPN3eSiaW-R79557Kd3_zgeh9X7QZ6Z" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
                     </div>
                     </div>
-                </div>
+                </div> -->
                
                  <!-- Data structure-->
-                  <div class="col-md-4 notice-item" data-category="2nd_year">
+                  <!-- <div class="col-md-4 notice-item" data-category="2nd_year">
                     <div class="card text-center">
                         <img src="/images/quantum/data structure.png" class="card-img-top" alt="...">
                         <div class="card-body d-flex flex-column align-items-center">
@@ -121,7 +135,7 @@
                               <a href="https://drive.google.com/file/d/1eSQP2B4N-q92Gl-RlafX8kSpux0Q9AEC/view?usp=drive_link" class="btn btn-primary"><i class="fa fa-download" aria-hidden="true"></i> Download Now</a>
                     </div>
                     </div>
-                </div>
+                </div> -->
          
         
  
