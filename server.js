@@ -45,7 +45,8 @@ app.get('/notes/:subject', (req, res) => {
 app.get("/quantums", (req, res) => {
     const data = loadCourseData();
     const courseArray = Object.values(data.courses);
-    res.render("quantums", { courses: courseArray });
+    const filteredCourses = courseArray.filter(course => course.quantum && course.quantum.trim() !== "");
+    res.render("quantums", { courses: filteredCourses });
 });
 
 // Other static pages
