@@ -1,55 +1,100 @@
 const express = require("express");
-const fs = require("fs");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 const path = require("path");
-require('dotenv').config();
+const fs = require("fs");
 
+dotenv.config();
 const app = express();
-const apiKey = process.env.WEB3FORM_API_KEY;
 
-// Set view engine to EJS
+// === MongoDB Atlas Connection ===
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => console.log('✅ Connected to MongoDB Atlas'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
+
+// === App Settings ===
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
-// Serve static files
 app.use(express.static(path.join(__dirname, "public")));
 
-// Load course data function
+// === Load Local Course JSON Data ===
 function loadCourseData() {
-    const filePath = path.join(__dirname, "data", "courseLibrary.json");
-    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  const filePath = path.join(__dirname, "data", "courseLibrary.json");
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
-// Route: Home page (pass course data for somenotes section)
+// === Routes ===
+
+// Home route
 app.get("/", (req, res) => {
-    const data = loadCourseData();
-    const courseArray = Object.values(data.courses); 
-    const filteredCourses = courseArray.filter(course => course.pageLink && course.pageLink.trim() !== "");// Convert object to array
-    res.render("home", { courses: filteredCourses });
+  const data = loadCourseData();
+  const courseArray = Object.values(data.courses);
+  const filteredCourses = courseArray.filter(course => course.pageLink && course.pageLink.trim() !== "");
+  res.render("home", { courses: filteredCourses });
 });
 
-// Route: Full course details
-app.get("/notes", (req, res) => {
-    const data = loadCourseData();
-    const courseArray = Object.values(data.courses);
-    const filteredCourses = courseArray.filter(course => course.pageLink && course.pageLink.trim() !== "");
-    res.render("notes", { courses: filteredCourses });
+// Notes route (all notes)
+app.get("/notes", async (req, res) => {
+  try {
+      const notesWithpp = await Note.find({ notesPagePath: { $exists: true, $ne: "" } });
+      res.render("notes", { notes: notesWithpp });
+  } catch (err) {
+      console.error("Error loading notes:", err);
+      res.status(500).send("Error loading  notes.");
+  }
 });
 
-// Route: Notes by subject folder (e.g., /notes/DS)
-app.get('/notes/:subject', (req, res) => {
-    const subject = req.params.subject;
-    res.render(`notes/${subject}`);
+// Notes by subject folder (3rd & 2nd CSE)
+app.get('/notes/3rd_cse/:subject', (req, res) => {
+  const subject = req.params.subject;
+  res.render(`notes/3rd_cse/${subject}`);
 });
 
-// Route: Only course name and pageLink (quantums)
-app.get("/quantums", (req, res) => {
-    const data = loadCourseData();
-    const courseArray = Object.values(data.courses);
-    const filteredCourses = courseArray.filter(course => course.quantum && course.quantum.trim() !== "");
-    res.render("quantums", { courses: filteredCourses });
+app.get('/notes/2nd_cse/:subject', (req, res) => {
+  const subject = req.params.subject;
+  res.render(`notes/2nd_cse/${subject}`);
 });
 
-// Other static pages
+// Quantums route
+app.get("/quantums", async (req, res) => {
+  try {
+      const notesWithPyq = await Note.find({ quantumLink: { $exists: true, $ne: "" } });
+      res.render("quantums", { notes: notesWithPyq });
+  } catch (err) {
+      console.error("Error loading quantums:", err);
+      res.status(500).send("Error loading quantums.");
+  }
+});
+
+const Note = require('./models/Note'); // Make sure path is correct
+
+app.get("/pyqs", async (req, res) => {
+    try {
+        const notesWithPyq = await Note.find({  pyqLink: { $exists: true, $ne: "" } });
+        res.render("pyqs", { notes: notesWithPyq });
+    } catch (err) {
+        console.error("Error loading PYQ notes:", err);
+        res.status(500).send("Error loading PYQ notes.");
+    }
+});
+
+// Dashboard route
+
+app.get("/dashboard", async (req, res) => {
+  try {
+    const notes = await Note.find();
+    res.render("dashboard", { notes });
+  } catch (err) {
+    console.error("Error fetching notes:", err);
+    res.status(500).send("Server Error");
+  }
+}
+);
+
+
+// Static Pages
 app.get("/courses", (req, res) => res.render("courses"));
 app.get("/programming", (req, res) => res.render("programming"));
 app.get("/about", (req, res) => res.render("about"));
@@ -57,6 +102,8 @@ app.get("/feedback", (req, res) => res.render("feedback"));
 app.get("/policy", (req, res) => res.render("policy"));
 app.get("/contact", (req, res) => res.render("contact"));
 
-// Start server
+// === Start Server ===
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
