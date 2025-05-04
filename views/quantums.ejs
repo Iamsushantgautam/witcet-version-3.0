@@ -51,7 +51,7 @@
 
     <!-- Notes Cards -->
     <div class="row" id="notesContainer">
-      <% notes.forEach(note => { %>
+      <% notes.slice().reverse().forEach(note => { %>
         <div class="col-md-4 mb-4 notice-item" data-category="<%= note.tag %>">
           <div class="card h-100 shadow-sm">
             <img src="/images/<%= note.quantumImagePath%>" class="card-img-top" alt="<%= note.title %>" />
