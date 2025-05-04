@@ -28,11 +28,14 @@ function loadCourseData() {
 // === Routes ===
 
 // Home route
-app.get("/", (req, res) => {
-  const data = loadCourseData();
-  const courseArray = Object.values(data.courses);
-  const filteredCourses = courseArray.filter(course => course.pageLink && course.pageLink.trim() !== "");
-  res.render("home", { courses: filteredCourses });
+app.get("/", async (req, res) => {
+  try {
+      const notesWithpp = await Note.find({ notesPagePath: { $exists: true, $ne: "" } });
+      res.render("home", { notes: notesWithpp });
+  } catch (err) {
+      console.error("Error loading notes:", err);
+      res.status(500).send("Error loading  notes.");
+  }
 });
 
 // Notes route (all notes)
