@@ -19,7 +19,11 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
-
+// === Load Local Course JSON Data ===
+function loadCourseData() {
+  const filePath = path.join(__dirname, "data", "courseLibrary.json");
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
 
 // === Routes ===
 
