@@ -98,8 +98,8 @@ app.get("/dashboard", async (req, res) => {
 
 const notesListRoute = require('./routes/notesList'); // ✅ path to route file
 
-app.use('/notesList', notesListRoute);
-app.get('/notesList/:notesCode', async (req, res) => {
+app.use('/notes', notesListRoute);
+app.get('/notes/:notesCode', async (req, res) => {
   try {
     const { notesCode } = req.params; // Get notesCode from URL parameter
 

@@ -6,7 +6,7 @@ const Note = require('../models/Note');
 // List all notes
 router.get('/', async (req, res) => {
   const notes = await Note.find();
-  res.render('notesList', { notes });
+  res.render('notes', { notes });
 });
 
 // GET /notesList/:code
