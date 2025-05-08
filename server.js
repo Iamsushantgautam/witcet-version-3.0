@@ -96,6 +96,28 @@ app.get("/dashboard", async (req, res) => {
 }
 );
 
+const notesListRoute = require('./routes/notesList'); // ✅ path to route file
+
+app.use('/notesList', notesListRoute);
+app.get('/notesList/:notesCode', async (req, res) => {
+  try {
+    const { notesCode } = req.params; // Get notesCode from URL parameter
+
+    // Find the note by its notesCode
+    const note = await Note.findOne({ notesCode });
+
+    if (!note) {
+      return res.status(404).send('Note not found');
+    }
+
+    // Render the note details page and pass the note object to the view
+    res.render('noteDetails', { note });
+  } catch (err) {
+    console.error("Error fetching note:", err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 
 // Static Pages
 app.get("/courses", (req, res) => res.render("courses"));
