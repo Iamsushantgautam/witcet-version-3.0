@@ -4,7 +4,8 @@ const dotenv = require("dotenv");
 const path = require("path");
 const fs = require("fs");
 
-dotenv.config();
+require("dotenv").config();
+
 const app = express();
 
 // === MongoDB Atlas Connection ===
@@ -15,9 +16,12 @@ mongoose.connect(process.env.MONGO_URI, {
   .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // === App Settings ===
+app.set("views", path.join(__dirname, "../frontend/views")); // ✅ points to frontend folder
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../frontend/public")));
+
+
+//app.use(express.static(path.join(__dirname, "../frontend/views")));
 
 // === Load Local Course JSON Data ===
 function loadCourseData() {
