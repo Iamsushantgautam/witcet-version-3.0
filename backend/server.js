@@ -130,6 +130,7 @@ app.get("/about", (req, res) => res.render("about"));
 app.get("/feedback", (req, res) => res.render("feedback"));
 app.get("/policy", (req, res) => res.render("policy"));
 app.get("/contact", (req, res) => res.render("contact"));
+app.get("/admin", (req, res) => res.redirect("https://admin-witcet.onrender.com"));
 
 // === Start Server ===
 const PORT = process.env.PORT || 5001;
