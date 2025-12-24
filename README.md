@@ -140,7 +140,6 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 
 - **Website**: [www.witcet.online](https://www.witcet.online)
 - **GitHub**: [Iamsushantgautam](https://github.com/Iamsushantgautam)
-- **Email**: info@witcet.com
 
 ## 🙏 Acknowledgments
 
