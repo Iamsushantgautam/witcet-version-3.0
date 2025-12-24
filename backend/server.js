@@ -87,6 +87,18 @@ app.get("/pyqs", async (req, res) => {
     }
 });
 
+// Updates route
+const Update = require('./models/Update');
+app.get("/updates", async (req, res) => {
+  try {
+    const updates = await Update.find().sort({ date: -1 });
+    res.render("updates", { updates });
+  } catch (err) {
+    console.error("Error loading updates:", err);
+    res.status(500).send("Error loading updates.");
+  }
+});
+
 // Dashboard route
 
 app.get("/dashboard", async (req, res) => {

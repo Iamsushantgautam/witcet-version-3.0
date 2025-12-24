@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/Note');
+const Update = require('../models/Update');
 
 // GET /
 router.get("/pyq", async (req, res) => {
@@ -27,6 +28,15 @@ router.get("/quantum", async (req, res) => {
     res.render("quantum", { notes});
   } catch (err) {
     res.status(500).send("Error loading Quantum notes.");
+  }
+});
+
+router.get("/updates", async (req, res) => {
+  try {
+    const updates = await Update.find({ isActive: { $ne: false } }).sort({ date: -1 }); // Sort by date descending, only active updates
+    res.render("updates", { updates });
+  } catch (err) {
+    res.status(500).send("Error loading updates.");
   }
 });
 
