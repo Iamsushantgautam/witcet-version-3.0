@@ -1,0 +1,106 @@
+
+.help-section {
+  background-color: #ffffff;
+  border-left: 5px solid #00BFFF;
+  padding: 25px;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.help-section:hover {
+  transform: translateX(5px);
+}
+
+.help-section h2 {
+  color: #00BFFF;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.help-section h3 {
+  color: #333;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.help-section p {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.help-section ul, .help-section ol {
+  padding-left: 20px;
+}
+
+.help-section li {
+  margin-bottom: 10px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.help-icon {
+  font-size: 1.5rem;
+  color: #00BFFF;
+}
+
+.faq-item {
+  background-color: #f8f9fa;
+  border-left: 3px solid #00BFFF;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+.faq-question {
+  font-weight: 600;
+  color: #00BFFF;
+  margin-bottom: 8px;
+}
+
+.faq-answer {
+  color: #555;
+  margin-left: 10px;
+}
+
+.telegram-alert {
+  background: linear-gradient(135deg, #0088cc 0%, #229ED9 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+}
+
+.telegram-alert h4 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
+.telegram-alert a {
+  color: white;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.telegram-alert a:hover {
+  color: #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .help-section {
+    padding: 20px;
+  }
+
+  .help-section h2 {
+    font-size: 1.3rem;
+  }
+}
+
