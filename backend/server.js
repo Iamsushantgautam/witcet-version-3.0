@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const path = require("path");
 const fs = require("fs");
-const nodemailer = require("nodemailer");
+
 
 require("dotenv").config();
 
@@ -102,84 +102,6 @@ app.get("/updates", async (req, res) => {
   }
 });
 
-// Configure nodemailer transporter for Zoho Mail
-// Note: You'll need to set these in your .env file:
-// EMAIL_HOST=smtp.zoho.com
-// EMAIL_PORT=587
-// EMAIL_USER=witcet@zohomail.in
-// EMAIL_PASS=your_email_password
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || 'smtp.zoho.com',
-  port: parseInt(process.env.EMAIL_PORT || '587'),
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: process.env.EMAIL_USER || 'witcet@zohomail.in',
-    pass: process.env.EMAIL_PASS || ''
-  }
-});
-
-// Contact form submission route
-app.post('/contact', async (req, res) => {
-  try {
-    const { name, email, subject, message } = req.body;
-    
-    // Validate required fields
-    if (!name || !email || !subject || !message) {
-      return res.status(400).json({ 
-        success: false, 
-        message: "All fields are required." 
-      });
-    }
-
-    // Send email to witcet@zohomail.in
-    const mailOptions = {
-      from: process.env.EMAIL_USER || 'witcet@zohomail.in',
-      to: 'witcet@zohomail.in',
-      replyTo: email,
-      subject: `Contact Form: ${subject}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <hr>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `,
-      text: `
-        New Contact Form Submission
-        
-        Name: ${name}
-        Email: ${email}
-        Subject: ${subject}
-        
-        Message:
-        ${message}
-      `
-    };
-
-    // Send email
-    await transporter.sendMail(mailOptions);
-    
-    // Instant reply message
-    const instantReply = {
-      success: true,
-      message: "Thank you for contacting us! We've received your message and will get back to you soon. For instant support, please join our Telegram channel.",
-      telegramLink: "https://t.me/witcet" // Update with your actual Telegram channel link
-    };
-    
-    res.json(instantReply);
-  } catch (error) {
-    console.error("Error sending email:", error);
-    res.status(500).json({ 
-      success: false, 
-      message: "Failed to send message. Please try again later." 
-    });
-  }
-});
-
-
-
 
 // Dashboard route
 
@@ -224,6 +146,7 @@ app.get("/about", (req, res) => res.render("about"));
 app.get("/feedback", (req, res) => res.render("feedback"));
 app.get("/policy", (req, res) => res.render("policy"));
 app.get("/contact", (req, res) => res.render("contact"));
+app.get("/help", (req, res) => res.render("help"));
 app.get("/admin", (req, res) => res.redirect("https://admin-witcet.onrender.com"));
 
 // === Start Server ===
