@@ -1,0 +1,146 @@
+/* Help.css */
+.help-page {
+    background-color: #f8fafc;
+    min-height: 80vh;
+}
+
+.help-header {
+    background-color: #1094f2;
+    /* Bootstrap Indigo */
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.help-header h1 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.help-header .lead {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    color: #e0cffc;
+}
+
+.help-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 3rem;
+}
+
+.support-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s;
+    height: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.support-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.support-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #6610f2;
+}
+
+.faq-section h2 {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Custom Accordion Styles */
+.accordion-item {
+    border: none;
+    margin-bottom: 1rem;
+    border-radius: 8px !important;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #e0cffc;
+    color: #6610f2;
+    font-weight: 600;
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(102, 16, 242, 0.25);
+}
+
+.accordion-body {
+    background-color: white;
+    color: #4a5568;
+    line-height: 1.6;
+}
+
+/* Contact Details Card specific styles */
+.contact-details-card {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #00BFFF;
+    /* Deep Sky Blue accent */
+    margin-bottom: 3rem;
+}
+
+.contact-details-title {
+    color: #00BFFF;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.contact-section-title {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.contact-link {
+    color: #00BFFF;
+    text-decoration: none;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.contact-link:hover {
+    text-decoration: underline;
+    color: #009acd;
+}
+
+.contact-note {
+    font-style: italic;
+    color: #666;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.contact-icon-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.contact-icon-box {
+    color: #00BFFF;
+    font-size: 1.5rem;
+    margin-top: 2px;
+}

@@ -1,0 +1,257 @@
+/* Updates.css */
+.updates-page {
+    min-height: 80vh;
+    background-color: #f8fafc;
+}
+
+.update-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    margin-bottom: 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+    position: relative;
+}
+
+.update-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.update-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+    border-color: rgba(102, 126, 234, 0.2);
+}
+
+.update-card:hover::before {
+    opacity: 1;
+}
+
+.update-content {
+    padding: 2rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.update-title {
+    color: #1a202c;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Limit to 2 lines */
+    line-clamp: 2;
+    /* Standard property */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.update-description {
+    color: #4a5568;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    flex: 1;
+    font-size: 0.95rem;
+}
+
+.update-meta {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 1.25rem;
+    margin-top: auto;
+}
+
+.update-date,
+.update-author {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.update-date {
+    color: #718096;
+}
+
+.update-author {
+    color: #38a169;
+}
+
+.download-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.download-buttons .btn {
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+}
+
+.download-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.download-buttons .btn-outline-primary:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: transparent;
+    color: white;
+}
+
+.download-buttons .btn-outline-danger:hover {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    border-color: transparent;
+    color: white;
+}
+
+.no-updates {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+}
+
+.no-updates i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+#loadMoreBtn {
+    border-radius: 25px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+}
+
+#loadMoreBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+}
+
+#backToTop {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border: none;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    /* Ensure it stays fixed */
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+#backToTop:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.filter-btn {
+    margin: 0.25rem;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    transform: translateY(-1px);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: transparent;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .update-content {
+        padding: 1.5rem;
+    }
+
+    .update-title {
+        font-size: 1.1rem;
+    }
+
+    .update-description {
+        font-size: 0.9rem;
+    }
+
+    .download-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+        /* Fix width to be responsive */
+    }
+
+    .download-buttons .btn {
+        width: 100%;
+        /* Full width buttons on mobile */
+        justify-content: center;
+    }
+
+    .update-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .filter-btn {
+        margin: 0.125rem;
+        width: 100%;
+    }
+
+    .update-card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.update-card:nth-child(odd) {
+    animation-delay: 0.1s;
+}
+
+.update-card:nth-child(even) {
+    animation-delay: 0.2s;
+}

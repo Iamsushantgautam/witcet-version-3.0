@@ -1,0 +1,140 @@
+/* Contact.css */
+.contact-page {
+    background-color: #f8fafc;
+    min-height: 80vh;
+}
+
+.contact-header {
+    background-color: #0d6efd;
+    /* Bootstrap Primary Blue */
+    color: white;
+    padding: 3rem 0;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.contact-header h1 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.contact-header .lead {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Telegram Alert Box */
+.telegram-alert {
+    background: linear-gradient(135deg, #0088cc 0%, #0077b5 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 136, 204, 0.2);
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.telegram-alert h4 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.telegram-btn {
+    background: white;
+    color: #0088cc;
+    font-weight: 700;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s ease;
+    margin-top: 1rem;
+}
+
+.telegram-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: #f0f8ff;
+    color: #0088cc;
+}
+
+/* Contact Form Container */
+.contact-container {
+    max-width: 700px;
+    margin: 0 auto;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    /* Soft shadow like screenshot */
+}
+
+.contact-title {
+    text-align: center;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    font-size: 1.75rem;
+}
+
+.contact-subtitle {
+    text-align: center;
+    color: #6b7280;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control-custom {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-size: 1rem;
+}
+
+.form-control-custom:focus {
+    outline: none;
+    border-color: #0088cc;
+    box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.1);
+}
+
+.submit-btn {
+    width: 100%;
+    background-color: #0277bd;
+    /* A slightly darker blue for the button */
+    color: white;
+    font-weight: 600;
+    padding: 0.875rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+    margin-top: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.submit-btn:hover {
+    background-color: #015f96;
+}
+
+.submit-btn:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}

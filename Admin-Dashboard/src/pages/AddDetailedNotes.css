@@ -1,0 +1,157 @@
+/* Add Detailed Notes Styles */
+.add-detailed-notes-container {
+    max-width: 900px;
+}
+
+.detailed-notes-form {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Units Section */
+.units-section {
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 2px solid #f3f4f6;
+}
+
+.units-heading {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #6b7280;
+    margin-bottom: 20px;
+}
+
+.units-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* Unit Block */
+.unit-block {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.2s ease;
+}
+
+.unit-block:hover {
+    background: #f3f4f6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.unit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.btn-move {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    color: #6b7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-move:hover:not(:disabled) {
+    background: #7c5fd9;
+    color: #ffffff;
+    border-color: #7c5fd9;
+}
+
+.btn-move:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn-remove {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #dc2626;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-remove:hover {
+    background: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+}
+
+.unit-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Add Unit Button */
+.btn-add-unit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px;
+    background: #ffffff;
+    border: 2px dashed #d1d5db;
+    border-radius: 10px;
+    color: #7c5fd9;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-add-unit:hover {
+    background: #f9fafb;
+    border-color: #7c5fd9;
+}
+
+/* Form Actions */
+.form-actions {
+    margin-top: 32px;
+}
+
+.form-actions .btn-submit {
+    width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .detailed-notes-form {
+        padding: 24px;
+    }
+
+    .unit-block {
+        padding: 16px;
+    }
+
+    .unit-actions {
+        flex-wrap: wrap;
+    }
+
+    .btn-remove {
+        flex: 1;
+    }
+}

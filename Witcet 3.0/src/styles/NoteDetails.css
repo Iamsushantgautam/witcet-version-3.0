@@ -1,0 +1,102 @@
+/* NoteDetails.css */
+.note-details-page {
+    background-color: #ffffff;
+    min-height: 100vh;
+}
+
+/* Header Text */
+.main-title {
+    font-size: 2rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.note-code-text {
+    font-size: 1rem;
+    color: #555;
+    font-weight: 400;
+}
+
+/* Main Content Card container */
+.main-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* Soft shadow */
+    max-width: 1000px;
+    margin: 0 auto;
+    border: 1px solid #eee;
+}
+
+/* Section Titles (Blue Header) */
+.section-title {
+    font-size: 1.25rem;
+    color: #0d6efd;
+    /* Bootstrap Primary Blue */
+    border-bottom: 2px solid #0d6efd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: 400;
+}
+
+/* Resource List Container */
+.units-list,
+.resources-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Individual Resource Item Box */
+.resource-item {
+    background-color: #f8f9fa;
+    /* Light grey background */
+    padding: 20px 25px;
+    border-radius: 4px;
+    border: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+.resource-item:hover {
+    background-color: #f1f3f5;
+}
+
+/* Link Text */
+.resource-link {
+    font-size: 0.95rem;
+    color: #333;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    /* Screenshot shows uppercase */
+}
+
+.resource-link:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+/* Owner Text Section */
+.owner-text {
+    font-size: 0.85rem;
+    color: #dc3545;
+    /* Red color */
+    font-weight: 600;
+}
+
+.owner-text span {
+    font-weight: 700;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-card {
+        padding: 2rem 1rem !important;
+        /* Less padding on mobile */
+    }
+
+    .main-title {
+        font-size: 1.5rem;
+    }
+}
