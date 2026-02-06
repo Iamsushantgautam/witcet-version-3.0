@@ -118,6 +118,12 @@ button {
   border-color: var(--glass-border);
 }
 
+.nav_custom .navbar-toggler:hover,
+.nav_custom .navbar-toggler:focus {
+  border: none !important;
+  box-shadow: none !important;
+}
+
 .nav_custom .navbar-toggler-icon {
   filter: none;
 }

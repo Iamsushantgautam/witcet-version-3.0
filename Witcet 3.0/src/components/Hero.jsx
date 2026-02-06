@@ -53,7 +53,6 @@ const Hero = () => {
                                     transform: `rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg) scale(${transform.scale})`,
                                     transition: 'transform 0.3s ease-out',
                                     transformStyle: 'preserve-3d',
-                                    cursor: 'pointer',
                                     filter: 'drop-shadow(0 20px 40px rgba(0, 191, 255, 0.3))'
                                 }}
                             />

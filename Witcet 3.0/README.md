@@ -152,15 +152,6 @@ Witcet 3.0/
    npm install
    ```
 
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env
-   ```
-   Edit `.env` and add your configuration:
-   ```env
-   VITE_API_URL=https://admin-witcet.onrender.com
-   ```
-
 4. **Start the development server**
    ```bash
    npm run dev
@@ -187,21 +178,14 @@ npm run preview
 
 ## 🔑 Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file in the root directory with the following variables:
 
 ```env
-# API Base URL
-VITE_API_URL=https://admin-witcet.onrender.com
-
-# Optional: Firebase Configuration (for notifications)
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-VITE_FIREBASE_VAPID_KEY=your_vapid_key
+# API Backend URL
+VITE_API_URL=your_backend_api_url
 ```
+
+> **Note**: Contact the project administrator for the required API credentials.
 
 ---
 
@@ -216,41 +200,22 @@ VITE_FIREBASE_VAPID_KEY=your_vapid_key
 
 ---
 
-## 🌐 API Endpoints
+## 🌐 Backend API
 
-### Base URL
-```
-https://admin-witcet.onrender.com
-```
+The application connects to a REST API backend built with:
+- **Node.js** & **Express.js**
+- **MongoDB** for data storage
+- **Cloudinary** for image hosting
 
-### Endpoints
+### Data Structure
+The backend manages content for:
+- Notes (subject-wise study material)
+- Quantums (quick revision guides)
+- PYQs (previous year question papers)
+- Updates (university announcements)
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/notes` | Fetch all notes, quantums, and PYQs |
-| GET | `/api/updates` | Fetch university updates |
-| POST | `/api/contact` | Submit contact form |
-| POST | `/api/feedback` | Submit feedback |
-
-### Sample Response (Notes)
-
-```json
-{
-  "_id": "507f1f77bcf86cd799439011",
-  "title": "Computer Organization and Architecture",
-  "notesCode": "KCS-401",
-  "tag": "4th_year",
-  "imagePath": "https://res.cloudinary.com/.../notes-poster.jpg",
-  "notesPagePath": "true",
-  "quantumTitle": "COA Quick Revision",
-  "quantumLink": "https://drive.google.com/...",
-  "quantumActive": "true",
-  "pyqTitle": "COA Previous Papers 2019-2023",
-  "pyqLink": "https://drive.google.com/...",
-  "pyqActive": "true",
-  "createdAt": "2024-01-15T10:30:00Z"
-}
-```
+### API Integration
+All API requests are made using **Axios** with centralized error handling and loading states.
 
 ---
 
@@ -270,7 +235,7 @@ Users can install Witcet as a native app on:
 ### Manifest Configuration
 ```json
 {
-  "name": "Witcet - AKTU Learning Platform",
+  "name": "Witcet - Learning Platform",
   "short_name": "Witcet",
   "description": "Your gateway to AKTU exam success",
   "theme_color": "#0D6EFD",
@@ -374,19 +339,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
-## 📞 Contact
-
-### Platform Links
-- **Website**: [https://witcet.onrender.com](https://witcet.onrender.com)
-- **Telegram**: [Join Community](https://t.me/+mKi_iF1EsEg2MDU1)
-- **Email**: support@witcet.com
-
-### Developer
-- **GitHub**: [@yourusername](https://github.com/yourusername)
-- **LinkedIn**: [Your Name](https://linkedin.com/in/yourprofile)
-
----
-
 ## 🙏 Acknowledgments
 
 - **AKTU Students**: For feedback and feature suggestions
@@ -395,12 +347,11 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
-## 📊 Project Stats
+## 📊 Project Info
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/witcet-3.0?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/witcet-3.0?style=social)
-![GitHub issues](https://img.shields.io/github/issues/yourusername/witcet-3.0)
-![GitHub license](https://img.shields.io/github/license/yourusername/witcet-3.0)
+- **Version**: 3.0
+- **License**: MIT
+- **Status**: Active Development
 
 ---
 
