@@ -5,7 +5,7 @@
 }
 
 .help-header {
-    background-color: #6610f2;
+    background-color: #0D6EFD;
     /* Bootstrap Indigo */
     color: white;
     padding: 3rem 0;
@@ -21,7 +21,7 @@
 .help-header .lead {
     font-size: 1.1rem;
     opacity: 0.9;
-    color: #e0cffc;
+    color: white;
 }
 
 .help-container {
@@ -49,7 +49,7 @@
 .support-icon {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: #6610f2;
+    color: #0D6EFD;
 }
 
 .faq-section h2 {
@@ -69,14 +69,13 @@
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: #e0cffc;
-    color: #6610f2;
+    background-color: #fff;
+    color: #0D6EFD;
     font-weight: 600;
+    box-shadow: none;
 }
 
-.accordion-button:focus {
-    box-shadow: 0 0 0 0.25rem rgba(102, 16, 242, 0.25);
-}
+
 
 .accordion-body {
     background-color: white;

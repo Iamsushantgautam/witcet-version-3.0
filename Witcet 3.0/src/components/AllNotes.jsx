@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Form, Nav, Spinner, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/AllNotes.css';
 
@@ -13,6 +13,16 @@ const AllNotes = () => {
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [activeCategory, setActiveCategory] = useState('all');
+    const location = useLocation();
+
+    // Sync URL search to state
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const q = params.get('search');
+        if (q) {
+            setSearchTerm(decodeURIComponent(q));
+        }
+    }, [location.search]);
 
     // Categories configuration
     const categories = [
@@ -54,10 +64,13 @@ const AllNotes = () => {
         }
 
         // 2. Filter by Search Term
+        // 2. Filter by Search Term
         if (searchTerm) {
             const lowerTerm = searchTerm.toLowerCase();
             result = result.filter(note =>
-                note.title.toLowerCase().includes(lowerTerm)
+                note.title.toLowerCase().includes(lowerTerm) ||
+                (note.tag && note.tag.toLowerCase().includes(lowerTerm)) ||
+                (note.notesCode && note.notesCode.toLowerCase().includes(lowerTerm))
             );
         }
 

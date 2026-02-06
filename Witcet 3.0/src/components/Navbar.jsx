@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navbar, Nav, Container, Form, FormControl, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import InstallButton from './InstallButton';
 
 const Navigation = () => {
+    const navigate = useNavigate();
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if (searchQuery.trim()) {
+            navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+        }
+    };
+
     return (
         <Navbar expand="lg" className="bg-body-tertiary nav_custom py-3" sticky="top">
             <Container fluid className="px-lg-5">
@@ -31,14 +42,16 @@ const Navigation = () => {
                     </Nav>
 
                     <div className="d-flex ms-auto align-items-center">
-                        <Form className="d-flex me-2">
+                        <Form className="d-flex me-2" onSubmit={handleSearch}>
                             <FormControl
                                 type="search"
-                                placeholder="Search"
-                                className="me-2 rounded-pill bg-white/10 text-white border-white/20"
+                                placeholder="Search title, tag, code..."
+                                className="me-2 rounded-pill border-secondary text-dark"
                                 aria-label="Search"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
                             />
-                            <Button variant="outline-success" className="rounded-pill px-4">Search</Button>
+                            <Button variant="outline-success" className="rounded-pill px-4" type="submit">Search</Button>
                         </Form>
 
                     </div>

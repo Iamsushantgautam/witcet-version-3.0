@@ -14,6 +14,7 @@ import Feedback from './components/Feedback';
 import Help from './components/Help';
 import About from './components/About';
 import Policy from './components/Policy';
+import Search from './components/Search';
 import './styles/App.css';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
 
           <Route path="/notes/:notesCode" element={<NoteDetails />} />
           <Route path="/notes" element={<AllNotes />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/quantums" element={<Quantums />} />
           <Route path="/pyqs" element={<Pyqs />} />
           <Route path="/updates" element={<Updates />} />

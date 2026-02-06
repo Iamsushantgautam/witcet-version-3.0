@@ -23,11 +23,11 @@ export const SkeletonCard = () => {
     );
 };
 
-export const SkeletonGrid = ({ count = 6 }) => {
+export const SkeletonGrid = ({ count = 6, lg = 4, md = 6 }) => {
     return (
         <Row className="g-4">
             {[...Array(count)].map((_, index) => (
-                <Col md={6} lg={4} key={index}>
+                <Col md={md} lg={lg} key={index}>
                     <SkeletonCard />
                 </Col>
             ))}

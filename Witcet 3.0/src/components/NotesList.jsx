@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap';
+import { SkeletonGrid } from './Skeleton';
 import axios from 'axios';
 
 const NotesList = () => {
@@ -37,14 +38,7 @@ const NotesList = () => {
         fetchNotes();
     }, []);
 
-    if (loading) {
-        return (
-            <div className="text-center py-5">
-                <Spinner animation="border" variant="primary" />
-                <p className="mt-2 text-secondary">Fetching latest notes...</p>
-            </div>
-        );
-    }
+    // Loading handled inline for better UX
 
     if (error) {
         return (
@@ -62,40 +56,44 @@ const NotesList = () => {
                     <p className="text-secondary">Explore the most recent additions to our library</p>
                 </div>
 
-                <Row id="notesContainer" className="g-4">
-                    {notes.map((note) => (
-                        <Col md={6} lg={4} key={note._id} className="notice-item" data-category={note.tag}>
-                            <Card className="h-100 shadow-sm border-0 note-card animate-fade-in">
-                                <div className="card-img-container">
-                                    <Card.Img
-                                        variant="top"
-                                        src={note.imagePath && note.imagePath !== 'undefined'
-                                            ? (note.imagePath.startsWith('http')
-                                                ? note.imagePath
-                                                : `${import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com' || 'http://localhost:5000'}/images/${note.imagePath}`)
-                                            : '/images/domo-notes.png'
-                                        }
-                                        alt={note.title}
-                                        onError={(e) => {
-                                            e.target.src = '/images/domo-notes.png';
-                                        }}
-                                    />
-                                </div>
-                                <Card.Body className="d-flex flex-column justify-content-between p-4">
-                                    <Card.Title className="text-center fw-bold mb-3">{note.title}</Card.Title>
-                                    <div className="text-center mt-auto">
-                                        <Button
-                                            href={`/notes/${note.notesCode}`}
-                                            className="btn-download rounded-pill px-4 py-2"
-                                        >
-                                            <i className="fa fa-download me-2"></i> Download
-                                        </Button>
+                {loading ? (
+                    <SkeletonGrid count={6} />
+                ) : (
+                    <Row id="notesContainer" className="g-4">
+                        {notes.map((note) => (
+                            <Col md={6} lg={4} key={note._id} className="notice-item" data-category={note.tag}>
+                                <Card className="h-100 shadow-sm border-0 note-card animate-fade-in">
+                                    <div className="card-img-container">
+                                        <Card.Img
+                                            variant="top"
+                                            src={note.imagePath && note.imagePath !== 'undefined'
+                                                ? (note.imagePath.startsWith('http')
+                                                    ? note.imagePath
+                                                    : `${import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com' || 'http://localhost:5000'}/images/${note.imagePath}`)
+                                                : '/images/domo-notes.png'
+                                            }
+                                            alt={note.title}
+                                            onError={(e) => {
+                                                e.target.src = '/images/domo-notes.png';
+                                            }}
+                                        />
                                     </div>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    ))}
-                </Row>
+                                    <Card.Body className="d-flex flex-column justify-content-between p-4">
+                                        <Card.Title className="text-center fw-bold mb-3">{note.title}</Card.Title>
+                                        <div className="text-center mt-auto">
+                                            <Button
+                                                href={`/notes/${note.notesCode}`}
+                                                className="btn-download rounded-pill px-4 py-2"
+                                            >
+                                                <i className="fa fa-download me-2"></i> Download
+                                            </Button>
+                                        </div>
+                                    </Card.Body>
+                                </Card>
+                            </Col>
+                        ))}
+                    </Row>
+                )}
 
                 <div className="text-center mt-5">
                     <Button href="/notes" variant="outline-primary" className="rounded-pill px-5">
