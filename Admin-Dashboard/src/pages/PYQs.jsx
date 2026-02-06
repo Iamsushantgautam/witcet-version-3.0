@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../utils/api';
 import { Search, Download } from 'lucide-react';
 import './PYQs.css';
+import './Toggle.css';
 
 const PYQs = () => {
     const [notes, setNotes] = useState([]);
@@ -22,6 +23,25 @@ const PYQs = () => {
         } catch (err) {
             console.error('Error fetching PYQs:', err);
             setLoading(false);
+        }
+    };
+
+    const handleToggleStatus = async (note) => {
+        const newStatus = note.pyqActive === 'true' ? 'false' : 'true';
+        try {
+            // Optimistic update
+            const updatedNotes = notes.map(n =>
+                n._id === note._id ? { ...n, pyqActive: newStatus } : n
+            );
+            setNotes(updatedNotes);
+
+            // API call
+            await api.put(`/notes/${note._id}`, { ...note, pyqActive: newStatus });
+        } catch (err) {
+            console.error("Error updating status:", err);
+            // Revert on error
+            setNotes(notes);
+            alert("Failed to update status");
         }
     };
 
@@ -62,6 +82,19 @@ const PYQs = () => {
                             <div className="pyq-card-body">
                                 {/* <h5 className="pyq-card-title">{note.title}</h5> */}
                                 <p className="pyq-card-title">{note.pyqTitle || 'Previous Year Questions'}</p>
+                                <div className="mb-2 d-flex align-items-center justify-content-between">
+                                    <strong style={{ fontSize: '0.8rem' }}>Active:</strong>
+                                    <div className="toggle-wrapper m-0">
+                                        <label className="switch scale-75 m-0" onClick={(e) => e.stopPropagation()}>
+                                            <input
+                                                type="checkbox"
+                                                checked={note.pyqActive === 'true'}
+                                                onChange={() => handleToggleStatus(note)}
+                                            />
+                                            <span className="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
                                 {note.pyqLink ? (
                                     <a
                                         href={note.pyqLink}

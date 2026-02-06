@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import api from '../utils/api';
 import { ArrowLeft, Plus, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
 import './AddDetailedNotes.css';
 
-const AddDetailedNotes = () => {
+const EditDetailedNotes = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
     const [formData, setFormData] = useState({
         notesTitle: '',
         notesCode: '',
@@ -15,7 +16,26 @@ const AddDetailedNotes = () => {
         { unitTitle: '', ownerName: '', pdfLink: '' }
     ]);
     const [loading, setLoading] = useState(false);
+    const [fetchLoading, setFetchLoading] = useState(true);
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        fetchDetailedNote();
+    }, [id]);
+
+    const fetchDetailedNote = async () => {
+        try {
+            const res = await api.get(`/detailed-notes/${id}`);
+            const { notesTitle, notesCode, introTitle, units } = res.data;
+            setFormData({ notesTitle, notesCode, introTitle });
+            setUnits(units || []);
+            setFetchLoading(false);
+        } catch (err) {
+            console.error('Error fetching detailed note:', err);
+            setError('Failed to load detailed note. Please try again.');
+            setFetchLoading(false);
+        }
+    };
 
     const handleChange = (e) => {
         setFormData({
@@ -88,16 +108,20 @@ const AddDetailedNotes = () => {
                 ...formData,
                 units: processedUnits
             };
-            await api.post('/detailed-notes', payload);
-            alert('Detailed notes added successfully!');
+            await api.put(`/detailed-notes/${id}`, payload);
+            alert('Detailed notes updated successfully!');
             navigate('/detailed-notes');
         } catch (err) {
-            console.error('Error adding detailed notes:', err);
-            setError(err.response?.data?.message || 'Failed to add detailed notes. Please try again.');
+            console.error('Error updating detailed notes:', err);
+            setError(err.response?.data?.message || 'Failed to update detailed notes. Please try again.');
         } finally {
             setLoading(false);
         }
     };
+
+    if (fetchLoading) {
+        return <div className="loading-state">Loading...</div>;
+    }
 
     return (
         <div className="add-detailed-notes-container">
@@ -105,7 +129,7 @@ const AddDetailedNotes = () => {
                 <button onClick={() => navigate(-1)} className="back-btn">
                     <ArrowLeft size={20} />
                 </button>
-                <h2 className="form-title">Add Detailed Notes</h2>
+                <h2 className="form-title">Edit Detailed Notes</h2>
             </div>
 
             {error && <div className="error-alert">{error}</div>}
@@ -220,7 +244,7 @@ const AddDetailedNotes = () => {
 
                 <div className="form-actions">
                     <button type="submit" className="btn-submit" disabled={loading}>
-                        {loading ? 'Saving...' : 'Save Notes'}
+                        {loading ? 'Updating...' : 'Update Notes'}
                     </button>
                 </div>
             </form>
@@ -228,4 +252,4 @@ const AddDetailedNotes = () => {
     );
 };
 
-export default AddDetailedNotes;
+export default EditDetailedNotes;

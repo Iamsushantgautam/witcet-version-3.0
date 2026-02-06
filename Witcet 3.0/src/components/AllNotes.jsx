@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/AllNotes.css';
 
+import { SkeletonGrid } from './Skeleton';
+
 const AllNotes = () => {
     const [notes, setNotes] = useState([]);
     const [filteredNotes, setFilteredNotes] = useState([]);
@@ -27,8 +29,8 @@ const AllNotes = () => {
                 setLoading(true);
                 const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
                 const response = await axios.get(`${apiUrl}/api/notes`);
-                // Reverse to show newest first, matching template logic
-                const allNotes = response.data.reverse();
+                // Backend sorts by createdAt: -1 (Newest First), so no correct to reverse.
+                const allNotes = response.data;
                 setNotes(allNotes);
                 setFilteredNotes(allNotes);
                 setLoading(false);
@@ -59,18 +61,19 @@ const AllNotes = () => {
             );
         }
 
+        // 3. Filter only active notes (notesPagePath === 'true')
+        // Only checking this because the user asked to "only notes to user in witcet 3.0 site activete notes"
+        // Assuming this means hide inactive notes entirely from the list?
+        // Or maybe just disable the button? The prompt implies "only notes to user... activete notes"
+        // I will filter them out of the display list so inactive notes don't show up.
+        result = result.filter(note => note.notesPagePath === 'true' || note.notesPagePath === true);
+
         setFilteredNotes(result);
     }, [searchTerm, activeCategory, notes]);
 
     const handleCategoryClick = (category) => {
         setActiveCategory(category);
     };
-
-    if (loading) return (
-        <Container className="text-center py-5">
-            <Spinner animation="border" variant="primary" />
-        </Container>
-    );
 
     if (error) return (
         <Container className="py-5">
@@ -115,45 +118,51 @@ const AllNotes = () => {
                 </Nav>
 
                 {/* Notes Grid */}
-                <Row id="notesContainer" className="g-4">
-                    {filteredNotes.length > 0 ? (
-                        filteredNotes.map((note) => (
-                            <Col md={6} lg={4} key={note._id} className="notice-item">
-                                <Card className="h-100 note-card custom-card">
-                                    <div className="card-img-wrapper">
-                                        <Card.Img
-                                            variant="top"
-                                            src={note.imagePath?.startsWith('http')
-                                                ? note.imagePath
-                                                : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/images/${note.imagePath}`
-                                            }
-                                            alt={note.title}
-                                            className="h-100 w-100 object-fit-cover"
-                                            onError={(e) => {
-                                                e.target.src = 'https://via.placeholder.com/300x200?text=Notes+Preview';
-                                            }}
-                                        />
-                                    </div>
-                                    <Card.Body className="d-flex flex-column justify-content-between p-3 text-center">
-                                        <Card.Title className="fw-bold mb-3 mt-2 note-title">{note.title}</Card.Title>
-                                        <div className="mt-auto">
-                                            <Link
-                                                to={`/notes/${note.notesCode}`}
-                                                className="btn btn-primary custom-download-btn px-4 py-2"
-                                            >
-                                                <i className="fa fa-download me-2"></i> Download
-                                            </Link>
+                {loading ? (
+                    <SkeletonGrid count={6} />
+                ) : (
+                    <Row id="notesContainer" className="g-4">
+                        {filteredNotes.length > 0 ? (
+                            filteredNotes.map((note) => (
+                                <Col md={6} lg={4} key={note._id} className="notice-item">
+                                    <Card className="h-100 note-card custom-card">
+                                        <div className="card-img-wrapper">
+                                            <Card.Img
+                                                variant="top"
+                                                src={note.imagePath && note.imagePath !== 'undefined'
+                                                    ? (note.imagePath.startsWith('http')
+                                                        ? note.imagePath
+                                                        : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/images/${note.imagePath}`)
+                                                    : '/images/domo-notes.png'
+                                                }
+                                                alt={note.title}
+                                                className="h-100 w-100 object-fit-cover"
+                                                onError={(e) => {
+                                                    e.target.src = '/images/domo-notes.png';
+                                                }}
+                                            />
                                         </div>
-                                    </Card.Body>
-                                </Card>
+                                        <Card.Body className="d-flex flex-column justify-content-between p-3 text-center">
+                                            <Card.Title className="fw-bold mb-3 mt-2 note-title">{note.title}</Card.Title>
+                                            <div className="mt-auto">
+                                                <Link
+                                                    to={`/notes/${note.notesCode}`}
+                                                    className="btn btn-primary custom-download-btn px-4 py-2"
+                                                >
+                                                    <i className="fa fa-download me-2"></i> Download
+                                                </Link>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))
+                        ) : (
+                            <Col className="text-center py-5">
+                                <p className="text-muted fs-5">No notes found matching your criteria.</p>
                             </Col>
-                        ))
-                    ) : (
-                        <Col className="text-center py-5">
-                            <p className="text-muted fs-5">No notes found matching your criteria.</p>
-                        </Col>
-                    )}
-                </Row>
+                        )}
+                    </Row>
+                )}
             </Container>
         </div>
     );

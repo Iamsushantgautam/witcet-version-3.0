@@ -2,13 +2,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
-import ManageNotes from './pages/ManageNotes';
 import AddNote from './pages/AddNote';
 import EditNote from './pages/EditNote';
 import Quantum from './pages/Quantum';
 import PYQs from './pages/PYQs';
 import Profile from './pages/Profile';
 import AddDetailedNotes from './pages/AddDetailedNotes';
+import EditDetailedNotes from './pages/EditDetailedNotes';
 import DetailedNotesList from './pages/DetailedNotesList';
 import Updates from './pages/Updates';
 import AddUpdate from './pages/AddUpdate';
@@ -33,7 +33,6 @@ function App() {
           </PrivateRoute>
         }>
           <Route index element={<Dashboard />} />
-          <Route path="notes" element={<ManageNotes />} />
           <Route path="add-note" element={<AddNote />} />
           <Route path="edit-note/:id" element={<EditNote />} />
           <Route path="quantum" element={<Quantum />} />
@@ -41,6 +40,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="add-detailed-notes" element={<AddDetailedNotes />} />
           <Route path="detailed-notes" element={<DetailedNotesList />} />
+          <Route path="edit-detailed-notes/:id" element={<EditDetailedNotes />} />
           <Route path="updates" element={<Updates />} />
           <Route path="updates/add" element={<AddUpdate />} />
           <Route path="updates/edit/:id" element={<EditUpdate />} />

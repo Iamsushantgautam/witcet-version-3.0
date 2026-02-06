@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "Run all Witcet projects simultaneously",
     "scripts": {
-        "dev": "concurrently --names \"BACKEND,ADMIN,SITE\" --prefix-colors \"cyan,magenta,blue\" \"cd backend && npm run dev\" \"cd \\\"frontend - admin\\\" && npm run dev\" \"cd \\\"witcet - site\\\" && npm run dev\"",
+        "dev": "concurrently --names \"BACKEND,ADMIN,SITE\" --prefix-colors \"cyan,magenta,blue\" \"cd backend && npm run dev\" \"cd \\\"Admin-Dashboard\\\" && npm run dev\" \"cd \\\"Witcet 3.0\\\" && npm run dev\"",
         "install-all": "concurrently \"cd backend && npm install\" \"cd \\\"Admin-Dashboard\\\" && npm install\" \"cd \\\"Witcet 3.0\\\" && npm install\""
     },
     "devDependencies": {

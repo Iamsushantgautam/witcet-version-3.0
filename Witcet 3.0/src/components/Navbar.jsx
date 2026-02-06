@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar, Nav, Container, Form, FormControl, Button } from 'react-bootstrap';
+import InstallButton from './InstallButton';
 
 const Navigation = () => {
     return (
@@ -29,15 +30,18 @@ const Navigation = () => {
                         <Nav.Link href="/contact" className="px-3">Contact</Nav.Link>
                     </Nav>
 
-                    <Form className="d-flex ms-auto">
-                        <FormControl
-                            type="search"
-                            placeholder="Search"
-                            className="me-2 rounded-pill bg-white/10 text-white border-white/20"
-                            aria-label="Search"
-                        />
-                        <Button variant="outline-success" className="rounded-pill px-4">Search</Button>
-                    </Form>
+                    <div className="d-flex ms-auto align-items-center">
+                        <Form className="d-flex me-2">
+                            <FormControl
+                                type="search"
+                                placeholder="Search"
+                                className="me-2 rounded-pill bg-white/10 text-white border-white/20"
+                                aria-label="Search"
+                            />
+                            <Button variant="outline-success" className="rounded-pill px-4">Search</Button>
+                        </Form>
+                        <InstallButton />
+                    </div>
                 </Navbar.Collapse>
             </Container>
         </Navbar>

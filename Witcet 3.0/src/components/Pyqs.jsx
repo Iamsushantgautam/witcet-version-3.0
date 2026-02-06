@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Form, Nav, Spinner, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import '../styles/AllNotes.css'; // Reusing the standard landscape card styles
+import { SkeletonGrid } from './Skeleton';
 
 const Pyqs = () => {
     const [pyqs, setPyqs] = useState([]);
@@ -28,8 +29,7 @@ const Pyqs = () => {
 
                 // Filter items that have PYQ data (Link and Title)
                 const allPyqs = response.data
-                    .filter(item => item.pyqTitle && item.pyqLink)
-                    .reverse();
+                    .filter(item => item.pyqTitle && item.pyqLink);
 
                 setPyqs(allPyqs);
                 setFilteredPyqs(allPyqs);
@@ -61,6 +61,13 @@ const Pyqs = () => {
             );
         }
 
+        // 3. Filter only active PYQs
+        // Check if pyqLink exists AND pyqActive is true
+        result = result.filter(note =>
+            note.pyqLink &&
+            (note.pyqActive === 'true' || note.pyqActive === true)
+        );
+
         setFilteredPyqs(result);
     }, [searchTerm, activeCategory, pyqs]);
 
@@ -70,23 +77,23 @@ const Pyqs = () => {
 
     // Helper to determine image source
     const getImgSrc = (note) => {
-        // Priority: pyqImage -> imagePath
-        let imgPath = (note.pyqImage && note.pyqImage.trim() !== '') ? note.pyqImage : note.imagePath;
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com';
 
-        if (!imgPath) return 'https://via.placeholder.com/300x200?text=No+Preview';
-
-        if (imgPath.startsWith('http')) {
-            return imgPath;
-        } else {
-            return `${import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com' || 'http://localhost:5000'}/images/${imgPath}`;
+        // 1. Check for PYQ Image
+        if (note.pyqImage && note.pyqImage !== 'undefined' && note.pyqImage !== 'null' && note.pyqImage.trim() !== '') {
+            return note.pyqImage.startsWith('http') ? note.pyqImage : `${apiUrl}/images/${note.pyqImage}`;
         }
+
+        // 2. Check for Note Image (Fallback 1)
+        if (note.imagePath && note.imagePath !== 'undefined' && note.imagePath !== 'null' && note.imagePath.trim() !== '') {
+            return note.imagePath.startsWith('http') ? note.imagePath : `${apiUrl}/images/${note.imagePath}`;
+        }
+
+        // 3. Default Fallback
+        return '/images/domo-pyqs.png';
     };
 
-    if (loading) return (
-        <Container className="text-center py-5">
-            <Spinner animation="border" variant="primary" />
-        </Container>
-    );
+
 
     if (error) return (
         <Container className="py-5">
@@ -131,44 +138,48 @@ const Pyqs = () => {
                 </Nav>
 
                 {/* PYQs Grid */}
-                <Row id="notesContainer" className="g-4">
-                    {filteredPyqs.length > 0 ? (
-                        filteredPyqs.map((item) => (
-                            <Col md={6} lg={4} key={item._id} className="notice-item">
-                                <Card className="h-100 note-card custom-card">
-                                    <div className="card-img-wrapper">
-                                        <Card.Img
-                                            variant="top"
-                                            src={getImgSrc(item)}
-                                            alt={item.pyqTitle}
-                                            className="h-100 w-100 object-fit-cover"
-                                            onError={(e) => {
-                                                e.target.src = 'https://via.placeholder.com/300x200?text=Notes+Preview';
-                                            }}
-                                        />
-                                    </div>
-                                    <Card.Body className="d-flex flex-column justify-content-between p-3 text-center">
-                                        <Card.Title className="fw-bold mb-3 mt-2 note-title">{item.pyqTitle}</Card.Title>
-                                        <div className="mt-auto">
-                                            <a
-                                                href={item.pyqLink}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="btn btn-primary custom-download-btn px-4 py-2"
-                                            >
-                                                <i className="fa fa-download me-2"></i> Download
-                                            </a>
+                {loading ? (
+                    <SkeletonGrid count={6} />
+                ) : (
+                    <Row id="notesContainer" className="g-4">
+                        {filteredPyqs.length > 0 ? (
+                            filteredPyqs.map((item) => (
+                                <Col md={6} lg={4} key={item._id} className="notice-item">
+                                    <Card className="h-100 note-card custom-card">
+                                        <div className="card-img-wrapper">
+                                            <Card.Img
+                                                variant="top"
+                                                src={getImgSrc(item)}
+                                                alt={item.pyqTitle}
+                                                className="h-100 w-100 object-fit-cover"
+                                                onError={(e) => {
+                                                    e.target.src = '/images/domo-pyqs.png';
+                                                }}
+                                            />
                                         </div>
-                                    </Card.Body>
-                                </Card>
+                                        <Card.Body className="d-flex flex-column justify-content-between p-3 text-center">
+                                            <Card.Title className="fw-bold mb-3 mt-2 note-title">{item.pyqTitle}</Card.Title>
+                                            <div className="mt-auto">
+                                                <a
+                                                    href={item.pyqLink}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="btn btn-primary custom-download-btn px-4 py-2"
+                                                >
+                                                    <i className="fa fa-download me-2"></i> Download
+                                                </a>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))
+                        ) : (
+                            <Col className="text-center py-5">
+                                <p className="text-muted fs-5">No question papers found matching your criteria.</p>
                             </Col>
-                        ))
-                    ) : (
-                        <Col className="text-center py-5">
-                            <p className="text-muted fs-5">No question papers found matching your criteria.</p>
-                        </Col>
-                    )}
-                </Row>
+                        )}
+                    </Row>
+                )}
             </Container>
         </div>
     );

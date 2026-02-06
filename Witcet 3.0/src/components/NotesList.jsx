@@ -18,10 +18,12 @@ const NotesList = () => {
                 const apiUrl = import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com';
                 const response = await axios.get(`${apiUrl}/api/notes`);
 
-                // Processing: Take last 9, and reverse them to show newest first
-                const fetchedNotes = Array.isArray(response.data)
-                    ? response.data.slice(-9).reverse()
+                // Filter active notes and take first 9 (Newest)
+                const activeNotes = Array.isArray(response.data)
+                    ? response.data.filter(note => note.notesPagePath === 'true' || note.notesPagePath === true)
                     : [];
+
+                const fetchedNotes = activeNotes.slice(0, 9);
 
                 setNotes(fetchedNotes);
                 setLoading(false);
@@ -67,13 +69,15 @@ const NotesList = () => {
                                 <div className="card-img-container">
                                     <Card.Img
                                         variant="top"
-                                        src={note.imagePath?.startsWith('http')
-                                            ? note.imagePath
-                                            : `${import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com' || 'http://localhost:5000'}/images/${note.imagePath}`
+                                        src={note.imagePath && note.imagePath !== 'undefined'
+                                            ? (note.imagePath.startsWith('http')
+                                                ? note.imagePath
+                                                : `${import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com' || 'http://localhost:5000'}/images/${note.imagePath}`)
+                                            : '/images/domo-notes.png'
                                         }
                                         alt={note.title}
                                         onError={(e) => {
-                                            e.target.src = 'https://via.placeholder.com/300x200?text=Notes+Preview';
+                                            e.target.src = '/images/domo-notes.png';
                                         }}
                                     />
                                 </div>

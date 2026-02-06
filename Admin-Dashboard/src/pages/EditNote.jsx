@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import api from '../utils/api';
 import { ArrowLeft, Upload, X } from 'lucide-react';
 import './AddNote.css';
+import './Toggle.css';
 
 const EditNote = () => {
     const navigate = useNavigate();
@@ -18,7 +19,9 @@ const EditNote = () => {
         tag: '',
         pyqLink: '',
         pyqImage: '',
-        pyqTitle: ''
+        pyqTitle: '',
+        quantumActive: 'true',
+        pyqActive: 'true'
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -97,13 +100,35 @@ const EditNote = () => {
         }));
     };
 
+    const convertToDownloadableLink = (link) => {
+        if (!link) return '';
+        try {
+            // Regex to extract file ID from Google Drive link
+            const idMatch = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            if (idMatch && idMatch[1]) {
+                return `https://drive.google.com/uc?export=download&id=${idMatch[1]}`;
+            }
+            return link;
+        } catch (e) {
+            console.error("Error converting link:", e);
+            return link;
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError('');
 
+        // Convert links before sending
+        const dataToSend = {
+            ...formData,
+            quantumLink: convertToDownloadableLink(formData.quantumLink),
+            pyqLink: convertToDownloadableLink(formData.pyqLink)
+        };
+
         try {
-            await api.put(`/notes/${id}`, formData);
+            await api.put(`/notes/${id}`, dataToSend);
             alert('Note updated successfully!');
             navigate('/');
         } catch (err) {
@@ -161,15 +186,19 @@ const EditNote = () => {
                 </div>
 
                 <div className="form-group">
-                    <label className="form-label">Notes Page Path</label>
-                    <input
-                        name="notesPagePath"
-                        type="text"
-                        className="form-input"
-                        placeholder="e.g., /notes/cs101"
-                        value={formData.notesPagePath}
-                        onChange={handleChange}
-                    />
+                    <label className="form-label">Notes Active (Notes Page Path)</label>
+                    <div className="toggle-wrapper">
+                        <label className="switch">
+                            <input
+                                type="checkbox"
+                                name="notesPagePath"
+                                checked={formData.notesPagePath === 'true'}
+                                onChange={(e) => setFormData({ ...formData, notesPagePath: e.target.checked ? 'true' : 'false' })}
+                            />
+                            <span className="slider round"></span>
+                        </label>
+                        <span className="toggle-label">{formData.notesPagePath === 'true' ? 'Active' : 'Inactive'}</span>
+                    </div>
                 </div>
 
                 <div className="form-group">
@@ -213,16 +242,33 @@ const EditNote = () => {
                     )}
                 </div>
 
-                <div className="form-group">
-                    <label className="form-label">Quantum Title</label>
-                    <input
-                        name="quantumTitle"
-                        type="text"
-                        className="form-input"
-                        placeholder="Quantum study material title"
-                        value={formData.quantumTitle}
-                        onChange={handleChange}
-                    />
+                <div className="form-row">
+                    <div className="form-group flex-grow-1">
+                        <label className="form-label">Quantum Title</label>
+                        <input
+                            name="quantumTitle"
+                            type="text"
+                            className="form-input"
+                            placeholder="Quantum study material title"
+                            value={formData.quantumTitle}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form-group" style={{ minWidth: '150px' }}>
+                        <label className="form-label">Quantum Active</label>
+                        <div className="toggle-wrapper" style={{ marginTop: '10px' }}>
+                            <label className="switch">
+                                <input
+                                    type="checkbox"
+                                    name="quantumActive"
+                                    checked={formData.quantumActive === 'true'}
+                                    onChange={(e) => setFormData({ ...formData, quantumActive: e.target.checked ? 'true' : 'false' })}
+                                />
+                                <span className="slider round"></span>
+                            </label>
+                            <span className="toggle-label">{formData.quantumActive === 'true' ? 'Active' : 'Inactive'}</span>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="form-row">
@@ -345,16 +391,33 @@ const EditNote = () => {
                     </div>
                 </div>
 
-                <div className="form-group">
-                    <label className="form-label">PYQ Title</label>
-                    <input
-                        name="pyqTitle"
-                        type="text"
-                        className="form-input"
-                        placeholder="Previous year question paper title"
-                        value={formData.pyqTitle}
-                        onChange={handleChange}
-                    />
+                <div className="form-row">
+                    <div className="form-group flex-grow-1">
+                        <label className="form-label">PYQ Title</label>
+                        <input
+                            name="pyqTitle"
+                            type="text"
+                            className="form-input"
+                            placeholder="Previous year question paper title"
+                            value={formData.pyqTitle}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form-group" style={{ minWidth: '150px' }}>
+                        <label className="form-label">PYQ Active</label>
+                        <div className="toggle-wrapper" style={{ marginTop: '10px' }}>
+                            <label className="switch">
+                                <input
+                                    type="checkbox"
+                                    name="pyqActive"
+                                    checked={formData.pyqActive === 'true'}
+                                    onChange={(e) => setFormData({ ...formData, pyqActive: e.target.checked ? 'true' : 'false' })}
+                                />
+                                <span className="slider round"></span>
+                            </label>
+                            <span className="toggle-label">{formData.pyqActive === 'true' ? 'Active' : 'Inactive'}</span>
+                        </div>
+                    </div>
                 </div>
 
                 <button type="submit" className="btn-submit" disabled={loading}>

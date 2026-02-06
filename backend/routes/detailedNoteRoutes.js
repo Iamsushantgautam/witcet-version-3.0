@@ -24,6 +24,17 @@ router.get('/code/:notesCode', async (req, res) => {
     }
 });
 
+// Get detailed note by ID
+router.get('/:id', async (req, res) => {
+    try {
+        const note = await DetailedNote.findById(req.params.id);
+        if (!note) return res.status(404).json({ message: 'Detailed note not found' });
+        res.json(note);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 // Create detailed note (Protected)
 router.post('/', auth, async (req, res) => {
     try {

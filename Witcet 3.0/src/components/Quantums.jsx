@@ -4,6 +4,8 @@ import axios from 'axios';
 import '../styles/AllNotes.css'; // Common styles for tabs/search
 import '../styles/Quantums.css'; // Specific card styles
 
+import { SkeletonGrid } from './Skeleton';
+
 const Quantums = () => {
     const [quantums, setQuantums] = useState([]);
     const [filteredQuantums, setFilteredQuantums] = useState([]);
@@ -29,8 +31,7 @@ const Quantums = () => {
 
                 // Filter only items that have quantum data
                 const allQuantums = response.data
-                    .filter(item => item.quantumTitle && item.quantumLink)
-                    .reverse();
+                    .filter(item => item.quantumTitle && item.quantumLink);
 
                 setQuantums(allQuantums);
                 setFilteredQuantums(allQuantums);
@@ -62,18 +63,19 @@ const Quantums = () => {
             );
         }
 
+        // 3. Filter only active quantums
+        // Check if quantumLink exists AND quantumActive is true
+        result = result.filter(note =>
+            note.quantumLink &&
+            (note.quantumActive === 'true' || note.quantumActive === true)
+        );
+
         setFilteredQuantums(result);
     }, [searchTerm, activeCategory, quantums]);
 
     const handleCategoryClick = (category) => {
         setActiveCategory(category);
     };
-
-    if (loading) return (
-        <Container className="text-center py-5">
-            <Spinner animation="border" variant="primary" />
-        </Container>
-    );
 
     if (error) return (
         <Container className="py-5">
@@ -118,47 +120,53 @@ const Quantums = () => {
                 </Nav>
 
                 {/* Quantums Grid */}
-                <Row id="notesContainer" className="g-4">
-                    {filteredQuantums.length > 0 ? (
-                        filteredQuantums.map((item) => (
-                            <Col md={6} lg={4} key={item._id} className="notice-item">
-                                <Card className="h-100 quantum-card border-0">
-                                    <div className="quantum-img-wrapper">
-                                        <Card.Img
-                                            variant="top"
-                                            src={item.quantumImagePath?.startsWith('http')
-                                                ? item.quantumImagePath
-                                                : `${import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com' || 'http://localhost:5000'}/images/${item.quantumImagePath}`
-                                            }
-                                            alt={item.quantumTitle}
-                                            className="quantum-img"
-                                            onError={(e) => {
-                                                e.target.src = 'https://via.placeholder.com/200x300?text=Quantum';
-                                            }}
-                                        />
-                                    </div>
-                                    <Card.Body className="d-flex flex-column justify-content-between p-3 text-center">
-                                        <Card.Title className="quantum-title">{item.quantumTitle}</Card.Title>
-                                        <div className="mt-auto">
-                                            <a
-                                                href={item.quantumLink}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="btn btn-primary quantum-download-btn"
-                                            >
-                                                <i className="fa fa-download me-2"></i> Download
-                                            </a>
+                {loading ? (
+                    <SkeletonGrid count={6} />
+                ) : (
+                    <Row id="notesContainer" className="g-4">
+                        {filteredQuantums.length > 0 ? (
+                            filteredQuantums.map((item) => (
+                                <Col md={6} lg={4} key={item._id} className="notice-item">
+                                    <Card className="h-100 quantum-card border-0">
+                                        <div className="quantum-img-wrapper">
+                                            <Card.Img
+                                                variant="top"
+                                                src={item.quantumImagePath && item.quantumImagePath !== 'undefined'
+                                                    ? (item.quantumImagePath.startsWith('http')
+                                                        ? item.quantumImagePath
+                                                        : `${import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com' || 'http://localhost:5000'}/images/${item.quantumImagePath}`)
+                                                    : '/images/domo-q.png'
+                                                }
+                                                alt={item.quantumTitle}
+                                                className="quantum-img"
+                                                onError={(e) => {
+                                                    e.target.src = '/images/domo-q.png';
+                                                }}
+                                            />
                                         </div>
-                                    </Card.Body>
-                                </Card>
+                                        <Card.Body className="d-flex flex-column justify-content-between p-3 text-center">
+                                            <Card.Title className="quantum-title">{item.quantumTitle}</Card.Title>
+                                            <div className="mt-auto">
+                                                <a
+                                                    href={item.quantumLink}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="btn btn-primary quantum-download-btn"
+                                                >
+                                                    <i className="fa fa-download me-2"></i> Download
+                                                </a>
+                                            </div>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))
+                        ) : (
+                            <Col className="text-center py-5">
+                                <p className="text-muted fs-5">No quantums found matching your criteria.</p>
                             </Col>
-                        ))
-                    ) : (
-                        <Col className="text-center py-5">
-                            <p className="text-muted fs-5">No quantums found matching your criteria.</p>
-                        </Col>
-                    )}
-                </Row>
+                        )}
+                    </Row>
+                )}
             </Container>
         </div>
     );

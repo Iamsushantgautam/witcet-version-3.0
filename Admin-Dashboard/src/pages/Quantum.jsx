@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../utils/api';
 import { Search } from 'lucide-react';
 import './Quantum.css';
+import './Toggle.css';
 
 const Quantum = () => {
     const [notes, setNotes] = useState([]);
@@ -20,6 +21,25 @@ const Quantum = () => {
         } catch (err) {
             console.error('Error fetching notes:', err);
             setLoading(false);
+        }
+    };
+
+    const handleToggleStatus = async (note) => {
+        const newStatus = note.quantumActive === 'true' ? 'false' : 'true';
+        try {
+            // Optimistic update
+            const updatedNotes = notes.map(n =>
+                n._id === note._id ? { ...n, quantumActive: newStatus } : n
+            );
+            setNotes(updatedNotes);
+
+            // API call
+            await api.put(`/notes/${note._id}`, { ...note, quantumActive: newStatus });
+        } catch (err) {
+            console.error("Error updating status:", err);
+            // Revert on error
+            setNotes(notes);
+            alert("Failed to update status");
         }
     };
 
@@ -59,6 +79,19 @@ const Quantum = () => {
                             <div className="quantum-card-body">
                                 <h5 className="quantum-card-title">{note.title}</h5>
                                 <p className="quantum-card-text">{note.quantumTitle || 'Quantum Study Material'}</p>
+                                <div className="mb-2 d-flex align-items-center justify-content-between">
+                                    <strong style={{ fontSize: '0.8rem' }}>Active:</strong>
+                                    <div className="toggle-wrapper m-0">
+                                        <label className="switch scale-75 m-0" onClick={(e) => e.stopPropagation()}>
+                                            <input
+                                                type="checkbox"
+                                                checked={note.quantumActive === 'true'}
+                                                onChange={() => handleToggleStatus(note)}
+                                            />
+                                            <span className="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
                                 {note.quantumLink && (
                                     <a
                                         href={note.quantumLink}

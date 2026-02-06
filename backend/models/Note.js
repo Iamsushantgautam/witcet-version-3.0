@@ -12,6 +12,8 @@ const noteSchema = new mongoose.Schema({
     pyqLink: String,
     pyqTitle: String,
     pyqImage: String,
+    quantumActive: { type: String, default: 'true' },
+    pyqActive: { type: String, default: 'true' },
     createdAt: { type: Date, default: Date.now }
 });
 

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import { Search, Edit, Trash2, FileText, Plus } from 'lucide-react';
 import './DetailedNotesList.css';
+import './Toggle.css';
 
 const DetailedNotesList = () => {
     const navigate = useNavigate();
@@ -34,6 +35,25 @@ const DetailedNotesList = () => {
         } catch (err) {
             console.error('Error deleting detailed note:', err);
             alert('Failed to delete detailed note. Please try again.');
+        }
+    };
+
+    const handleToggleStatus = async (note) => {
+        const newStatus = note.active === 'true' ? 'false' : 'true';
+        try {
+            // Optimistic update
+            const updatedNotes = notes.map(n =>
+                n._id === note._id ? { ...n, active: newStatus } : n
+            );
+            setNotes(updatedNotes);
+
+            // API call
+            await api.put(`/detailed-notes/${note._id}`, { ...note, active: newStatus });
+        } catch (err) {
+            console.error("Error updating Detailed Note status:", err);
+            // Revert on error
+            setNotes(notes);
+            alert("Failed to update status");
         }
     };
 
@@ -107,7 +127,7 @@ const DetailedNotesList = () => {
                             </div>
 
                             <div className="note-actions">
-                                <button className="btn-edit">
+                                <button className="btn-edit" onClick={() => navigate(`/edit-detailed-notes/${note._id}`)}>
                                     <Edit size={14} />
                                     Edit
                                 </button>
