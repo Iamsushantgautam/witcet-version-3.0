@@ -5,12 +5,16 @@ import './styles/index.css'
 import App from './App.jsx'
 
 
-// Unregister any existing service workers to clear the PWA cache
+// Register Service Worker to enable "Install App" feature
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.getRegistrations().then((registrations) => {
-    for (const registration of registrations) {
-      registration.unregister();
-    }
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      })
+      .catch((err) => {
+        console.log('ServiceWorker registration failed: ', err);
+      });
   });
 }
 

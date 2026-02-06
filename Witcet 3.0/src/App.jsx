@@ -1,8 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from './components/Navbar';
-import Hero from './components/Hero';
-import Filter from './components/Filter';
-import NotesList from './components/NotesList';
+import Home from './components/Home';
 import Footer from './components/Footer';
 import NoteDetails from './components/NoteDetails';
 import AllNotes from './components/AllNotes';
@@ -15,24 +13,17 @@ import Help from './components/Help';
 import About from './components/About';
 import Policy from './components/Policy';
 import Search from './components/Search';
+import { View, StyleSheet, Platform } from 'react-native';
 import './styles/App.css';
 
 function App() {
   return (
     <Router>
-      <div className="app-container-fluid">
+      <View style={styles.container}>
         <Navigation />
 
         <Routes>
-          <Route path="/" element={
-            <>
-              <Hero />
-              <Filter />
-              <NotesList />
-
-
-            </>
-          } />
+          <Route path="/" element={<Home />} />
 
           <Route path="/notes/:notesCode" element={<NoteDetails />} />
           <Route path="/notes" element={<AllNotes />} />
@@ -45,12 +36,21 @@ function App() {
           <Route path="/help" element={<Help />} />
           <Route path="/about" element={<About />} />
           <Route path="/policy" element={<Policy />} />
+          <Route path="*" element={<Home />} />
         </Routes>
 
         <Footer />
-      </div>
+      </View>
     </Router>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: '100%',
+    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
+  },
+});
 
 export default App

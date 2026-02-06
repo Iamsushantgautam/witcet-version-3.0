@@ -34,7 +34,7 @@ const Filter = () => {
     ];
 
     return (
-        <Container className="custom-sc py-5">
+        <Container className="custom-sc pt-2 pb-5">
             <div className="button-container d-flex justify-content-center flex-wrap gap-4">
                 {filterItems.map((item, index) => (
                     <a key={index} href={item.href} className="btn btn-custom animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
