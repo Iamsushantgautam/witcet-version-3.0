@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 
-const InstallButton = () => {
+const InstallButton = ({ className = "ms-2 header_btn", variant = "primary" }) => {
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [isInstallable, setIsInstallable] = useState(false);
     const [isInstalled, setIsInstalled] = useState(false);
@@ -50,19 +50,14 @@ const InstallButton = () => {
         setIsInstallable(false);
     };
 
-    if (isInstalled) {
-        return null;
-        // Or return a "Open App" button if you want, but usually we hide it.
-    }
-
-    if (!isInstallable) {
-        return null;
-    }
+    // Layout Debug: Always show button, disable if not ready
+    // if (isInstalled) return null;
+    // if (!isInstallable) return null;
 
     return (
         <Button
-            variant="primary"
-            className="rounded-pill px-3 ms-2 d-flex align-items-center gap-2 header_btn"
+            variant={variant}
+            className={`rounded-pill px-3 d-flex align-items-center gap-2 ${className}`}
             onClick={handleInstallClick}
         >
             <i className="fa-solid fa-download"></i>

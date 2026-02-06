@@ -40,7 +40,7 @@ const Navigation = () => {
                             />
                             <Button variant="outline-success" className="rounded-pill px-4">Search</Button>
                         </Form>
-                        <InstallButton />
+
                     </div>
                 </Navbar.Collapse>
             </Container>

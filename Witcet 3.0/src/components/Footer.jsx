@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import InstallButton from './InstallButton';
 
 const Footer = () => {
     return (
@@ -48,6 +49,9 @@ const Footer = () => {
                             <p><a href="/pyqs" className="text-dark text-decoration-none hover-link">B.Tech PYQs</a></p>
                             <p><a href="/quantums" className="text-dark text-decoration-none hover-link">Quantums</a></p>
                             <p><a href="/updates" className="text-dark text-decoration-none hover-link">Updates</a></p>
+                            <div style={{ marginLeft: '-12px' }}>
+                                <InstallButton variant="link" className="text-dark text-decoration-none hover-link fw-normal" />
+                            </div>
                         </Col>
 
                         {/* Grid column: About */}
