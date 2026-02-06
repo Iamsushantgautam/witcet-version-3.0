@@ -4,16 +4,16 @@
     "description": "The best platform for learning and growth.",
     "icons": [
         {
-            "src": "/images/Logo.png",
-            "type": "image/png",
-            "sizes": "192x192",
-            "purpose": "any maskable"
-        },
-        {
-            "src": "/images/logo-icon.png",
+            "src": "/images/favicon.png",
             "type": "image/png",
             "sizes": "512x512",
-            "purpose": "any maskable"
+            "purpose": "any"
+        },
+        {
+            "src": "/images/favicon.png",
+            "type": "image/png",
+            "sizes": "192x192",
+            "purpose": "any"
         }
     ],
     "start_url": "/",
