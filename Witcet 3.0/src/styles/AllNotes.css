@@ -123,6 +123,16 @@
         overflow-x: auto;
         padding-bottom: 10px;
         justify-content: flex-start !important;
+        /* Hide scrollbar but keep functionality */
+        scrollbar-width: none;
+        /* Firefox */
+        -ms-overflow-style: none;
+        /* IE/Edge */
+    }
+
+    .category-tabs::-webkit-scrollbar {
+        display: none;
+        /* Chrome/Safari */
     }
 
     .category-tabs .nav-item {

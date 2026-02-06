@@ -21,6 +21,11 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
 body {
   font-family: 'Outfit', sans-serif;
   background-color: var(--bg-dark);
@@ -28,6 +33,9 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }
 
 h1,

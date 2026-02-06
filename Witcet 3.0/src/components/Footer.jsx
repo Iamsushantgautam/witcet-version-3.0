@@ -49,9 +49,7 @@ const Footer = () => {
                             <p><a href="/pyqs" className="text-dark text-decoration-none hover-link">B.Tech PYQs</a></p>
                             <p><a href="/quantums" className="text-dark text-decoration-none hover-link">Quantums</a></p>
                             <p><a href="/updates" className="text-dark text-decoration-none hover-link">Updates</a></p>
-                            <div style={{ marginLeft: '-12px' }}>
-                                <InstallButton variant="link" className="text-dark text-decoration-none hover-link fw-normal" />
-                            </div>
+
                         </Col>
 
                         {/* Grid column: About */}
@@ -80,6 +78,9 @@ const Footer = () => {
                                     Join our Telegram Channel
                                 </a>
                             </p>
+                            <div className="d-flex justify-content-center justify-content-md-start">
+                                <InstallButton variant="link" className="text-dark text-decoration-none hover-link fw-normal p-0" />
+                            </div>
                         </Col>
                     </Row>
                 </Container>
