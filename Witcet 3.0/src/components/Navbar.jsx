@@ -122,9 +122,6 @@ const styles = StyleSheet.create({
     },
     menuButton: {
         padding: 8,
-        borderWidth: 1,
-        borderColor: 'rgba(0,0,0,0.1)',
-        borderRadius: 4,
     },
     menuIcon: {
         fontSize: 24,

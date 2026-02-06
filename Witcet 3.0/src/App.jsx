@@ -13,12 +13,14 @@ import Help from './components/Help';
 import About from './components/About';
 import Policy from './components/Policy';
 import Search from './components/Search';
+import ScrollToTop from './components/ScrollToTop';
 import { View, StyleSheet, Platform } from 'react-native';
 import './styles/App.css';
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <View style={styles.container}>
         <Navigation />
 

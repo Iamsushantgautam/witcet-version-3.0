@@ -39,18 +39,18 @@ const Footer = () => {
                 <View style={styles.container}>
                     <View style={[styles.row, isMobile && styles.rowMobile]}>
                         {/* Column 1: Witcet */}
-                        <View style={[styles.col, styles.colLarge]}>
+                        <View style={[styles.col, styles.colLarge, isMobile && styles.colMobile]}>
                             <Text style={styles.heading}>WITCET</Text>
-                            <View style={styles.divider} />
+                            <View style={[styles.divider, isMobile && styles.dividerMobile]} />
                             <Text style={styles.text}>
                                 We offer expert guidance, interactive study materials, and practice tests to help you excel in exams.
                             </Text>
                         </View>
 
                         {/* Column 2: Products */}
-                        <View style={styles.col}>
+                        <View style={[styles.col, isMobile && styles.colMobile]}>
                             <Text style={styles.heading}>PRODUCTS</Text>
-                            <View style={styles.divider} />
+                            <View style={[styles.divider, isMobile && styles.dividerMobile]} />
                             <TouchableOpacity onPress={() => handleLink('/notes')}><Text style={styles.link}>AKTU Notes</Text></TouchableOpacity>
                             <TouchableOpacity onPress={() => handleLink('/pyqs')}><Text style={styles.link}>B.Tech PYQs</Text></TouchableOpacity>
                             <TouchableOpacity onPress={() => handleLink('/quantums')}><Text style={styles.link}>Quantums</Text></TouchableOpacity>
@@ -58,9 +58,9 @@ const Footer = () => {
                         </View>
 
                         {/* Column 3: About */}
-                        <View style={styles.col}>
+                        <View style={[styles.col, isMobile && styles.colMobile]}>
                             <Text style={styles.heading}>ABOUT</Text>
-                            <View style={styles.divider} />
+                            <View style={[styles.divider, isMobile && styles.dividerMobile]} />
                             <TouchableOpacity onPress={() => handleLink('/about')}><Text style={styles.link}>About Us</Text></TouchableOpacity>
                             <TouchableOpacity onPress={() => handleLink('/policy')}><Text style={styles.link}>Policy</Text></TouchableOpacity>
                             <TouchableOpacity onPress={() => handleLink('/feedback')}><Text style={styles.link}>Feedback</Text></TouchableOpacity>
@@ -69,12 +69,12 @@ const Footer = () => {
                         </View>
 
                         {/* Column 4: Contact */}
-                        <View style={[styles.col, styles.colLarge]}>
+                        <View style={[styles.col, styles.colLarge, isMobile && styles.colMobile]}>
                             <Text style={styles.heading}>CONTACT</Text>
-                            <View style={styles.divider} />
+                            <View style={[styles.divider, isMobile && styles.dividerMobile]} />
                             <TouchableOpacity
                                 onPress={() => handleLink('https://t.me/+mKi_iF1EsEg2MDU1')}
-                                style={styles.telegramButton}
+                                style={[styles.telegramButton, isMobile && styles.telegramButtonMobile]}
                             >
                                 <Text style={styles.telegramButtonText}>Join our Telegram Channel</Text>
                             </TouchableOpacity>
@@ -116,6 +116,8 @@ const styles = StyleSheet.create({
     socialContentMobile: {
         flexDirection: 'column',
         gap: 12,
+        alignItems: 'center',
+        textAlign: 'center',
     },
     socialText: {
         color: 'white',
@@ -137,6 +139,7 @@ const styles = StyleSheet.create({
     },
     rowMobile: {
         flexDirection: 'column',
+        alignItems: 'center',
     },
     col: {
         width: '16.66%', // Approx col-2
@@ -144,6 +147,11 @@ const styles = StyleSheet.create({
         marginBottom: 24,
         minWidth: 150,
         flexGrow: 1,
+    },
+    colMobile: {
+        width: '100%',
+        alignItems: 'center',
+        textAlign: 'center',
     },
     colLarge: {
         width: '25%', // Approx col-3 or col-4
@@ -162,6 +170,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#7c4dff',
         marginBottom: 16,
     },
+    dividerMobile: {
+        alignSelf: 'center',
+    },
     text: {
         color: '#4f4f4f',
         marginBottom: 16,
@@ -178,6 +189,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         borderRadius: 50,
         alignSelf: 'flex-start',
+    },
+    telegramButtonMobile: {
+        alignSelf: 'center',
     },
     telegramButtonText: {
         color: 'white',
