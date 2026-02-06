@@ -1,21 +1,63 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 
 const Hero = () => {
+    const imageRef = useRef(null);
+    const [transform, setTransform] = useState({ rotateX: 0, rotateY: 0, scale: 1 });
+
+    const handleMouseMove = (e) => {
+        if (!imageRef.current) return;
+
+        const rect = imageRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateY = ((x - centerX) / centerX) * 10;
+
+        setTransform({ rotateX, rotateY, scale: 1.05 });
+    };
+
+    const handleMouseLeave = () => {
+        setTransform({ rotateX: 0, rotateY: 0, scale: 1 });
+    };
+
     return (
         <section className="hero-section py-5">
             <Container>
                 <Row className="flex-lg-row-reverse align-items-center g-5">
                     <Col xs={10} sm={8} lg={6} className="mx-auto">
-                        <img
-                            src="/images/header2.png"
-                            className="d-block mx-lg-auto img-fluid header_img animate-fade-in"
-                            alt="WITCET Education"
-                            loading="lazy"
-                            onError={(e) => {
-                                e.target.src = 'https://via.placeholder.com/600x400?text=Witcet+Education';
+                        <div
+                            style={{
+                                perspective: '1000px',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center'
                             }}
-                        />
+                        >
+                            <img
+                                ref={imageRef}
+                                src="/images/header2.png"
+                                className="d-block mx-lg-auto img-fluid header_img animate-fade-in"
+                                alt="WITCET Education"
+                                loading="lazy"
+                                onMouseMove={handleMouseMove}
+                                onMouseLeave={handleMouseLeave}
+                                onError={(e) => {
+                                    e.target.src = 'https://via.placeholder.com/600x400?text=Witcet+Education';
+                                }}
+                                style={{
+                                    transform: `rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg) scale(${transform.scale})`,
+                                    transition: 'transform 0.3s ease-out',
+                                    transformStyle: 'preserve-3d',
+                                    cursor: 'pointer',
+                                    filter: 'drop-shadow(0 20px 40px rgba(0, 191, 255, 0.3))'
+                                }}
+                            />
+                        </div>
                     </Col>
                     <Col lg={6}>
                         <div className="lc-block mb-3 animate-fade-in">
