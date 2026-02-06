@@ -41,7 +41,7 @@ const Hero = () => {
                             <img
                                 ref={imageRef}
                                 src="/images/header2.png"
-                                className="d-block mx-lg-auto img-fluid header_img animate-fade-in"
+                                className="d-block mx-lg-auto img-fluid header_img"
                                 alt="WITCET Education"
                                 loading="lazy"
                                 onMouseMove={handleMouseMove}
@@ -59,17 +59,17 @@ const Hero = () => {
                         </div>
                     </Col>
                     <Col lg={6}>
-                        <div className="lc-block mb-3 animate-fade-in">
+                        <div className="lc-block mb-3">
                             <h4 className="fw-bold display-6">Admit Your Dream University Through WITCET</h4>
                         </div>
-                        <div className="lc-block mb-3 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                        <div className="lc-block mb-3">
                             <p className="lead text-secondary">
                                 Unlock your potential with WITCET, the best online education platform for top scores and success.
                                 We offer expert guidance, interactive study materials, and practice tests to help you excel in exams.
                                 Best Education Site For Online Schooling. Get top score by learning India's largest content provider.
                             </p>
                         </div>
-                        <div className="lc-block d-grid gap-2 d-md-flex justify-content-md-start animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                        <div className="lc-block d-grid gap-2 d-md-flex justify-content-md-start">
                             <Button
                                 href="https://t.me/+mKi_iF1EsEg2MDU1"
                                 target="_blank"

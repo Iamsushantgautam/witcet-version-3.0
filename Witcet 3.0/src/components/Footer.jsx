@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import InstallButton from './InstallButton';
+
 
 const Footer = () => {
     return (
@@ -78,9 +78,7 @@ const Footer = () => {
                                     Join our Telegram Channel
                                 </a>
                             </p>
-                            <div className="d-flex justify-content-center justify-content-md-start">
-                                <InstallButton variant="link" className="text-dark text-decoration-none hover-link fw-normal p-0" />
-                            </div>
+
                         </Col>
                     </Row>
                 </Container>

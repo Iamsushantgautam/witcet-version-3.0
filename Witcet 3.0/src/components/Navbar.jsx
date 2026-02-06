@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Container, Form, FormControl, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import InstallButton from './InstallButton';
+
 
 const Navigation = () => {
     const navigate = useNavigate();
