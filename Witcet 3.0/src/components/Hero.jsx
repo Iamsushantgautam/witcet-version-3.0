@@ -26,7 +26,7 @@ const Hero = () => {
     };
 
     return (
-        <section className="hero-section pt-5 pb-2">
+        <section className="hero-section pt-5">
             <Container>
                 <Row className="flex-lg-row-reverse align-items-center g-5">
                     <Col xs={10} sm={8} lg={6} className="mx-auto">

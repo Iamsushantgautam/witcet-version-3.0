@@ -83,7 +83,7 @@ const NotesList = () => {
                                         <div className="text-center mt-auto">
                                             <Button
                                                 href={`/notes/${note.notesCode}`}
-                                                className="btn-download rounded-pill px-4 py-2"
+                                                className="btn btn-primary custom-download-btn px-4 py-2"
                                             >
                                                 <i className="fa fa-download me-2"></i> Download
                                             </Button>
