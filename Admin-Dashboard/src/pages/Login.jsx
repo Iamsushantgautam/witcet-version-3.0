@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import api from '../utils/api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Container, Row, Col, Form, Button, Card, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -106,7 +106,7 @@ const Login = () => {
                                 </Form>
 
                                 <div className="text-center mt-4">
-                                    <a href="#" className="text-decoration-none small text-muted">Forgot password?</a>
+                                    <a href="/forgot-password" className="text-decoration-none small text-muted">Forgot password?</a>
                                 </div>
                             </Card.Body>
                         </Card>

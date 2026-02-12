@@ -13,6 +13,7 @@ import DetailedNotesList from './pages/DetailedNotesList';
 import Updates from './pages/Updates';
 import AddUpdate from './pages/AddUpdate';
 import EditUpdate from './pages/EditUpdate';
+import ForgotPassword from './pages/ForgotPassword';
 import './App.css';
 import './styles/dashboard.css';
 
@@ -26,6 +27,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
         <Route path="/" element={
           <PrivateRoute>
