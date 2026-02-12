@@ -17,7 +17,9 @@ const Login = () => {
         setError('');
 
         try {
-            const res = await api.post('/auth/login', { email: email.toLowerCase(), password });
+            const trimmedEmail = email.trim().toLowerCase();
+            const trimmedPassword = password.trim();
+            const res = await api.post('/auth/login', { email: trimmedEmail, password: trimmedPassword });
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));
 

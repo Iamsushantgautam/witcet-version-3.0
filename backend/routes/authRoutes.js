@@ -9,8 +9,8 @@ router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Find user by email
-        const user = await User.findOne({ email });
+        // Find user by email (case-insensitive)
+        const user = await User.findOne({ email: { $regex: new RegExp(`^${email.trim()}$`, 'i') } });
         if (!user) {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
@@ -48,7 +48,7 @@ const auth = require('../middleware/auth');
 router.post('/forgot-password', async (req, res) => {
     try {
         const { email } = req.body;
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email: { $regex: new RegExp(`^${email.trim()}$`, 'i') } });
 
         if (!user) {
             return res.status(404).json({ message: 'User with this email does not exist' });
@@ -112,7 +112,7 @@ router.post('/reset-password', async (req, res) => {
         const { email, otp, newPassword } = req.body;
 
         const user = await User.findOne({
-            email,
+            email: { $regex: new RegExp(`^${email.trim()}$`, 'i') },
             resetOtp: otp,
             resetOtpExpires: { $gt: Date.now() }
         });

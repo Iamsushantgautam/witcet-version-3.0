@@ -22,7 +22,8 @@ const ForgotPassword = () => {
         setError('');
         setSuccess('');
         try {
-            await api.post('/auth/forgot-password', { email: email.toLowerCase() });
+            const trimmedEmail = email.trim().toLowerCase();
+            await api.post('/auth/forgot-password', { email: trimmedEmail });
             setStep(2);
             setSuccess('OTP has been sent to your email.');
         } catch (err) {
@@ -42,7 +43,9 @@ const ForgotPassword = () => {
         setLoading(true);
         setError('');
         try {
-            await api.post('/auth/reset-password', { email: email.toLowerCase(), otp, newPassword });
+            const trimmedEmail = email.trim().toLowerCase();
+            const trimmedPassword = newPassword.trim();
+            await api.post('/auth/reset-password', { email: trimmedEmail, otp: otp.trim(), newPassword: trimmedPassword });
             setSuccess('Password reset successful! Redirecting to login...');
             setTimeout(() => navigate('/login'), 3000);
         } catch (err) {
