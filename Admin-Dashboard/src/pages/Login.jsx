@@ -17,7 +17,7 @@ const Login = () => {
         setError('');
 
         try {
-            const res = await api.post('/auth/login', { email, password });
+            const res = await api.post('/auth/login', { email: email.toLowerCase(), password });
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('user', JSON.stringify(res.data.user));
 
@@ -50,7 +50,12 @@ const Login = () => {
 
             navigate('/');
         } catch (err) {
-            setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+            console.error('Login error:', err);
+            if (!err.response) {
+                setError('Server connection failed. Please check your internet or API URL.');
+            } else {
+                setError(err.response.data?.message || 'Login failed. Please check your credentials.');
+            }
         } finally {
             setLoading(false);
         }
