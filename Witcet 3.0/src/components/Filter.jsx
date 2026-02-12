@@ -30,6 +30,13 @@ const Filter = () => {
             icon: 'fa fa-bell',
             bgColor: '#b3e0ff',
             isIcon: true
+        },
+        {
+            title: 'Tools',
+            href: '/tools',
+            icon: 'fa fa-tools',
+            bgColor: '#b3e0ff',
+            isIcon: true
         }
     ];
 

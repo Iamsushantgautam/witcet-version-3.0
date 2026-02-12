@@ -24,6 +24,7 @@ app.use('/api/detailed-notes', require('./routes/detailedNoteRoutes.js'));
 app.use('/api/updates', require('./routes/updateRoutes.js'));
 app.use('/api/stats', auth, require('./routes/statsRoutes.js'));
 app.use('/api/upload', auth, require('./routes/uploadRoutes.js'));
+app.use('/api/tools', require('./routes/toolRoutes.js'));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)

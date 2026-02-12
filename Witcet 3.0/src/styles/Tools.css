@@ -1,0 +1,422 @@
+/* Tools Container */
+.tools-container {
+    padding: 2rem 0;
+    background-color: transparent;
+    min-height: 80vh;
+}
+
+/* Header Section */
+.tools-header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 4rem auto;
+    padding: 0 1rem;
+}
+
+.header-badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: #eff6ff;
+    color: #3b82f6;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 50px;
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+    border: 1px solid #dbeafe;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.1);
+}
+
+.tools-title {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    letter-spacing: -1px;
+    background: linear-gradient(to right, #0f172a, #334155);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tools-subtitle {
+    font-size: 1.15rem;
+    color: #64748b;
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Tools Grid */
+.tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+/* Tool Card */
+.tool-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 1.5rem;
+    position: relative;
+    border: 1px solid #eef2f6;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    z-index: 1;
+}
+
+.tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    border-color: #e2e8f0;
+}
+
+/* Decorative Top Right Blob */
+.tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+    border-bottom-left-radius: 100%;
+    z-index: -1;
+    transition: transform 0.3s ease;
+}
+
+.tool-card:hover::before {
+    transform: scale(1.1);
+}
+
+/* Tool Content Layout */
+.tool-content-wrapper {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* Icon Styles */
+.tool-icon-container {
+    min-width: 60px;
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: #ffffff;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+    overflow: hidden;
+}
+
+.tool-card:hover .tool-icon-container {
+    transform: none;
+    background: #ffffff;
+    border-color: #f1f5f9;
+}
+
+.tool-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tool-text-content {
+    flex: 1;
+    min-width: 0;
+    /* Prevents text overflow issues */
+}
+
+.tool-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.tool-card:hover .tool-name {
+    color: #1e293b;
+}
+
+.tool-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #dbeafe;
+    color: #2563eb;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    border-radius: 8px;
+    letter-spacing: 0.5px;
+}
+
+.tool-description {
+    font-size: 0.95rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+    padding-right: 0.5rem;
+}
+
+/* Action Area */
+.tool-footer {
+    margin-top: auto;
+    border-top: none;
+    padding-top: 0;
+}
+
+.visit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 14px;
+    background: #f1f5f9;
+    color: #334155;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+.visit-btn i {
+    margin-left: 8px;
+    transition: transform 0.2s ease;
+    color: #475569;
+}
+
+.tool-card:hover .visit-btn {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.tool-card:hover .visit-btn i {
+    transform: translateX(3px) translateY(-3px);
+    color: #1e293b;
+}
+
+/* Hidden Status */
+.status-indicator {
+    display: none;
+}
+
+/* Loading State */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+}
+
+/* Error State */
+.error-message {
+    text-align: center;
+    color: #ef4444;
+    padding: 2rem;
+    background: #fef2f2;
+    border-radius: 12px;
+    margin: 2rem auto;
+    max-width: 500px;
+}
+
+/* No Tools State */
+.no-tools {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #94a3b8;
+}
+
+.no-tools i {
+    margin-bottom: 1rem;
+    color: #e2e8f0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .tools-grid {
+        grid-template-columns: 1fr;
+        padding: 0.5rem;
+    }
+
+    .tools-title {
+        font-size: 2rem;
+    }
+
+    .tool-card:active {
+        transform: scale(0.98);
+    }
+}
+
+/* Skeleton Loading */
+.skeleton-wrapper {
+    background: #f1f5f9;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Ensure the card itself stays white but disable interactions */
+.tool-card.skeleton-wrapper {
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    border: 1px solid #f1f5f9;
+    pointer-events: none;
+}
+
+/* Disable shimmer on the card container itself, only apply to content */
+.tool-card.skeleton-wrapper::after {
+    display: none;
+}
+
+.tool-card.skeleton-wrapper:hover {
+    transform: none;
+    box-shadow: initial;
+    border-color: #f1f5f9;
+}
+
+/* Apply shimmer only to inner elements */
+.skeleton-content-item,
+.skeleton-icon,
+.skeleton-title,
+.skeleton-badge,
+.skeleton-desc,
+.skeleton-btn {
+    background: #f1f5f9;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Shared shimmer animation for inner elements */
+.skeleton-icon::after,
+.skeleton-title::after,
+.skeleton-badge::after,
+.skeleton-desc::after,
+.skeleton-btn::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0,
+            rgba(255, 255, 255, 0.4) 20%,
+            rgba(255, 255, 255, 0.7) 60%,
+            rgba(255, 255, 255, 0));
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.skeleton-icon {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 16px;
+    margin-right: 1rem;
+}
+
+.skeleton-title {
+    height: 24px;
+    width: 70%;
+    border-radius: 6px;
+    margin-bottom: 12px;
+}
+
+.skeleton-badge {
+    height: 20px;
+    width: 30%;
+    border-radius: 6px;
+}
+
+.skeleton-desc {
+    height: 16px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.skeleton-btn {
+    height: 48px;
+    border-radius: 16px;
+    margin-top: auto;
+    width: 100%;
+}
+
+/* Search Bar */
+.tools-search-container {
+    max-width: 600px;
+    margin: 2rem auto 3rem auto;
+    position: relative;
+}
+
+.tools-search-input {
+    width: 100%;
+    padding: 18px 24px 18px 24px;
+    /* Adjusted padding since icon is gone/optional */
+    border-radius: 16px;
+    border: 2px solid #e2e8f0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    background: #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    outline: none;
+    color: #1e293b;
+}
+
+.tools-search-input:hover {
+    border-color: #cbd5e1;
+}
+
+.tools-search-input:focus {
+    border-color: #3b82f6;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    width: 100%;
+    /* Ensure it stays full width */
+}
+
+.tools-search-input::placeholder {
+    color: #94a3b8;
+}
+
+.tools-search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 1.25rem;
+    pointer-events: none;
+    transition: color 0.2s ease;
+}
+
+.tools-search-input:focus+.tools-search-icon {
+    color: #3b82f6;
+}

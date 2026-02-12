@@ -9,6 +9,7 @@ import {
     FilePlus,
     List,
     Bell,
+    Wrench,
     LogOut,
     X // Import Close Icon
 } from 'lucide-react';
@@ -26,6 +27,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { icon: <FilePlus size={18} />, label: 'Add Detailed Notes', path: '/add-detailed-notes' },
         { icon: <List size={18} />, label: 'Detailed Notes List', path: '/detailed-notes' },
         { icon: <Bell size={18} />, label: 'Updates', path: '/updates' },
+        { icon: <Wrench size={18} />, label: 'Tools', path: '/tools' },
     ];
 
     const handleLogout = () => {

@@ -4,10 +4,11 @@ import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import { SkeletonGrid } from './Skeleton';
 import '../styles/AllNotes.css';
+import '../styles/Tools.css';
 
 const Search = () => {
     const [loading, setLoading] = useState(true);
-    const [results, setResults] = useState({ notes: [], quantums: [], pyqs: [] });
+    const [results, setResults] = useState({ notes: [], quantums: [], pyqs: [], tools: [] });
     const location = useLocation();
     const [query, setQuery] = useState('');
 
@@ -26,8 +27,15 @@ const Search = () => {
         setLoading(true);
         try {
             const apiUrl = import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com';
-            const response = await axios.get(`${apiUrl}/api/notes`);
-            const data = response.data;
+
+            // Parallel fetch for better performance
+            const [notesResponse, toolsResponse] = await Promise.all([
+                axios.get(`${apiUrl}/api/notes`),
+                axios.get(`${apiUrl}/api/tools`)
+            ]);
+
+            const data = notesResponse.data;
+            const toolsData = toolsResponse.data;
             const lowerTerm = searchTerm.toLowerCase();
 
             // Notes Filter
@@ -54,7 +62,15 @@ const Search = () => {
                     item.notesCode?.toLowerCase().includes(lowerTerm))
             );
 
-            setResults({ notes, quantums, pyqs });
+            // Tools Filter
+            const tools = toolsData.filter(tool =>
+                (tool.isActive) &&
+                (tool.title?.toLowerCase().includes(lowerTerm) ||
+                    tool.description?.toLowerCase().includes(lowerTerm) ||
+                    (tool.tag && tool.tag.toLowerCase().includes(lowerTerm)))
+            );
+
+            setResults({ notes, quantums, pyqs, tools });
         } catch (e) {
             console.error(e);
         } finally {
@@ -62,9 +78,54 @@ const Search = () => {
         }
     };
 
-    const hasResults = results.notes.length > 0 || results.quantums.length > 0 || results.pyqs.length > 0;
+    const hasResults = results.notes.length > 0 || results.quantums.length > 0 || results.pyqs.length > 0 || results.tools.length > 0;
+
+    const getIconUrl = (tool) => {
+        if (tool.faviconUrl) return tool.faviconUrl;
+        if (tool.icon && tool.icon !== '/images/default-tool-icon.png') {
+            return `${import.meta.env.VITE_API_URL}${tool.icon}`;
+        }
+        return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230d6efd"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
+    };
+
+    const renderToolCard = (tool) => (
+        <a
+            href={tool.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="tool-card h-100 text-decoration-none"
+            key={tool._id}
+            style={{ minHeight: '300px' }} // Ensure consistent height in grid
+        >
+            <div className="tool-content-wrapper">
+                <div className="tool-icon-container">
+                    <img
+                        src={getIconUrl(tool)}
+                        alt={tool.title}
+                        className="tool-icon"
+                        onError={(e) => {
+                            e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230d6efd"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
+                        }}
+                    />
+                </div>
+                <div className="tool-text-content">
+                    <h3 className="tool-name">{tool.title}</h3>
+                    <span className="tool-badge">{tool.tag || 'RESOURCE'}</span>
+                </div>
+            </div>
+
+            <p className="tool-description">{tool.description}</p>
+
+            <div className="tool-footer mt-auto">
+                <span className="visit-btn">
+                    Visit Website <i className="fas fa-external-link-alt"></i>
+                </span>
+            </div>
+        </a>
+    );
 
     const renderCard = (item, type) => {
+        // ... (existing renderCard logic)
         let title, link, imagePath, defaultImg;
         if (type === 'note') {
             title = item.title;
@@ -137,6 +198,15 @@ const Search = () => {
                     </div>
                 ) : (
                     <>
+                        {results.tools.length > 0 && (
+                            <section className="mb-5">
+                                <h4 className="border-bottom pb-2 mb-4 text-secondary"><i className="fas fa-toolbox me-2"></i>Tools & Resources</h4>
+                                <div className="tools-grid">
+                                    {results.tools.map(tool => renderToolCard(tool))}
+                                </div>
+                            </section>
+                        )}
+
                         {results.notes.length > 0 && (
                             <section className="mb-5">
                                 <h4 className="border-bottom pb-2 mb-4 text-secondary"><i className="fa fa-book me-2"></i>Notes</h4>

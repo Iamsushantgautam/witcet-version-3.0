@@ -8,7 +8,7 @@
     margin: 1.5rem auto;
     max-width: 1400px;
     z-index: 1030;
-    position: relative;
+    position: fixed;
 }
 
 .custom-navbar .container {
@@ -88,6 +88,7 @@
 .search-form {
     gap: 0.5rem;
     margin-left: 1rem;
+    transition: all 0.3s ease;
 }
 
 .search-input {
@@ -99,6 +100,8 @@
     transition: all 0.3s ease;
 }
 
+/* Create a unified focus state for the form */
+.search-form:focus-within .search-input,
 .search-input:focus {
     border-color: #0d6efd !important;
     box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15) !important;

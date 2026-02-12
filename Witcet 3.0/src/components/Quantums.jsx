@@ -3,8 +3,10 @@ import { Container, Row, Col, Card, Button, Form, Nav, Spinner, Alert } from 're
 import axios from 'axios';
 import '../styles/AllNotes.css'; // Common styles for tabs/search
 import '../styles/Quantums.css'; // Specific card styles
+import '../styles/Tools.css';
 
 import { SkeletonGrid } from './Skeleton';
+import SearchBar from './SearchBar';
 
 const Quantums = () => {
     const [quantums, setQuantums] = useState([]);
@@ -17,6 +19,7 @@ const Quantums = () => {
     // Categories configuration
     const categories = [
         { id: 'all', label: 'All' },
+        { id: '4th_year', label: ' 4th Year' },
         { id: '3rd_year', label: '📢 3rd Year' },
         { id: '2nd_year', label: '📝 2nd Year' },
         { id: '1st_year', label: '📅 1st Year' }
@@ -89,20 +92,11 @@ const Quantums = () => {
                 <h2 className="text-center text-primary mb-4 fw-bold display-6">Quantums</h2>
 
                 {/* Search Bar */}
-                <Row className="mb-4">
-                    <Col md={7} className="mx-auto">
-                        <div className="search-wrapper position-relative">
-                            <i className="fa fa-search position-absolute text-muted" style={{ left: '15px', top: '50%', transform: 'translateY(-50%)' }}></i>
-                            <Form.Control
-                                type="text"
-                                placeholder="Search quantums..."
-                                className="search-input py-2 ps-5 border-1"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </div>
-                    </Col>
-                </Row>
+                <SearchBar
+                    value={searchTerm}
+                    onChange={setSearchTerm}
+                    placeholder="Search quantums..."
+                />
 
                 {/* Category Tabs */}
                 <Nav className="justify-content-center category-tabs mb-5" variant="pills">

@@ -3,8 +3,10 @@ import { Container, Row, Col, Card, Button, Form, Nav, Spinner, Alert } from 're
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/AllNotes.css';
+import '../styles/Tools.css';
 
 import { SkeletonGrid } from './Skeleton';
+import SearchBar from './SearchBar';
 
 const AllNotes = () => {
     const [notes, setNotes] = useState([]);
@@ -100,20 +102,11 @@ const AllNotes = () => {
                 <h2 className="text-center text-primary mb-4 fw-bold display-6">Notes</h2>
 
                 {/* Search Bar */}
-                <Row className="mb-4">
-                    <Col md={7} className="mx-auto">
-                        <div className="search-wrapper position-relative">
-                            <i className="fa fa-search position-absolute text-muted" style={{ left: '15px', top: '50%', transform: 'translateY(-50%)' }}></i>
-                            <Form.Control
-                                type="text"
-                                placeholder="Search notices..."
-                                className="search-input py-2 ps-5 border-1"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </div>
-                    </Col>
-                </Row>
+                <SearchBar
+                    value={searchTerm}
+                    onChange={setSearchTerm}
+                    placeholder="Search notes..."
+                />
 
                 {/* Category Tabs */}
                 <Nav className="justify-content-center category-tabs mb-5" variant="pills">

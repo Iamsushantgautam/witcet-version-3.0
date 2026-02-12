@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Form, Nav, Spinner, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import '../styles/AllNotes.css'; // Reusing the standard landscape card styles
+import '../styles/Tools.css';
 import { SkeletonGrid } from './Skeleton';
+import SearchBar from './SearchBar';
 
 const Pyqs = () => {
     const [pyqs, setPyqs] = useState([]);
@@ -93,8 +95,6 @@ const Pyqs = () => {
         return '/images/domo-pyqs.png';
     };
 
-
-
     if (error) return (
         <Container className="py-5">
             <Alert variant="danger">{error}</Alert>
@@ -107,20 +107,11 @@ const Pyqs = () => {
                 <h2 className="text-center text-primary mb-4 fw-bold display-6">Previous Year Question Papers</h2>
 
                 {/* Search Bar */}
-                <Row className="mb-4">
-                    <Col md={7} className="mx-auto">
-                        <div className="search-wrapper position-relative">
-                            <i className="fa fa-search position-absolute text-muted" style={{ left: '15px', top: '50%', transform: 'translateY(-50%)' }}></i>
-                            <Form.Control
-                                type="text"
-                                placeholder="Search notices..."
-                                className="search-input py-2 ps-5 border-1"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </div>
-                    </Col>
-                </Row>
+                <SearchBar
+                    value={searchTerm}
+                    onChange={setSearchTerm}
+                    placeholder="Search question papers..."
+                />
 
                 {/* Category Tabs */}
                 <Nav className="justify-content-center category-tabs mb-5" variant="pills">

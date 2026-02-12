@@ -14,6 +14,7 @@ import DetailedNotesList from './pages/DetailedNotesList';
 import Updates from './pages/Updates';
 import AddUpdate from './pages/AddUpdate';
 import EditUpdate from './pages/EditUpdate';
+import ManageTools from './pages/ManageTools';
 import ForgotPassword from './pages/ForgotPassword';
 import './App.css';
 import './styles/dashboard.css';
@@ -106,6 +107,7 @@ function App() {
             <Route path="updates" element={<Updates />} />
             <Route path="updates/add" element={<AddUpdate />} />
             <Route path="updates/edit/:id" element={<EditUpdate />} />
+            <Route path="tools" element={<ManageTools />} />
             <Route path="users" element={<div className="p-8">Users Management (Coming Soon)</div>} />
             <Route path="settings" element={<div className="p-8">Settings (Coming Soon)</div>} />
           </Route>
