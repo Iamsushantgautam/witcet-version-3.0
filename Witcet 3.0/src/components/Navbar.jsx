@@ -1,19 +1,43 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, StyleSheet, useWindowDimensions, Platform } from 'react-native';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Navbar, Nav, Container, Form, Button } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import '../styles/Navbar.css';
 
 const Navigation = () => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { width } = useWindowDimensions();
-    const isMobile = width < 992; // Bootstrap lg breakpoint
+    const [expanded, setExpanded] = useState(false);
+    const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+    const navbarRef = useRef(null);
 
-    const handleSearch = () => {
+    const handleSearch = (e) => {
+        e.preventDefault();
         if (searchQuery.trim()) {
             navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+            setExpanded(false);
+            setMobileSearchOpen(false);
+            setSearchQuery('');
         }
     };
+
+    const handleMobileSearch = () => {
+        setMobileSearchOpen(!mobileSearchOpen);
+    };
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+                setExpanded(false);
+                setMobileSearchOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const navLinks = [
         { label: 'Home', path: '/' },
@@ -25,167 +49,90 @@ const Navigation = () => {
     ];
 
     return (
-        <View style={styles.navbar}>
-            <View style={[styles.container, isMobile ? styles.containerMobile : styles.containerDesktop]}>
-                <View style={[styles.headerRow, isMobile ? styles.headerRowMobile : styles.headerRowDesktop]}>
-                    <TouchableOpacity onPress={() => navigate('/')}>
-                        <Image
-                            source={{ uri: '/images/Logo.png' }}
-                            style={styles.logo}
-                            resizeMode="contain"
+        <Navbar expand="lg" bg="white" variant="light" className="custom-navbar sticky-top" expanded={expanded} ref={navbarRef}>
+            <Container>
+                <Navbar.Brand as={Link} to="/" className="navbar-brand-custom">
+                    <img
+                        src="/images/Logo.png"
+                        alt="Witcet Logo"
+                        className="navbar-logo"
+                    />
+                </Navbar.Brand>
+
+                <div className="d-flex align-items-center gap-2">
+                    {/* Mobile Search Icon */}
+                    <Button
+                        variant="link"
+                        className="mobile-search-btn d-lg-none"
+                        onClick={handleMobileSearch}
+                    >
+                        <i className={`fas ${mobileSearchOpen ? 'fa-times' : 'fa-search'}`}></i>
+                    </Button>
+
+                    <Navbar.Toggle
+                        aria-controls="basic-navbar-nav"
+                        onClick={() => setExpanded(!expanded)}
+                        className="custom-toggler"
+                    />
+                </div>
+
+                {/* Mobile Search Form - appears below navbar on mobile */}
+                {mobileSearchOpen && (
+                    <Form className="mobile-search-form d-lg-none" onSubmit={handleSearch}>
+                        <Form.Control
+                            type="search"
+                            placeholder="Search title, tag, code..."
+                            className="mobile-search-input"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            autoFocus
                         />
-                    </TouchableOpacity>
-
-                    {isMobile && (
-                        <TouchableOpacity onPress={() => setIsMenuOpen(!isMenuOpen)} style={styles.menuButton}>
-                            <Text style={styles.menuIcon}>☰</Text>
-                        </TouchableOpacity>
-                    )}
-                </View>
-
-                {(!isMobile || isMenuOpen) && (
-                    <View style={[styles.navContent, isMobile ? styles.navContentMobile : styles.navContentDesktop]}>
-                        <View style={[styles.linksContainer, isMobile && styles.linksContainerMobile]}>
-                            {navLinks.map((link) => (
-                                <TouchableOpacity key={link.path} onPress={() => {
-                                    navigate(link.path);
-                                    setIsMenuOpen(false);
-                                }} style={styles.linkItem}>
-                                    <Text style={styles.linkText}>{link.label}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-
-                        <View style={[styles.searchContainer, isMobile && styles.searchContainerMobile]}>
-                            <TextInput
-                                style={styles.searchInput}
-                                placeholder="Search title, tag, code..."
-                                value={searchQuery}
-                                onChangeText={setSearchQuery}
-                                onSubmitEditing={handleSearch}
-                                placeholderTextColor="#6c757d"
-                            />
-                            <TouchableOpacity onPress={handleSearch} style={styles.searchButton}>
-                                <Text style={styles.searchButtonText}>Search</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                        <Button
+                            variant="success"
+                            type="submit"
+                            className="mobile-search-submit"
+                        >
+                            <i className="fas fa-search me-1"></i>
+                            Search
+                        </Button>
+                    </Form>
                 )}
-            </View>
-        </View>
+
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="me-auto">
+                        {navLinks.map((link) => (
+                            <Nav.Link
+                                key={link.path}
+                                as={Link}
+                                to={link.path}
+                                onClick={() => setExpanded(false)}
+                                className="nav-link-custom"
+                            >
+                                {link.label}
+                            </Nav.Link>
+                        ))}
+                    </Nav>
+
+                    <Form className="d-flex search-form d-none d-lg-flex" onSubmit={handleSearch}>
+                        <Form.Control
+                            type="search"
+                            placeholder="Search title, tag, code..."
+                            className="search-input"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        <Button
+                            variant="outline-success"
+                            type="submit"
+                            className="search-btn"
+                        >
+                            <i className="fas fa-search"></i>
+                        </Button>
+                    </Form>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
 };
-
-const styles = StyleSheet.create({
-    navbar: {
-        backgroundColor: '#f8f9fa',
-        paddingVertical: 12,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
-        zIndex: 1000,
-        position: 'sticky',
-        top: 0,
-        width: '100%',
-    },
-    container: {
-        width: '100%',
-        maxWidth: 1320,
-        alignSelf: 'center',
-        paddingHorizontal: 16,
-    },
-    containerDesktop: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    containerMobile: {
-        flexDirection: 'column',
-    },
-    headerRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    headerRowDesktop: {
-        marginRight: 24, // Add spacing between logo and links
-        flexShrink: 0,   // Prevent logo container from shrinking
-    },
-    headerRowMobile: {
-        width: '100%',
-        justifyContent: 'space-between',
-    },
-    logo: {
-        height: 45,       // Slightly larger height
-        width: 180,       // Increased width to fit logo text
-    },
-    menuButton: {
-        padding: 8,
-    },
-    menuIcon: {
-        fontSize: 24,
-        color: 'rgba(0,0,0,0.5)',
-    },
-    navContent: {
-        flex: 1,
-    },
-    navContentDesktop: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    navContentMobile: {
-        flexDirection: 'column',
-        marginTop: 16,
-        width: '100%',
-    },
-    linksContainer: {
-        flexDirection: 'row',
-    },
-    linksContainerMobile: {
-        flexDirection: 'column',
-        marginBottom: 16,
-    },
-    linkItem: {
-        paddingHorizontal: 12, // Reduced padding to fit more items
-        paddingVertical: 8,
-    },
-    linkText: {
-        fontSize: 16,
-        color: '#475569', // text-secondary
-        fontWeight: '500',
-    },
-    searchContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    searchContainerMobile: {
-        width: '100%',
-    },
-    searchInput: {
-        height: 40,
-        borderColor: '#ced4da',
-        borderWidth: 1,
-        borderRadius: 20,
-        paddingHorizontal: 16,
-        backgroundColor: '#fff',
-        marginRight: 8,
-        width: 200,
-        outlineStyle: 'none',
-    },
-    searchButton: {
-        backgroundColor: 'transparent',
-        borderWidth: 1,
-        borderColor: '#198754',
-        borderRadius: 20,
-        paddingVertical: 8,
-        paddingHorizontal: 20,
-    },
-    searchButtonText: {
-        color: '#198754',
-        fontWeight: '500',
-    }
-});
 
 export default Navigation;

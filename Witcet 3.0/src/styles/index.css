@@ -28,7 +28,7 @@ html {
 
 body {
   font-family: 'Outfit', sans-serif;
-  background-color: var(--bg-dark);
+  background-color: #ffffff;
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
