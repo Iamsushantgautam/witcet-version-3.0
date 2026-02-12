@@ -16,6 +16,26 @@
 @media (max-width: 991px) {
     .main-content-light {
         margin-left: 0;
-        padding: 80px 20px 20px;
+        padding: 20px;
+        padding-top: 20px;
+    }
+
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        background: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        position: sticky;
+        top: 0;
+        z-index: 1020;
+    }
+
+    /* Move main content down below header if needed, 
+       but here header is part of flex column or before main.
+       Ideally Layout should be flex-col for mobile.
+    */
+    .app-container {
+        flex-direction: column;
     }
 }

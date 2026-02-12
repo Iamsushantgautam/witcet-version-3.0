@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
@@ -17,9 +18,65 @@ import ForgotPassword from './pages/ForgotPassword';
 import './App.css';
 import './styles/dashboard.css';
 
+
+
+// Auto-logout after 1 hour of inactivity
+const INACTIVITY_LIMIT = 60 * 60 * 1000; // 1 hour
+
+const InactivityMonitor = ({ children }) => {
+  const navigate = useNavigate();
+
+  const logout = useCallback(() => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
+  }, [navigate]);
+
+  useEffect(() => {
+    let timer;
+
+    // Check if token exists on mount
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    const resetTimer = () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(logout, INACTIVITY_LIMIT);
+    };
+
+    // Events to track user activity
+    window.addEventListener('mousemove', resetTimer);
+    window.addEventListener('keypress', resetTimer);
+    window.addEventListener('click', resetTimer);
+    window.addEventListener('scroll', resetTimer);
+
+    // Initial start
+    resetTimer();
+
+    return () => {
+      if (timer) clearTimeout(timer);
+      window.removeEventListener('mousemove', resetTimer);
+      window.removeEventListener('keypress', resetTimer);
+      window.removeEventListener('click', resetTimer);
+      window.removeEventListener('scroll', resetTimer);
+    };
+  }, [logout]);
+
+  return children;
+};
+
 const PrivateRoute = ({ children }) => {
   const isAuthenticated = !!localStorage.getItem('token');
-  return isAuthenticated ? children : <Navigate to="/login" />;
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+
+  return (
+    <InactivityMonitor>
+      {children}
+    </InactivityMonitor>
+  );
 };
 
 function App() {

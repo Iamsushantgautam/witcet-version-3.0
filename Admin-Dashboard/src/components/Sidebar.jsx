@@ -9,11 +9,12 @@ import {
     FilePlus,
     List,
     Bell,
-    LogOut
+    LogOut,
+    X // Import Close Icon
 } from 'lucide-react';
 import './Sidebar.css';
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
 
     const menuItems = [
@@ -34,9 +35,16 @@ const Sidebar = () => {
     };
 
     return (
-        <aside className="sidebar-light">
-            <div className="sidebar-header">
+        <aside className={`sidebar-light ${isOpen ? 'show' : ''}`}>
+            <div className="sidebar-header d-flex justify-content-between align-items-center">
                 <h2 className="sidebar-title">Admin Panel</h2>
+                {/* Close Button for Mobile */}
+                <button
+                    className="btn btn-link text-white d-lg-none p-0"
+                    onClick={onClose}
+                >
+                    <X size={24} />
+                </button>
             </div>
 
             <nav className="sidebar-nav">
@@ -47,6 +55,7 @@ const Sidebar = () => {
                         className={({ isActive }) =>
                             `sidebar-link ${isActive ? 'active' : ''}`
                         }
+                        onClick={() => onClose && onClose()} // Close drawer when link clicked
                     >
                         {item.icon}
                         <span>{item.label}</span>
