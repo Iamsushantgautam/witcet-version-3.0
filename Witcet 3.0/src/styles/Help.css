@@ -5,141 +5,297 @@
 }
 
 .help-header {
-    background-color: #0D6EFD;
-    /* Bootstrap Indigo */
+    background-color: #6366f1;
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
     color: white;
-    padding: 3rem 0;
+    padding: 3rem 0 5rem;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: -3rem;
+    position: relative;
+    z-index: 0;
+}
+
+.help-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3rem;
+    background: #f8fafc;
+    border-top-left-radius: 50% 100%;
+    border-top-right-radius: 50% 100%;
 }
 
 .help-header h1 {
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 0.5rem;
+    letter-spacing: -1px;
 }
 
 .help-header .lead {
     font-size: 1.1rem;
     opacity: 0.9;
-    color: white;
 }
 
 .help-container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
-    padding-bottom: 3rem;
+    padding: 2rem 1rem 3rem;
 }
 
+/* Support Cards */
 .support-card {
     background: white;
-    border-radius: 12px;
+    border-radius: 16px;
     padding: 2rem;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     height: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative circle for support cards */
+.support-card::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(79, 70, 229, 0.05) 100%);
+    z-index: 0;
 }
 
 .support-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(99, 102, 241, 0.15);
+}
+
+.support-card h5,
+.support-card p,
+.support-card a {
+    position: relative;
+    z-index: 1;
 }
 
 .support-icon {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: #0D6EFD;
+    color: #6366f1;
+    position: relative;
+    z-index: 1;
+}
+
+.support-card h5 {
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+}
+
+/* FAQ Section */
+.faq-section {
+    margin-top: 3rem;
 }
 
 .faq-section h2 {
-    color: #333;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
+    color: #1f2937;
+    font-weight: 800;
+    margin-bottom: 2rem;
     text-align: center;
+    font-size: 2rem;
 }
 
 /* Custom Accordion Styles */
 .accordion-item {
     border: none;
     margin-bottom: 1rem;
-    border-radius: 8px !important;
+    border-radius: 12px !important;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+.accordion-item:hover {
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.1);
+}
+
+.accordion-button {
+    font-weight: 600;
+    color: #374151;
+    padding: 1.25rem 1.5rem;
+    background-color: #fff;
+    border: none;
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: #fff;
-    color: #0D6EFD;
-    font-weight: 600;
+    background-color: #f9fafb;
+    color: #6366f1;
+    font-weight: 700;
     box-shadow: none;
 }
 
-
+.accordion-button:focus {
+    border-color: transparent;
+    box-shadow: none;
+}
 
 .accordion-body {
     background-color: white;
-    color: #4a5568;
-    line-height: 1.6;
+    color: #4b5563;
+    line-height: 1.7;
+    padding: 1.5rem;
 }
 
-/* Contact Details Card specific styles */
+.accordion-body a {
+    color: #6366f1;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.accordion-body a:hover {
+    text-decoration: underline;
+}
+
+/* Contact Details Card */
 .contact-details-card {
     background: white;
-    border-radius: 8px;
-    padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    border-left: 5px solid #00BFFF;
-    /* Deep Sky Blue accent */
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    margin-top: 3rem;
     margin-bottom: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Decorative gradient bar */
+.contact-details-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+/* Decorative circle */
+.contact-details-card::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    right: -40px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.05) 100%);
+    z-index: 0;
 }
 
 .contact-details-title {
-    color: #00BFFF;
-    font-size: 1.5rem;
-    font-weight: 600;
+    color: #6366f1;
+    font-size: 1.75rem;
+    font-weight: 800;
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    position: relative;
+    z-index: 1;
+}
+
+.contact-details-card>p {
+    position: relative;
+    z-index: 1;
 }
 
 .contact-section-title {
     font-weight: 700;
-    color: #333;
-    margin-bottom: 0.25rem;
+    color: #374151;
+    margin-bottom: 0.5rem;
     display: block;
 }
 
 .contact-link {
-    color: #00BFFF;
+    color: #6366f1;
     text-decoration: none;
     font-weight: 500;
     display: block;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .contact-link:hover {
     text-decoration: underline;
-    color: #009acd;
+    color: #4f46e5;
+    transform: translateX(3px);
 }
 
 .contact-note {
     font-style: italic;
-    color: #666;
-    margin-top: 1.5rem;
-    font-size: 0.95rem;
+    color: #6b7280;
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    padding: 1rem;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    border-left: 3px solid #6366f1;
+    position: relative;
+    z-index: 1;
 }
 
 .contact-icon-row {
     display: flex;
     align-items: flex-start;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.contact-icon-row:hover {
+    background-color: #f9fafb;
 }
 
 .contact-icon-box {
-    color: #00BFFF;
-    font-size: 1.5rem;
+    color: #6366f1;
+    font-size: 1.75rem;
     margin-top: 2px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .help-container {
+        padding: 1.5rem 1rem 2rem;
+    }
+
+    .support-card {
+        margin-bottom: 1rem;
+    }
+
+    .contact-details-card {
+        padding: 1.5rem;
+    }
+
+    .faq-section h2 {
+        font-size: 1.5rem;
+    }
 }

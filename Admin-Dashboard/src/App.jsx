@@ -65,6 +65,8 @@ const InactivityMonitor = ({ children }) => {
   return children;
 };
 
+import { View, StyleSheet, Platform } from 'react-native';
+
 const PrivateRoute = ({ children }) => {
   const isAuthenticated = !!localStorage.getItem('token');
 
@@ -81,36 +83,46 @@ const PrivateRoute = ({ children }) => {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
+    <View style={styles.container}>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
 
-        <Route path="/" element={
-          <PrivateRoute>
-            <Layout />
-          </PrivateRoute>
-        }>
-          <Route index element={<Dashboard />} />
-          <Route path="add-note" element={<AddNote />} />
-          <Route path="edit-note/:id" element={<EditNote />} />
-          <Route path="quantum" element={<Quantum />} />
-          <Route path="pyqs" element={<PYQs />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="add-detailed-notes" element={<AddDetailedNotes />} />
-          <Route path="detailed-notes" element={<DetailedNotesList />} />
-          <Route path="edit-detailed-notes/:id" element={<EditDetailedNotes />} />
-          <Route path="updates" element={<Updates />} />
-          <Route path="updates/add" element={<AddUpdate />} />
-          <Route path="updates/edit/:id" element={<EditUpdate />} />
-          <Route path="users" element={<div className="p-8">Users Management (Coming Soon)</div>} />
-          <Route path="settings" element={<div className="p-8">Settings (Coming Soon)</div>} />
-        </Route>
+          <Route path="/" element={
+            <PrivateRoute>
+              <Layout />
+            </PrivateRoute>
+          }>
+            <Route index element={<Dashboard />} />
+            <Route path="add-note" element={<AddNote />} />
+            <Route path="edit-note/:id" element={<EditNote />} />
+            <Route path="quantum" element={<Quantum />} />
+            <Route path="pyqs" element={<PYQs />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="add-detailed-notes" element={<AddDetailedNotes />} />
+            <Route path="detailed-notes" element={<DetailedNotesList />} />
+            <Route path="edit-detailed-notes/:id" element={<EditDetailedNotes />} />
+            <Route path="updates" element={<Updates />} />
+            <Route path="updates/add" element={<AddUpdate />} />
+            <Route path="updates/edit/:id" element={<EditUpdate />} />
+            <Route path="users" element={<div className="p-8">Users Management (Coming Soon)</div>} />
+            <Route path="settings" element={<div className="p-8">Settings (Coming Soon)</div>} />
+          </Route>
 
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Router>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </Router>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: Platform.OS === 'web' ? '100vh' : '100%',
+    width: '100%',
+  },
+});
 
 export default App;

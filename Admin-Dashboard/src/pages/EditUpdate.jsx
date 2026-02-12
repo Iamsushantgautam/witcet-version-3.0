@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../utils/api';
-import { ArrowLeft, Save } from 'lucide-react';
+import { ArrowLeft, Save, Upload, X } from 'lucide-react';
 import './AddUpdate.css';
 
 const EditUpdate = () => {
@@ -18,6 +18,7 @@ const EditUpdate = () => {
     });
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [uploadingImage, setUploadingImage] = useState(false);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -51,6 +52,51 @@ const EditUpdate = () => {
             ...formData,
             [name]: type === 'checkbox' ? checked : value
         });
+    };
+
+    const handleImageUpload = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith('image/')) {
+            alert('Please select an image file');
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            alert('Image size should be less than 5MB');
+            return;
+        }
+
+        setUploadingImage(true);
+        const formDataUpload = new FormData();
+        formDataUpload.append('image', file);
+        formDataUpload.append('folder', 'witcet/update');
+
+        try {
+            const res = await api.post('/upload/upload', formDataUpload, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            setFormData(prev => ({
+                ...prev,
+                imageUrl: res.data.url
+            }));
+        } catch (err) {
+            console.error('Upload error:', err);
+            alert('Failed to upload image. Please try again.');
+        } finally {
+            setUploadingImage(false);
+        }
+    };
+
+    const clearImage = () => {
+        setFormData(prev => ({
+            ...prev,
+            imageUrl: ''
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -142,19 +188,73 @@ const EditUpdate = () => {
                 </div>
 
                 <div className="form-group">
-                    <label className="form-label">🖼️ Image URL (Google Drive or Direct Link)</label>
-                    <input
-                        type="url"
-                        name="imageUrl"
-                        className="form-input"
-                        placeholder="https://drive.google.com/..."
-                        value={formData.imageUrl}
-                        onChange={handleChange}
-                    />
+                    <label className="form-label">🖼️ Image URL (Upload or Link)</label>
+                    <div className="upload-wrapper" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                        <input
+                            type="url"
+                            name="imageUrl"
+                            className="form-input"
+                            placeholder="https://drive.google.com/..."
+                            value={formData.imageUrl}
+                            onChange={handleChange}
+                            style={{ flex: 1 }}
+                        />
+                        <label className="btn-upload" style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            padding: '10px 15px',
+                            background: '#4f7cff',
+                            color: 'white',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                            whiteSpace: 'nowrap'
+                        }}>
+                            <Upload size={16} />
+                            {uploadingImage ? 'Uploading...' : 'Upload'}
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                                disabled={uploadingImage}
+                                style={{ display: 'none' }}
+                            />
+                        </label>
+                        {formData.imageUrl && (
+                            <button
+                                type="button"
+                                onClick={clearImage}
+                                style={{
+                                    border: 'none',
+                                    background: '#fee2e2',
+                                    color: '#ef4444',
+                                    padding: '10px',
+                                    borderRadius: '8px',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <X size={18} />
+                            </button>
+                        )}
+                    </div>
                     {formData.imageUrl && (
-                        <div className="current-image-preview">
-                            <p className="preview-label"><strong>Current Image:</strong></p>
-                            <img src={formData.imageUrl} alt="Current" className="preview-img" />
+                        <div className="current-image-preview" style={{ marginTop: '10px' }}>
+                            <p className="preview-label" style={{ marginBottom: '5px', fontSize: '0.85rem', color: '#6b7280' }}><strong>Current Image:</strong></p>
+                            <img
+                                src={formData.imageUrl}
+                                alt="Current"
+                                className="preview-img"
+                                style={{
+                                    maxHeight: '200px',
+                                    borderRadius: '8px',
+                                    border: '1px solid #e5e7eb',
+                                    boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+                                }}
+                            />
                         </div>
                     )}
                 </div>

@@ -86,7 +86,7 @@ const ForgotPassword = () => {
                                                 <Mail size={18} className="position-absolute top-50 start-0 translate-middle-y ms-3 text-muted" />
                                                 <Form.Control
                                                     type="email"
-                                                    placeholder="admin@witcet.com"
+                                                    placeholder="email"
                                                     value={email}
                                                     onChange={(e) => setEmail(e.target.value)}
                                                     required

@@ -70,79 +70,100 @@ const Contact = () => {
                 </Container>
             </header>
 
-            <Container>
-                {/* Telegram Alert */}
-                <Row className="justify-content-center">
-                    <Col md={8} lg={6}>
-                        <div className="telegram-alert">
-                            <h4><i className="fab fa-telegram me-2"></i> Need Fast Reply?</h4>
-                            <p className="mb-2">Join our Telegram channel for instant support and quick responses!</p>
-                            <a
-                                href="https://t.me/+mKi_iF1EsEg2MDU1"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="telegram-btn"
-                            >
-                                <i className="fab fa-telegram me-2"></i> Join Telegram Channel
-                            </a>
+            <Container className="my-5">
+                <Row className="g-5">
+                    {/* Left Side: Contact Details */}
+                    <Col lg={5} md={12} className="contact-details-col">
+                        <div className="contact-info-card p-4 h-100">
+                            <h2 className="mb-4 text-white">Contact Information</h2>
+                            <p className="mb-5 text-white-50">Fill up the form and our Team will get back to you within 24 hours.</p>
+
+                            <div className="contact-item mb-4 d-flex align-items-start">
+                                <div className="icon-circle me-3">
+                                    <i className="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h5 className="text-white mb-1">Email</h5>
+                                    <p className="text-white-50 mb-0">witcet@zohomail.in</p>
+                                </div>
+                            </div>
+
+                            <div className="contact-item mb-4 d-flex align-items-start">
+                                <div className="icon-circle me-3">
+                                    <i className="fab fa-telegram-plane"></i>
+                                </div>
+                                <div>
+                                    <h5 className="text-white mb-2">Telegram</h5>
+                                    <a href="https://t.me/+mKi_iF1EsEg2MDU1" target="_blank" rel="noopener noreferrer" className="btn btn-outline-light btn-sm rounded-pill px-3">
+                                        Join Channel <i className="fas fa-paper-plane ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </Col>
-                </Row>
 
-                {/* Contact Form */}
-                <Row className="justify-content-center">
-                    <Col md={8} lg={7}>
-                        <div className="contact-container">
-                            <h2 className="contact-title">Send us a Message</h2>
-                            <p className="contact-subtitle">Fill out the form below and we'll get back to you as soon as possible</p>
+                    {/* Right Side: Contact Form */}
+                    <Col lg={7} md={12}>
+                        <div className="contact-form-card bg-white p-4 p-md-5 rounded-3 shadow-sm h-100">
+                            <h2 className="contact-title text-start mb-2">Send us a Message</h2>
+                            <p className="contact-subtitle text-start mb-4">We'd love to hear from you!</p>
 
                             <form onSubmit={handleSubmit}>
-                                <div className="form-group">
-                                    <label htmlFor="name" className="form-label">Your Name *</label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        className="form-control-custom"
-                                        required
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                    />
-                                </div>
+                                <Row>
+                                    <Col md={6}>
+                                        <div className="form-group mb-3">
+                                            <label htmlFor="name" className="form-label small text-muted">Your Name</label>
+                                            <input
+                                                type="text"
+                                                id="name"
+                                                name="name"
+                                                className="form-control form-control-lg bg-light border-0"
+                                                placeholder="John Doe"
+                                                required
+                                                value={formData.name}
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                    </Col>
+                                    <Col md={6}>
+                                        <div className="form-group mb-3">
+                                            <label htmlFor="email" className="form-label small text-muted">Your Email</label>
+                                            <input
+                                                type="email"
+                                                id="email"
+                                                name="email"
+                                                className="form-control form-control-lg bg-light border-0"
+                                                placeholder="john@example.com"
+                                                required
+                                                value={formData.email}
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                    </Col>
+                                </Row>
 
-                                <div className="form-group">
-                                    <label htmlFor="email" className="form-label">Your Email *</label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        className="form-control-custom"
-                                        required
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="subject" className="form-label">Subject *</label>
+                                <div className="form-group mb-3">
+                                    <label htmlFor="subject" className="form-label small text-muted">Subject</label>
                                     <input
                                         type="text"
                                         id="subject"
                                         name="subject"
-                                        className="form-control-custom"
+                                        className="form-control form-control-lg bg-light border-0"
+                                        placeholder="Project Inquiry"
                                         required
                                         value={formData.subject}
                                         onChange={handleChange}
                                     />
                                 </div>
 
-                                <div className="form-group">
-                                    <label htmlFor="message" className="form-label">Message *</label>
+                                <div className="form-group mb-4">
+                                    <label htmlFor="message" className="form-label small text-muted">Message</label>
                                     <textarea
                                         id="message"
                                         name="message"
-                                        rows="6"
-                                        className="form-control-custom"
+                                        rows="5"
+                                        className="form-control form-control-lg bg-light border-0"
+                                        placeholder="Write your message here..."
                                         required
                                         value={formData.message}
                                         onChange={handleChange}
@@ -151,7 +172,7 @@ const Contact = () => {
 
                                 <button
                                     type="submit"
-                                    className="submit-btn"
+                                    className="btn btn-primary btn-lg w-100 fw-bold"
                                     disabled={status === 'sending'}
                                 >
                                     {status === 'sending' ? (
@@ -160,21 +181,19 @@ const Contact = () => {
                                         </>
                                     ) : (
                                         <>
-                                            <i className="fas fa-paper-plane me-2"></i> Send Message
+                                            Send Message <i className="fas fa-paper-plane ms-2"></i>
                                         </>
                                     )}
                                 </button>
                             </form>
 
-                            {/* Success Message */}
+                            {/* Status Messages */}
                             {showSuccess && (
                                 <Alert variant="success" className="mt-4 text-center">
-                                    <h4><i className="fas fa-check-circle me-2"></i> Message Sent Successfully!</h4>
-                                    <p className="mb-0">Thank you for contacting us! We've received your message and will get back to you soon.</p>
+                                    <i className="fas fa-check-circle me-2"></i> Message Sent Successfully!
                                 </Alert>
                             )}
 
-                            {/* Error Message */}
                             {status === 'error' && (
                                 <Alert variant="danger" className="mt-4 text-center">
                                     Failed to send message. Please try again.

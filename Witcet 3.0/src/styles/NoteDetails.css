@@ -1,7 +1,9 @@
 /* NoteDetails.css */
 .note-details-page {
     background-color: #ffffff;
-    min-height: 100vh;
+    min-height: auto;
+    padding-bottom: 50px;
+    /* Add some padding at the bottom so it doesn't look cut off */
 }
 
 /* Header Text */
@@ -27,6 +29,7 @@
     max-width: 1000px;
     margin: 0 auto;
     border: 1px solid #eee;
+    min-height: auto;
 }
 
 /* Section Titles (Blue Header) */

@@ -97,36 +97,37 @@ const Updates = () => {
                                                     <div className="d-flex justify-content-between align-items-start mb-3">
                                                         <div className="d-flex align-items-center justify-content-between w-100">
                                                             <h5 className="update-title mb-0">{update.title}</h5>
-                                                            <div className="download-buttons">
-                                                                {update.imageUrl && (
-                                                                    <a
-                                                                        href={update.imageUrl}
-                                                                        download
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
-                                                                        className="btn btn-sm btn-outline-primary me-2 download-btn image-download-btn"
-                                                                        title="Download Image"
-                                                                    >
-                                                                        <i className="fa fa-image me-1"></i>Download
-                                                                    </a>
-                                                                )}
-                                                                {update.pdfLink && (
-                                                                    <a
-                                                                        href={update.pdfLink}
-                                                                        download
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
-                                                                        className="btn btn-sm btn-outline-danger download-btn pdf-download-btn"
-                                                                        title="Download PDF"
-                                                                    >
-                                                                        <i className="fa fa-file-pdf me-1"></i>Download
-                                                                    </a>
-                                                                )}
-                                                            </div>
                                                         </div>
                                                     </div>
 
                                                     <p className="update-description">{update.description}</p>
+
+                                                    <div className="download-buttons mb-3">
+                                                        {update.imageUrl && (
+                                                            <a
+                                                                href={update.imageUrl}
+                                                                download
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="btn btn-sm btn-outline-primary me-2 download-btn image-download-btn"
+                                                                title="Download Image"
+                                                            >
+                                                                <i className="fa fa-image me-1"></i>Download
+                                                            </a>
+                                                        )}
+                                                        {update.pdfLink && (
+                                                            <a
+                                                                href={update.pdfLink}
+                                                                download
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="btn btn-sm btn-outline-danger download-btn pdf-download-btn"
+                                                                title="Download PDF"
+                                                            >
+                                                                <i className="fa fa-file-pdf me-1"></i>Download
+                                                            </a>
+                                                        )}
+                                                    </div>
 
                                                     <div className="update-meta mt-auto">
                                                         <div className="d-flex justify-content-between align-items-center">
@@ -179,16 +180,7 @@ const Updates = () => {
                                     </Row>
                                 )}
 
-                                {/* Back to Top Button */}
-                                {showTopBtn && (
-                                    <button
-                                        id="backToTop"
-                                        className="btn btn-secondary"
-                                        onClick={handleScrollToTop}
-                                    >
-                                        <i className="fa fa-arrow-up"></i>
-                                    </button>
-                                )}
+
                             </>
                         )}
                     </Col>
