@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Navigation from './Navbar';
+import '../styles/Hero.css';
 
 const Hero = () => {
     const imageRef = useRef(null);
@@ -28,7 +29,7 @@ const Hero = () => {
     };
 
     return (
-        <section className="hero-section position-relative pb-0 overflow-hidden bg-light">
+        <section className="hero-section position-relative overflow-hidden bg-light">
             <Navigation />
             {/* Background Decor */}
             <div className="position-absolute top-0 start-0 w-100 h-100" style={{ zIndex: 0, pointerEvents: 'none' }}>
@@ -38,9 +39,9 @@ const Hero = () => {
                     style={{ width: '30vw', height: '30vw', filter: 'blur(80px)', transform: 'translate(-20%, 20%)', opacity: 0.1 }} />
             </div>
 
-            <Container className="position-relative">
-                <Row className="flex-lg-row-reverse align-items-center g-5 py-3">
-                    <Col xs={10} sm={8} lg={6} className="mx-auto">
+            <Container className="hero-content-container">
+                <Row className="flex-lg-row-reverse align-items-center g-lg-5 g-3 py-3">
+                    <Col xs={12} lg={6} className="hero_img_container">
                         <div
                             style={{
                                 perspective: '1000px',
@@ -69,18 +70,18 @@ const Hero = () => {
                         </div>
                     </Col>
                     <Col lg={6}>
-                        <div className="mb-4">
+                        <div className="text-center text-lg-start mb-4">
                             <span className="badge bg-light text-primary border px-3 py-2 rounded-pill mb-3 fw-bold shadow-sm">
                                 🚀 #1 Education Platform
                             </span>
-                            <h1 className="display-4 fw-bolder col-lg-12 lh-1 mb-3 text-dark">
+                            <h1 className="display-4 fw-bolder lh-1 mb-3 text-dark">
                                 Admit Your <span className="text-primary" style={{ background: 'linear-gradient(45deg, #0d6efd, #0dcaf0)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Dream University</span> Through WITCET
                             </h1>
                             <p className="lead text-secondary mb-4" style={{ lineHeight: '1.8' }}>
                                 Unlock your potential with WITCET, standardizing <b>AKTU Notes</b>, <b>Quantums</b>, and <b>PYQs</b>.
                                 We offer expert guidance, interactive study materials, and curated tools to help you excel in your exams.
                             </p>
-                            <div className="d-grid gap-3 d-md-flex justify-content-md-start">
+                            <div className="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-lg-start">
                                 <Link to="/notes" className="btn btn-primary btn-lg px-4 rounded-pill fw-bold shadow-sm hover-lift">
                                     Get Started
                                 </Link>
@@ -100,8 +101,8 @@ const Hero = () => {
             </Container>
 
             {/* Wave Divider */}
-            <div className="position-absolute bottom-0 start-0 w-100" style={{ lineHeight: 0, zIndex: 1 }}>
-                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" style={{ width: '100%', height: '80px', fill: '#ffffff', transform: 'rotate(180deg)' }}>
+            <div className="wave-divider-container">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="wave-divider">
                     <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
                 </svg>
             </div>

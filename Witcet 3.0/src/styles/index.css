@@ -175,6 +175,17 @@ button {
   border-color: var(--primary) !important;
 }
 
+@media (min-width: 992px) and (max-width: 1200px) {
+  .button-container {
+    gap: 1rem;
+  }
+
+  .btn-custom {
+    padding: 0.6rem 1rem !important;
+    font-size: 0.9rem !important;
+  }
+}
+
 .btn-icon {
   width: 40px;
   height: 40px;

@@ -1,0 +1,74 @@
+.hero-section {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-content-container {
+    position: relative;
+    z-index: 5;
+}
+
+.wave-divider-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    line-height: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.wave-divider {
+    width: 100%;
+    height: 100px;
+    fill: #ffffff;
+    transform: rotate(180deg);
+}
+
+@media (max-width: 991px) {
+    .hero-section {
+        padding-top: 1rem;
+        padding-bottom: 70px !important;
+        /* Reduced from 140px to tighten up the space */
+        /* Significant padding to clear the wave and give breathing room */
+    }
+
+    .wave-divider {
+        height: 40px;
+        /* Reduced from 60px */
+        /* Shorter wave on mobile */
+    }
+
+    .hero_img_container {
+        margin-bottom: 1rem;
+    }
+
+    .display-4 {
+        font-size: 2.5rem !important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .display-4 {
+        font-size: 3rem !important;
+    }
+
+    .hero-section {
+        min-height: 75vh;
+    }
+
+    .lead {
+        font-size: 1.1rem;
+    }
+}
+
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}

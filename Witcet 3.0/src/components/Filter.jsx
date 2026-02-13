@@ -41,7 +41,7 @@ const Filter = () => {
     ];
 
     return (
-        <Container className="custom-sc pt-5 pb-2">
+        <Container className="custom-sc pt-lg-5 pt-3 pb-2">
             <div className="button-container d-flex justify-content-center flex-wrap gap-4">
                 {filterItems.map((item, index) => (
                     <a key={index} href={item.href} className="btn btn-custom animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
