@@ -21,7 +21,6 @@ const About = () => {
                             alt="Team Collaboration"
                             className="about-image"
                             onError={(e) => {
-                                // Fallback if external image fails
                                 e.target.src = 'https://via.placeholder.com/600x400?text=About+Us+Team';
                             }}
                         />
@@ -33,7 +32,7 @@ const About = () => {
                             <h2>Our Mission</h2>
                             <p>
                                 Our goal is to create an educational platform that helps students and
-                                learners to access quality resources efficiently.
+                                learners to access quality resources efficiently, removing the barriers to high-quality notes and guidance.
                             </p>
                         </div>
 

@@ -105,14 +105,7 @@ const HomeUpdates = () => {
                                                 <i className="fas fa-file-pdf me-1"></i> View PDF
                                             </Button>
                                         )}
-                                        <Button
-                                            variant="light"
-                                            size="sm"
-                                            className="rounded-pill px-3 fw-bold flex-grow-1"
-                                            onClick={() => navigate('/updates')}
-                                        >
-                                            Details
-                                        </Button>
+
                                     </div>
                                 </Card.Body>
                             </Card>

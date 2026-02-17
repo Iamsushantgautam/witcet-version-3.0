@@ -288,18 +288,6 @@ const HomeOffers = () => {
                                                 selectedOffer.offerType === 'fixed_amount' ? `SAVE ${formatCurrency(selectedOffer.discountValue)}` : 'VOUCHER'}
                                         </div>
                                     </div>
-                                    <div className="modal-bottom-info">
-                                        <h5 className="text-white fw-bold mb-1">{selectedOffer.title}</h5>
-                                        <div className="text-white-50 small">Official Partner Deal</div>
-                                        <div className="text-warning small mt-1">
-                                            <i className="fas fa-star"></i>
-                                            <i className="fas fa-star"></i>
-                                            <i className="fas fa-star"></i>
-                                            <i className="fas fa-star"></i>
-                                            <i className="fas fa-star-half-alt"></i>
-                                            <span className="ms-1 text-white">(4.8)</span>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 {/* Right Side - Content */}
