@@ -1,76 +1,100 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
+import '../styles/Filter.css';
 
 const Filter = () => {
     const filterItems = [
         {
             title: 'B.Tech Notes',
+            subtitle: 'Handwritten & Typed',
             href: '/notes',
             icon: '/images/notepad.png',
-            bgColor: '#d1b3ff',
+            bgColor: '#eff6ff', // Soft Blue
+            iconColor: '#3b82f6',
             isIcon: false
         },
         {
-            title: 'Quantum',
+            title: 'Quantum Series',
+            subtitle: 'Quick Revision',
             href: '/quantums',
             icon: '/images/stack-of-books.png',
-            bgColor: '#ccffcc',
+            bgColor: '#ecfdf5', // Soft Green
+            iconColor: '#10b981',
             isIcon: false
         },
         {
-            title: 'Last 5 Year PYQ',
+            title: 'PYQ Papers',
+            subtitle: 'Last 5+ Years',
             href: '/pyqs',
             icon: '/images/light-bulb.png',
-            bgColor: '#b3e0ff',
+            bgColor: '#fff7ed', // Soft Orange
+            iconColor: '#f97316',
             isIcon: false
         },
         {
-            title: 'Updates',
+            title: 'Latest Updates',
+            subtitle: 'Stay Informed',
             href: '/updates',
             icon: '/images/updates.png',
-            bgColor: '#f3a9a9ff',
+            bgColor: '#fff1f2', // Soft Rose
+            iconColor: '#e11d48',
             isIcon: false
         },
         {
-            title: 'Tools',
+            title: 'Dev Tools',
+            subtitle: 'Build Faster',
             href: '/tools',
-            icon: 'fa fa-tools',
-            bgColor: '#b3e0ff',
+            icon: 'fas fa-tools',
+            bgColor: '#f5f3ff', // Soft Purple
+            iconColor: '#8b5cf6',
             isIcon: true
         },
         {
-            title: 'Offers',
+            title: 'Special Offers',
+            subtitle: 'Save Big',
             href: '/offers',
             icon: '/images/offers.png',
-            bgColor: '#b3e0ff',
+            bgColor: '#f0f9ff', // Soft Sky
+            iconColor: '#0ea5e9',
             isIcon: false
         }
     ];
 
     return (
-        <Container className="custom-sc pt-lg-5 pt-3 pb-2">
-            <div className="button-container d-flex justify-content-center flex-wrap gap-4">
-                {filterItems.map((item, index) => (
-                    <a key={index} href={item.href} className="btn btn-custom animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                        <span className="btn-icon" style={{ backgroundColor: item.bgColor }}>
-                            {item.isIcon ? (
-                                <i className={item.icon} aria-hidden="true" style={{ fontSize: '1.2rem', color: '#333' }}></i>
-                            ) : (
-                                <img
-                                    src={item.icon}
-                                    alt={item.title}
-                                    onError={(e) => {
-                                        e.target.style.display = 'none';
-                                        e.target.parentElement.innerHTML = '📚';
-                                    }}
-                                />
-                            )}
-                        </span>
-                        {item.title}
-                    </a>
-                ))}
-            </div>
-        </Container>
+        <section className="filter-section">
+            <Container>
+                <div className="filter-grid">
+                    {filterItems.map((item, index) => (
+                        <a
+                            key={index}
+                            href={item.href}
+                            className="filter-item-card animate-grid-item"
+                            style={{ animationDelay: `${index * 0.1}s` }}
+                        >
+                            <div className="filter-icon-box" style={{ backgroundColor: item.bgColor }}>
+                                {item.isIcon ? (
+                                    <i className={item.icon} aria-hidden="true" style={{ color: item.iconColor }}></i>
+                                ) : (
+                                    <img
+                                        src={item.icon}
+                                        alt={item.title}
+                                        onError={(e) => {
+                                            e.target.style.display = 'none';
+                                            const icon = document.createElement('i');
+                                            icon.className = 'fas fa-book';
+                                            icon.style.color = item.iconColor;
+                                            e.target.parentElement.appendChild(icon);
+                                        }}
+                                    />
+                                )}
+                            </div>
+                            <h3 className="filter-title">{item.title}</h3>
+                            <span className="filter-subtitle">{item.subtitle}</span>
+                        </a>
+                    ))}
+                </div>
+            </Container>
+        </section>
     );
 };
 

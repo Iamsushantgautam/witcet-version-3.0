@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import { SkeletonGrid } from './Skeleton';
+import SearchBar from './SearchBar';
 import axios from 'axios';
 import '../styles/Updates.css';
 
@@ -8,6 +9,7 @@ const Updates = () => {
     const [updates, setUpdates] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
     const [visibleCount, setVisibleCount] = useState(6); // Initial show count
 
     // Fetch updates
@@ -64,17 +66,29 @@ const Updates = () => {
         </Container>
     );
 
-    const visibleUpdates = updates.slice(0, visibleCount);
+    const filteredUpdates = updates.filter(update =>
+        update.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        update.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const visibleUpdates = filteredUpdates.slice(0, visibleCount);
 
     return (
         <section className="updates-page py-5">
             <Container>
                 <Row>
                     <Col xs={12}>
-                        <h2 className="text-center text-primary mb-4">
+                        <h2 className="text-center text-primary mb-2">
                             <i className="fa fa-bullhorn me-2"></i>Latest Updates
                         </h2>
-                        <p className="text-center text-muted mb-5">Stay updated with the latest news, announcements, and important information</p>
+                        <p className="text-center text-muted mb-4">Stay updated with the latest news, announcements, and important information</p>
+
+                        <SearchBar
+                            value={searchTerm}
+                            onChange={setSearchTerm}
+                            placeholder="Search updates by title or detail..."
+                            className="mb-5"
+                        />
 
                         {/* Results Counter & Content or Loading */}
                         {loading ? (
@@ -84,7 +98,8 @@ const Updates = () => {
                                 <div className="row mb-4">
                                     <div className="col-12 text-center">
                                         <div id="resultsCounter" className="text-muted">
-                                            Showing <strong>{Math.min(visibleCount, updates.length)}</strong> of <strong>{updates.length}</strong> updates
+                                            Showing <strong>{Math.min(visibleCount, filteredUpdates.length)}</strong> of <strong>{filteredUpdates.length}</strong> updates
+                                            {searchTerm && ` for "${searchTerm}"`}
                                         </div>
                                     </div>
                                 </div>
@@ -157,21 +172,21 @@ const Updates = () => {
                                 </Row>
 
                                 {/* No Updates */}
-                                {updates.length === 0 && (
-                                    <div className="no-updates">
-                                        <i className="fa fa-inbox"></i>
-                                        <h4>No Updates Available</h4>
-                                        <p>Check back later for the latest updates and announcements.</p>
+                                {filteredUpdates.length === 0 && (
+                                    <div className="no-updates text-center py-5">
+                                        <i className="fa fa-search fa-3x text-muted mb-3"></i>
+                                        <h4>No results found</h4>
+                                        <p>Try searching for something else or check back later.</p>
                                     </div>
                                 )}
 
                                 {/* Load More Button */}
-                                {visibleCount < updates.length && (
+                                {visibleCount < filteredUpdates.length && (
                                     <Row className="mt-4">
                                         <Col className="text-center">
                                             <button
                                                 id="loadMoreBtn"
-                                                className="btn btn-primary btn-lg"
+                                                className="btn btn-primary d-inline-flex align-items-center rounded-pill px-4"
                                                 onClick={handleLoadMore}
                                             >
                                                 <i className="fa fa-plus-circle me-2"></i>Load More Updates

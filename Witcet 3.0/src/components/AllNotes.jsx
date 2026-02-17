@@ -108,7 +108,7 @@ const AllNotes = () => {
                     placeholder="Search notes..."
                 />
 
-                {/* Category Tabs */}
+
                 {/* Category Tabs */}
                 <div className="category-grid mb-5">
                     {categories.map((cat) => (

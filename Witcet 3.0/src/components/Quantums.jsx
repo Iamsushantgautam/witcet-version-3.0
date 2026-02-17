@@ -99,19 +99,19 @@ const Quantums = () => {
                 />
 
                 {/* Category Tabs */}
-                <Nav className="justify-content-center category-tabs mb-5" variant="pills">
+                <div className="category-grid mb-5">
                     {categories.map((cat) => (
-                        <Nav.Item key={cat.id} className="mx-2">
+                        <div key={cat.id} className="category-item">
                             <Button
-                                variant={activeCategory === cat.id ? 'primary' : 'link'}
-                                className={`fw-medium text-decoration-none px-3 ${activeCategory === cat.id ? '' : 'text-secondary'}`}
+                                variant={activeCategory === cat.id ? 'primary' : 'light'}
+                                className={`w-100 fw-medium text-decoration-none py-2 ${activeCategory === cat.id ? 'shadow-sm' : 'bg-white border'}`}
                                 onClick={() => handleCategoryClick(cat.id)}
                             >
                                 {cat.label}
                             </Button>
-                        </Nav.Item>
+                        </div>
                     ))}
-                </Nav>
+                </div>
 
                 {/* Quantums Grid */}
                 {loading ? (
