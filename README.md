@@ -94,13 +94,15 @@ npm run dev
 ## ✨ Key Features
 
 - 📚 **Notes Library**: Categorized study materials for all subjects
-- 📖 **Quantum Series**: Quick revision guides
-- 📝 **Previous Year Questions**: 5+ years of question papers
-- 🔍 **Advanced Search**: Search across all content types
-- 📢 **Updates & Announcements**: Real-time university notifications
-- 📱 **Progressive Web App**: Install and use offline
-- 🎨 **Modern UI**: Responsive design with smooth animations
-- 🔐 **Admin Panel**: Easy content management
+- 📖 **Quantum Series**: Quick revision guides and summaries
+- 📝 **Previous Year Questions**: Access to 5+ years of university question papers
+- 🎟️ **Offers & Coupons**: Exclusive deals, promo codes, and vouchers for students
+- 🛠️ **Tools & Resources**: Curated list of helpful developer tools and learning resources
+- 🔍 **Global Search**: Unified search across notes, quantums, tools, and offers
+- 📢 **Updates & Announcements**: Real-time university notifications and news
+- 📱 **Progressive Web App**: Install and use offline on mobile and desktop
+- 🎨 **Modern UI**: Responsive design with smooth animations and dark mode support
+- 🔐 **Admin Dashboard**: Comprehensive management for all content types including offers and tools
 
 ---
 

@@ -20,6 +20,7 @@ import {
     Plus,
     Edit,
     Trash2,
+    Copy,
     Calendar,
     Users,
     Tag,
@@ -192,6 +193,34 @@ const ManageOffers = () => {
         }
     };
 
+    const handleDuplicate = (offer) => {
+        setError(null);
+        setSuccess(null);
+        setEditingOffer(null);
+
+        // Prepare duplicate data
+        const duplicateData = {
+            ...initialFormState,
+            ...offer,
+            title: `${offer.title} (Copy)`,
+            startDate: new Date().toISOString().split('T')[0],
+            endDate: '',
+            promoCode: offer.promoCode ? `${offer.promoCode}_COPY` : '',
+            voucherCode: offer.voucherCode ? `${offer.voucherCode}_COPY` : '',
+            applicableCategories: Array.isArray(offer.applicableCategories) ? offer.applicableCategories.join(', ') : '',
+            applicableCourses: Array.isArray(offer.applicableCourses) ? offer.applicableCourses.join(', ') : ''
+        };
+
+        // Remove ID fields to ensure new creation
+        delete duplicateData._id;
+        delete duplicateData.createdAt;
+        delete duplicateData.updatedAt;
+        delete duplicateData.totalUsageCount; // Reset usage count
+
+        setFormData(duplicateData);
+        setShowModal(true);
+    };
+
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this offer?')) return;
         try {
@@ -323,10 +352,13 @@ const ManageOffers = () => {
                                         </td>
                                         <td>
                                             <div className="action-buttons">
-                                                <Button size="sm" variant="outline-primary" onClick={() => handleShowModal(offer)}>
+                                                <Button size="sm" variant="outline-primary" onClick={() => handleShowModal(offer)} title="Edit">
                                                     <Edit size={14} />
                                                 </Button>
-                                                <Button size="sm" variant="outline-danger" onClick={() => handleDelete(offer._id)}>
+                                                <Button size="sm" variant="outline-secondary" onClick={() => handleDuplicate(offer)} title="Duplicate">
+                                                    <Copy size={14} />
+                                                </Button>
+                                                <Button size="sm" variant="outline-danger" onClick={() => handleDelete(offer._id)} title="Delete">
                                                     <Trash2 size={14} />
                                                 </Button>
                                             </div>
