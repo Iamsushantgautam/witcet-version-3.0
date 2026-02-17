@@ -3,6 +3,8 @@ import Hero from './Hero';
 import Filter from './Filter';
 import NotesList from './NotesList';
 
+import HomeOffers from './HomeOffers';
+
 const Home = () => {
     useEffect(() => {
         if (window.location.pathname !== '/') {
@@ -13,8 +15,10 @@ const Home = () => {
     return (
         <>
             <Hero />
+
             <Filter />
             <NotesList />
+            <HomeOffers />
         </>
     );
 };

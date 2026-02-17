@@ -109,19 +109,20 @@ const AllNotes = () => {
                 />
 
                 {/* Category Tabs */}
-                <Nav className="justify-content-center category-tabs mb-5" variant="pills">
+                {/* Category Tabs */}
+                <div className="category-grid mb-5">
                     {categories.map((cat) => (
-                        <Nav.Item key={cat.id} className="mx-2">
+                        <div key={cat.id} className="category-item">
                             <Button
-                                variant={activeCategory === cat.id ? 'primary' : 'link'}
-                                className={`fw-medium text-decoration-none px-3 ${activeCategory === cat.id ? '' : 'text-secondary'}`}
+                                variant={activeCategory === cat.id ? 'primary' : 'light'}
+                                className={`w-100 fw-medium text-decoration-none py-2 ${activeCategory === cat.id ? 'shadow-sm' : 'bg-white border'}`}
                                 onClick={() => handleCategoryClick(cat.id)}
                             >
                                 {cat.label}
                             </Button>
-                        </Nav.Item>
+                        </div>
                     ))}
-                </Nav>
+                </div>
 
                 {/* Notes Grid */}
                 {loading ? (
@@ -131,7 +132,7 @@ const AllNotes = () => {
                         {filteredNotes.length > 0 ? (
                             filteredNotes.map((note) => (
                                 <Col md={6} lg={4} key={note._id} className="notice-item">
-                                    <Card className="h-100 note-card custom-card">
+                                    <Card className="h-100 custom-card animate-fade-in">
                                         <div className="card-img-wrapper">
                                             <Card.Img
                                                 variant="top"
@@ -142,18 +143,17 @@ const AllNotes = () => {
                                                     : '/images/domo-notes.png'
                                                 }
                                                 alt={note.title}
-                                                className="h-100 w-100 object-fit-cover"
                                                 onError={(e) => {
                                                     e.target.src = '/images/domo-notes.png';
                                                 }}
                                             />
                                         </div>
-                                        <Card.Body className="d-flex flex-column justify-content-between p-3 text-center">
-                                            <Card.Title className="fw-bold mb-3 mt-2 note-title">{note.title}</Card.Title>
-                                            <div className="mt-auto">
+                                        <Card.Body className="d-flex flex-column justify-content-between p-3">
+                                            <Card.Title className="text-center note-title mb-3">{note.title}</Card.Title>
+                                            <div className="text-center mt-auto">
                                                 <Link
                                                     to={`/notes/${note.notesCode}`}
-                                                    className="btn btn-primary custom-download-btn px-4 py-2"
+                                                    className="btn btn-primary custom-download-btn px-4 py-2 "
                                                 >
                                                     <i className="fa fa-download me-2"></i> Download
                                                 </Link>

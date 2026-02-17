@@ -14,6 +14,7 @@ import About from './components/About';
 import Policy from './components/Policy';
 import Search from './components/Search';
 import Tools from './components/Tools';
+import Offers from './components/Offers';
 import ScrollToTop from './components/ScrollToTop';
 import { View, StyleSheet, Platform } from 'react-native';
 import './styles/App.css';
@@ -37,6 +38,7 @@ const MainContent = () => {
         <Route path="/pyqs" element={<Pyqs />} />
         <Route path="/updates" element={<Updates />} />
         <Route path="/tools" element={<Tools />} />
+        <Route path="/offers" element={<Offers />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/feedback" element={<Feedback />} />
         <Route path="/help" element={<Help />} />

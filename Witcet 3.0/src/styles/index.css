@@ -238,7 +238,10 @@ button {
 .note-card .card-img-top {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  /* Changed from cover to contain */
+  padding: 1rem;
+  /* Added padding */
   transition: transform 0.6s ease;
 }
 

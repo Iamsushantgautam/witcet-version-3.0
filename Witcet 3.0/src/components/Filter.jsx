@@ -27,9 +27,9 @@ const Filter = () => {
         {
             title: 'Updates',
             href: '/updates',
-            icon: 'fa fa-bell',
-            bgColor: '#b3e0ff',
-            isIcon: true
+            icon: '/images/updates.png',
+            bgColor: '#f3a9a9ff',
+            isIcon: false
         },
         {
             title: 'Tools',
@@ -37,6 +37,13 @@ const Filter = () => {
             icon: 'fa fa-tools',
             bgColor: '#b3e0ff',
             isIcon: true
+        },
+        {
+            title: 'Offers',
+            href: '/offers',
+            icon: '/images/offers.png',
+            bgColor: '#b3e0ff',
+            isIcon: false
         }
     ];
 

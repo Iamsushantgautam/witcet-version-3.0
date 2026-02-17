@@ -1,0 +1,148 @@
+.manage-offers-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.page-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #212529;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.page-subtitle {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+.offers-card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border-radius: 10px;
+}
+
+.offers-table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.offers-table td {
+    vertical-align: middle;
+}
+
+.offer-banner-preview {
+    width: 60px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    background-color: #e9ecef;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.status-badge {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+}
+
+/* Modal Styles */
+.modal-lg {
+    max-width: 800px;
+}
+
+.form-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #495057;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.form-section-title:first-child {
+    margin-top: 0;
+}
+
+.upload-wrapper {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-upload {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #495057;
+    transition: all 0.2s;
+}
+
+.btn-upload:hover {
+    background-color: #dde2e6;
+}
+
+.image-preview-large {
+    margin-top: 10px;
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 5px;
+    background: #f8f9fa;
+}
+
+.currency-input-group .input-group-text {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.usage-stats {
+    display: flex;
+    gap: 15px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.usage-stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.usage-stat-label {
+    font-size: 0.75rem;
+    color: #6c757d;
+    text-transform: uppercase;
+}
+
+.usage-stat-value {
+    font-weight: 600;
+    color: #212529;
+}

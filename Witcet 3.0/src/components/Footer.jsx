@@ -56,6 +56,7 @@ const Footer = () => {
                             <TouchableOpacity onPress={() => handleLink('/quantums')}><Text style={styles.link}>Quantums</Text></TouchableOpacity>
                             <TouchableOpacity onPress={() => handleLink('/updates')}><Text style={styles.link}>Updates</Text></TouchableOpacity>
                             <TouchableOpacity onPress={() => handleLink('/tools')}><Text style={styles.link}>Tools</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => handleLink('/offers')}><Text style={styles.link}>Offers</Text></TouchableOpacity>
                         </View>
 
                         {/* Column 3: About */}

@@ -46,6 +46,7 @@ const Navigation = () => {
         { label: 'Last 5Year PYQ', path: '/pyqs' },
         { label: 'Updates', path: '/updates' },
         { label: 'Tools', path: '/tools' },
+        { label: 'Offers', path: '/offers' },
 
     ];
 

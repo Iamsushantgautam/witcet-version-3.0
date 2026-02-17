@@ -8,7 +8,7 @@ import '../styles/Tools.css';
 
 const Search = () => {
     const [loading, setLoading] = useState(true);
-    const [results, setResults] = useState({ notes: [], quantums: [], pyqs: [], tools: [] });
+    const [results, setResults] = useState({ notes: [], quantums: [], pyqs: [], tools: [], offers: [] });
     const location = useLocation();
     const [query, setQuery] = useState('');
 
@@ -29,13 +29,15 @@ const Search = () => {
             const apiUrl = import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com';
 
             // Parallel fetch for better performance
-            const [notesResponse, toolsResponse] = await Promise.all([
+            const [notesResponse, toolsResponse, offersResponse] = await Promise.all([
                 axios.get(`${apiUrl}/api/notes`),
-                axios.get(`${apiUrl}/api/tools`)
+                axios.get(`${apiUrl}/api/tools`),
+                axios.get(`${apiUrl}/api/offers/active`)
             ]);
 
             const data = notesResponse.data;
             const toolsData = toolsResponse.data;
+            const offersData = offersResponse.data;
             const lowerTerm = searchTerm.toLowerCase();
 
             // Notes Filter
@@ -70,7 +72,15 @@ const Search = () => {
                     (tool.tag && tool.tag.toLowerCase().includes(lowerTerm)))
             );
 
-            setResults({ notes, quantums, pyqs, tools });
+            // Offers Filter
+            const offers = offersData.filter(offer =>
+                offer.title?.toLowerCase().includes(lowerTerm) ||
+                (offer.description && offer.description.toLowerCase().includes(lowerTerm)) ||
+                (offer.promoCode && offer.promoCode.toLowerCase().includes(lowerTerm)) ||
+                (offer.voucherCode && offer.voucherCode.toLowerCase().includes(lowerTerm))
+            );
+
+            setResults({ notes, quantums, pyqs, tools, offers });
         } catch (e) {
             console.error(e);
         } finally {
@@ -78,7 +88,7 @@ const Search = () => {
         }
     };
 
-    const hasResults = results.notes.length > 0 || results.quantums.length > 0 || results.pyqs.length > 0 || results.tools.length > 0;
+    const hasResults = results.notes.length > 0 || results.quantums.length > 0 || results.pyqs.length > 0 || results.tools.length > 0 || results.offers.length > 0;
 
     const getIconUrl = (tool) => {
         if (tool.faviconUrl) return tool.faviconUrl;
@@ -87,6 +97,41 @@ const Search = () => {
         }
         return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230d6efd"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
     };
+
+    // Helper to format currency
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount);
+    };
+
+    const renderOfferCard = (offer) => (
+        <Col md={6} lg={4} key={offer._id} className="mb-4">
+            <Card className="h-100 border-0 shadow-sm" style={{ borderRadius: '16px', overflow: 'hidden' }}>
+                <div style={{ height: '140px', overflow: 'hidden', position: 'relative' }}>
+                    <Card.Img
+                        variant="top"
+                        src={offer.bannerImage || 'https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'}
+                        alt={offer.title}
+                        className="h-100 w-100"
+                        style={{ objectFit: 'cover' }}
+                        onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'; }}
+                    />
+                    <div className="position-absolute top-0 end-0 m-2 badge bg-danger">
+                        {offer.offerType === 'percentage' ? `${offer.discountValue}% OFF` :
+                            offer.offerType === 'fixed_amount' ? `FLAT ${formatCurrency(offer.discountValue)} OFF` : 'VOUCHER'}
+                    </div>
+                </div>
+                <Card.Body className="d-flex flex-column">
+                    <Card.Title className="fw-bold fs-6 mb-2">{offer.title}</Card.Title>
+                    <Card.Text className="text-muted small mb-3 flex-grow-1" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                        {offer.description}
+                    </Card.Text>
+                    <Button as={Link} to="/offers" variant="outline-danger" size="sm" className="w-100 rounded-pill">
+                        View Offer
+                    </Button>
+                </Card.Body>
+            </Card>
+        </Col>
+    );
 
     const renderToolCard = (tool) => (
         <a
@@ -125,7 +170,6 @@ const Search = () => {
     );
 
     const renderCard = (item, type) => {
-        // ... (existing renderCard logic)
         let title, link, imagePath, defaultImg;
         if (type === 'note') {
             title = item.title;
@@ -198,6 +242,15 @@ const Search = () => {
                     </div>
                 ) : (
                     <>
+                        {results.offers.length > 0 && (
+                            <section className="mb-5">
+                                <h4 className="border-bottom pb-2 mb-4 text-secondary"><i className="fas fa-tags me-2"></i>Offers & Coupons</h4>
+                                <Row>
+                                    {results.offers.map(offer => renderOfferCard(offer))}
+                                </Row>
+                            </section>
+                        )}
+
                         {results.tools.length > 0 && (
                             <section className="mb-5">
                                 <h4 className="border-bottom pb-2 mb-4 text-secondary"><i className="fas fa-toolbox me-2"></i>Tools & Resources</h4>

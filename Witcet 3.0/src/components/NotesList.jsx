@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Spinner } from 'react-bootstrap';
+import '../styles/AllNotes.css';
 import { SkeletonGrid } from './Skeleton';
 import axios from 'axios';
 
@@ -62,8 +63,8 @@ const NotesList = () => {
                     <Row id="notesContainer" className="g-4">
                         {notes.map((note) => (
                             <Col md={6} lg={4} key={note._id} className="notice-item" data-category={note.tag}>
-                                <Card className="h-100 shadow-sm border-0 note-card animate-fade-in">
-                                    <div className="card-img-container">
+                                <Card className="h-100 custom-card animate-fade-in">
+                                    <div className="card-img-wrapper">
                                         <Card.Img
                                             variant="top"
                                             src={note.imagePath && note.imagePath !== 'undefined'
@@ -78,8 +79,8 @@ const NotesList = () => {
                                             }}
                                         />
                                     </div>
-                                    <Card.Body className="d-flex flex-column justify-content-between p-4">
-                                        <Card.Title className="text-center fw-bold mb-3">{note.title}</Card.Title>
+                                    <Card.Body className="d-flex flex-column justify-content-between p-3">
+                                        <Card.Title className="text-center fw-bold  mb-3">{note.title}</Card.Title>
                                         <div className="text-center mt-auto">
                                             <Button
                                                 href={`/notes/${note.notesCode}`}
