@@ -3,7 +3,14 @@
 // while still allowing the "Install" prompt to appear.
 
 self.addEventListener('fetch', (event) => {
-    // No-op fetch handler.
-    // We do not call event.respondWith(), so the browser handles the request via network as normal.
-    // This satisfies the "has a fetch handler" requirement for PWA installation without side effects.
+    event.respondWith(
+        fetch(event.request).catch(err => {
+            // Return a fallback response to prevent "Uncaught (in promise)" errors
+            // This allows the app to handle the 404/error gracefully instead of crashing the SW logic
+            return new Response('Network error occurred', {
+                status: 408,
+                statusText: 'Network Error'
+            });
+        })
+    );
 });

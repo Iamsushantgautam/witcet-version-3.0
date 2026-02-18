@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
-import { SkeletonGrid } from './Skeleton';
-import SearchBar from './SearchBar';
+import { SkeletonGrid } from '../components/Skeleton';
+import SearchBar from '../components/SearchBar';
 import axios from 'axios';
 import '../styles/Updates.css';
 

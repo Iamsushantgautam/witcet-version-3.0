@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Alert, Badge, Button, OverlayTrigger, Tooltip, Modal } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Offers.css';
-import SearchBar from './SearchBar';
+import SearchBar from '../components/SearchBar';
 
 const Offers = () => {
     const navigate = useNavigate();
@@ -241,7 +241,7 @@ const Offers = () => {
 
                                                 const targetLink = offer.redeemLink || '/notes';
                                                 if (targetLink.startsWith('http')) {
-                                                    window.open(targetLink, '_blank');
+                                                    window.open(targetLink, '_blank', 'noopener');
                                                 } else {
                                                     navigate(targetLink);
                                                 }

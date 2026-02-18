@@ -1,4 +1,24 @@
 /* d:\My Project\Witcet\react\src\App.css */
+.main-content-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-layout {
+  padding-top: 130px;
+}
+
+.home-layout {
+  padding-top: 0;
+}
+
+@media (max-width: 991px) {
+  .page-layout {
+    padding-top: 110px;
+  }
+}
+
 
 .app-container {
   max-width: 1200px;

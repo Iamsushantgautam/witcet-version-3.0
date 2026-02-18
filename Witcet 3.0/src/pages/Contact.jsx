@@ -65,7 +65,7 @@ const Contact = () => {
             {/* Header */}
             <header className="contact-header">
                 <Container>
-                    <h1>Contact US</h1>
+                    <h1>Contact Us</h1>
                     <p className="lead">Get the assistance you need to make the most of Witcet</p>
                 </Container>
             </header>

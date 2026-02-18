@@ -143,7 +143,7 @@ Witcet 3.0/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/witcet-3.0.git
+   git clone https://github.com/iamsushantgautam/witcet-3.0.git
    cd witcet-3.0/Witcet\ 3.0
    ```
 

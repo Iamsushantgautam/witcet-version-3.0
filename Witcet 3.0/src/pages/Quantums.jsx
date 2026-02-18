@@ -5,8 +5,8 @@ import '../styles/AllNotes.css'; // Common styles for tabs/search
 import '../styles/Quantums.css'; // Specific card styles
 import '../styles/Tools.css';
 
-import { SkeletonGrid } from './Skeleton';
-import SearchBar from './SearchBar';
+import { SkeletonGrid } from '../components/Skeleton';
+import SearchBar from '../components/SearchBar';
 
 const Quantums = () => {
     const [quantums, setQuantums] = useState([]);

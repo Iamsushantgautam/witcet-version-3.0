@@ -1,8 +1,9 @@
 .hero-section {
-    min-height: 80vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding-top: 100px;
 }
 
 .hero-content-container {
@@ -29,7 +30,6 @@
 
 @media (max-width: 991px) {
     .hero-section {
-        padding-top: 1rem;
         padding-bottom: 70px !important;
         /* Reduced from 140px to tighten up the space */
         /* Significant padding to clear the wave and give breathing room */

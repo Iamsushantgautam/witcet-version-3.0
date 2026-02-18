@@ -36,11 +36,9 @@ const HomeOffers = () => {
         try {
             setLoading(true);
             const apiUrl = import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com';
-            console.log('Fetching offers from:', apiUrl); // Debug log
             const response = await fetch(`${apiUrl}/api/offers/active`);
             if (!response.ok) throw new Error('Failed to fetch offers');
             const data = await response.json();
-            console.log('Offers fetched:', data); // Debug log
             setOffers(data);
         } catch (err) {
             console.error('Error fetching offers:', err);

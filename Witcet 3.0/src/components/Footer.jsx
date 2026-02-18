@@ -1,216 +1,85 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Linking, Platform, useWindowDimensions } from 'react-native';
-import { useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
-    const navigate = useNavigate();
-    const { width } = useWindowDimensions();
-    const isMobile = width < 768;
-
-    const handleLink = (url) => {
-        if (url.startsWith('http')) {
-            Linking.openURL(url);
-        } else {
-            navigate(url);
-        }
-    };
-
     return (
-        <View style={styles.footer}>
+        <footer className="text-center text-lg-start bg-light text-muted pt-4 mt-5 border-top">
             {/* Section: Social media */}
-            <View style={styles.socialSection}>
-                <View style={styles.container}>
-                    <View style={[styles.socialContent, isMobile && styles.socialContentMobile]}>
-                        <Text style={styles.socialText}>Get connected with us on social networks:</Text>
-                        <View style={styles.socialIcons}>
-                            <TouchableOpacity onPress={() => handleLink('https://www.youtube.com/@witcet')} style={styles.socialIcon}>
-                                <i className="fab fa-youtube" style={{ color: 'white', fontSize: 18 }}></i>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleLink('https://www.instagram.com/wit_cet/')} style={styles.socialIcon}>
-                                <i className="fab fa-instagram" style={{ color: 'white', fontSize: 18 }}></i>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            </View>
+            <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom container">
+                <div className="me-5 d-none d-lg-block">
+                    <span>Get connected with us on social networks:</span>
+                </div>
+                <div>
+                    <a href="https://www.youtube.com/@witcet" className="me-4 text-reset text-decoration-none" target="_blank" rel="noopener noreferrer">
+                        <i className="fab fa-youtube text-danger fs-5"></i>
+                    </a>
+                    <a href="https://www.instagram.com/wit_cet/" className="me-4 text-reset text-decoration-none" target="_blank" rel="noopener noreferrer">
+                        <i className="fab fa-instagram text-danger fs-5"></i>
+                    </a>
+                </div>
+            </section>
 
             {/* Section: Links */}
-            <View style={styles.linksSection}>
-                <View style={styles.container}>
-                    <View style={[styles.row, isMobile && styles.rowMobile]}>
-                        {/* Column 1: Witcet */}
-                        <View style={[styles.col, styles.colLarge, isMobile && styles.colMobile]}>
-                            <Text style={styles.heading}>WITCET</Text>
-                            <View style={[styles.divider, isMobile && styles.dividerMobile]} />
-                            <Text style={styles.text}>
+            <section className="">
+                <Container className="text-center text-md-start mt-5">
+                    <Row className="mt-3">
+                        <Col md={3} lg={4} xl={3} className="mx-auto mb-4">
+                            <h6 className="text-uppercase fw-bold mb-4">
+                                <img src="https://witcet.com/wp-content/uploads/2025/01/witcet-logo-2.png" alt="" />Witcet
+                            </h6>
+                            <p>
                                 We offer expert guidance, interactive study materials, and practice tests to help you excel in exams.
-                            </Text>
-                        </View>
+                            </p>
+                        </Col>
 
-                        {/* Column 2: Products */}
-                        <View style={[styles.col, isMobile && styles.colMobile]}>
-                            <Text style={styles.heading}>PRODUCTS</Text>
-                            <View style={[styles.divider, isMobile && styles.dividerMobile]} />
-                            <TouchableOpacity onPress={() => handleLink('/notes')}><Text style={styles.link}>AKTU Notes</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleLink('/pyqs')}><Text style={styles.link}>B.Tech PYQs</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleLink('/quantums')}><Text style={styles.link}>Quantums</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleLink('/updates')}><Text style={styles.link}>Updates</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleLink('/tools')}><Text style={styles.link}>Tools</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleLink('/offers')}><Text style={styles.link}>Offers</Text></TouchableOpacity>
-                        </View>
+                        <Col md={2} lg={2} xl={2} className="mx-auto mb-4">
+                            <h6 className="text-uppercase fw-bold mb-4">Products</h6>
+                            <p><Link to="/notes" className="text-reset text-decoration-none">AKTU Notes</Link></p>
+                            <p><Link to="/pyqs" className="text-reset text-decoration-none">B.Tech PYQs</Link></p>
+                            <p><Link to="/quantums" className="text-reset text-decoration-none">Quantums</Link></p>
+                            <p><Link to="/updates" className="text-reset text-decoration-none">Updates</Link></p>
+                            <p><Link to="/tools" className="text-reset text-decoration-none">Tools</Link></p>
+                            <p><Link to="/offers" className="text-reset text-decoration-none">Offers</Link></p>
+                        </Col>
 
-                        {/* Column 3: About */}
-                        <View style={[styles.col, isMobile && styles.colMobile]}>
-                            <Text style={styles.heading}>ABOUT</Text>
-                            <View style={[styles.divider, isMobile && styles.dividerMobile]} />
-                            <TouchableOpacity onPress={() => handleLink('/about')}><Text style={styles.link}>About Us</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleLink('/policy')}><Text style={styles.link}>Policy</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleLink('/feedback')}><Text style={styles.link}>Feedback</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleLink('/contact')}><Text style={styles.link}>Contact Us</Text></TouchableOpacity>
-                            <TouchableOpacity onPress={() => handleLink('/help')}><Text style={styles.link}>Help</Text></TouchableOpacity>
-                        </View>
+                        <Col md={3} lg={2} xl={2} className="mx-auto mb-4">
+                            <h6 className="text-uppercase fw-bold mb-4">Useful links</h6>
+                            <p><Link to="/about" className="text-reset text-decoration-none">About Us</Link></p>
+                            <p><Link to="/policy" className="text-reset text-decoration-none">Policy</Link></p>
+                            <p><Link to="/feedback" className="text-reset text-decoration-none">Feedback</Link></p>
+                            <p><Link to="/contact" className="text-reset text-decoration-none">Contact Us</Link></p>
+                            <p><Link to="/help" className="text-reset text-decoration-none">Help</Link></p>
+                        </Col>
 
-                        {/* Column 4: Contact */}
-                        <View style={[styles.col, styles.colLarge, isMobile && styles.colMobile]}>
-                            <Text style={styles.heading}>CONTACT</Text>
-                            <View style={[styles.divider, isMobile && styles.dividerMobile]} />
-                            <TouchableOpacity
-                                onPress={() => handleLink('https://t.me/+mKi_iF1EsEg2MDU1')}
-                                style={[styles.telegramButton, isMobile && styles.telegramButtonMobile]}
-                            >
-                                <Text style={styles.telegramButtonText}>Join our Telegram Channel</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View>
-            </View>
+                        <Col md={4} lg={3} xl={3} className="mx-auto mb-md-0 mb-4">
+                            <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
+                            <p>
+                                <i className="fas fa-envelope me-3"></i>
+                                witcet@zohomail.in
+                            </p>
+                            <div className="mt-3">
+                                <Button
+                                    variant="primary"
+                                    href="https://t.me/+mKi_iF1EsEg2MDU1"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="rounded-pill btn-sm fw-bold"
+                                >
+                                    <i className="fab fa-telegram-plane me-2"></i> Telegram Channel
+                                </Button>                            </div>
+                        </Col>
+                    </Row>
+                </Container>
+            </section>
 
             {/* Copyright */}
-            <View style={styles.copyrightSection}>
-                <Text style={styles.copyrightText}>
-                    © 2025 Copyright: <Text style={styles.boldText} onPress={() => navigate('/')}>Witcet</Text>
-                </Text>
-            </View>
-        </View>
+            <div className="text-center p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
+                © 2025 Copyright:
+                <Link className="text-reset fw-bold ms-1 text-decoration-none" to="/">Witcet</Link>
+            </div>
+        </footer>
     );
 };
-
-const styles = StyleSheet.create({
-    footer: {
-        backgroundColor: '#ECEFF1',
-        marginTop: 48,
-    },
-    container: {
-        width: '100%',
-        maxWidth: 1320,
-        alignSelf: 'center',
-        paddingHorizontal: 16,
-    },
-    socialSection: {
-        backgroundColor: '#00BFFF',
-        paddingVertical: 16,
-    },
-    socialContent: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    socialContentMobile: {
-        flexDirection: 'column',
-        gap: 12,
-        alignItems: 'center',
-        textAlign: 'center',
-    },
-    socialText: {
-        color: 'white',
-        fontSize: 16,
-    },
-    socialIcons: {
-        flexDirection: 'row',
-    },
-    socialIcon: {
-        marginLeft: 16,
-    },
-    linksSection: {
-        paddingVertical: 40,
-    },
-    row: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        marginHorizontal: -12,
-    },
-    rowMobile: {
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    col: {
-        width: '16.66%', // Approx col-2
-        paddingHorizontal: 12,
-        marginBottom: 24,
-        minWidth: 150,
-        flexGrow: 1,
-    },
-    colMobile: {
-        width: '100%',
-        alignItems: 'center',
-        textAlign: 'center',
-    },
-    colLarge: {
-        width: '25%', // Approx col-3 or col-4
-        minWidth: 250,
-    },
-    heading: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        textTransform: 'uppercase',
-        marginBottom: 8,
-        color: '#212529',
-    },
-    divider: {
-        width: 60,
-        height: 2,
-        backgroundColor: '#7c4dff',
-        marginBottom: 16,
-    },
-    dividerMobile: {
-        alignSelf: 'center',
-    },
-    text: {
-        color: '#4f4f4f',
-        marginBottom: 16,
-        lineHeight: 24,
-    },
-    link: {
-        color: '#212529',
-        marginBottom: 12,
-        textDecorationLine: 'none',
-    },
-    telegramButton: {
-        backgroundColor: '#0d6efd',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 50,
-        alignSelf: 'flex-start',
-    },
-    telegramButtonMobile: {
-        alignSelf: 'center',
-    },
-    telegramButtonText: {
-        color: 'white',
-        fontWeight: '500',
-    },
-    copyrightSection: {
-        backgroundColor: 'rgba(0, 0, 0, 0.05)',
-        padding: 16,
-        alignItems: 'center',
-    },
-    copyrightText: {
-        color: '#212529',
-        fontSize: 14,
-    },
-    boldText: {
-        fontWeight: 'bold',
-    }
-});
 
 export default Footer;

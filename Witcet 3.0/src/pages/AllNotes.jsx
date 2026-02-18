@@ -5,8 +5,8 @@ import axios from 'axios';
 import '../styles/AllNotes.css';
 import '../styles/Tools.css';
 
-import { SkeletonGrid } from './Skeleton';
-import SearchBar from './SearchBar';
+import { SkeletonGrid } from '../components/Skeleton';
+import SearchBar from '../components/SearchBar';
 
 const AllNotes = () => {
     const [notes, setNotes] = useState([]);
@@ -23,6 +23,8 @@ const AllNotes = () => {
         const q = params.get('search');
         if (q) {
             setSearchTerm(decodeURIComponent(q));
+        } else {
+            setSearchTerm('');
         }
     }, [location.search]);
 
@@ -97,7 +99,7 @@ const AllNotes = () => {
     );
 
     return (
-        <div className="all-notes-page py-4">
+        <div className="all-notes-page py-8">
             <Container>
                 <h2 className="text-center text-primary mb-4 fw-bold display-6">Notes</h2>
 

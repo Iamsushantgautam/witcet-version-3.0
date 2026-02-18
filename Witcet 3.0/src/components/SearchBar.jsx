@@ -7,6 +7,8 @@ const SearchBar = ({ value, onChange, placeholder = "Search...", className = "mb
             <i className="fas fa-search tools-search-icon"></i>
             <input
                 type="text"
+                id="tools-search-input"
+                name="search"
                 className="tools-search-input"
                 placeholder={placeholder}
                 value={value}

@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import Hero from './Hero';
-import Filter from './Filter';
-import NotesList from './NotesList';
+import Hero from '../components/Hero';
+import Filter from '../components/Filter';
+import NotesList from '../components/NotesList';
 
-import HomeOffers from './HomeOffers';
-import HomeTools from './HomeTools';
-import HomeUpdates from './HomeUpdates';
+import HomeOffers from '../components/HomeOffers';
+import HomeTools from '../components/HomeTools';
+import HomeUpdates from '../components/HomeUpdates';
 
 const Home = () => {
     useEffect(() => {

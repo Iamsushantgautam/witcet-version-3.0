@@ -18,6 +18,8 @@ const Hero = () => {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
 
+        if (centerX === 0 || centerY === 0) return;
+
         const rotateX = ((y - centerY) / centerY) * -10;
         const rotateY = ((x - centerX) / centerX) * 10;
 
@@ -30,7 +32,6 @@ const Hero = () => {
 
     return (
         <section className="hero-section position-relative overflow-hidden bg-light">
-            <Navigation />
             {/* Background Decor */}
             <div className="position-absolute top-0 start-0 w-100 h-100" style={{ zIndex: 0, pointerEvents: 'none' }}>
                 <div className="position-absolute top-0 end-0 bg-primary opacity-25 rounded-circle"

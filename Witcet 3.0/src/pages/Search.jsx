@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Alert } from 'react-bootstrap';
 import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
-import { SkeletonGrid } from './Skeleton';
+import { SkeletonGrid } from '../components/Skeleton';
 import '../styles/AllNotes.css';
 import '../styles/Tools.css';
 
@@ -28,12 +28,16 @@ const Search = () => {
         try {
             const apiUrl = import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com';
 
-            // Parallel fetch for better performance
-            const [notesResponse, toolsResponse, offersResponse] = await Promise.all([
+            // Parallel fetch with error handling for partial failures
+            const results = await Promise.allSettled([
                 axios.get(`${apiUrl}/api/notes`),
                 axios.get(`${apiUrl}/api/tools`),
                 axios.get(`${apiUrl}/api/offers/active`)
             ]);
+
+            const notesResponse = results[0].status === 'fulfilled' ? results[0].value : { data: [] };
+            const toolsResponse = results[1].status === 'fulfilled' ? results[1].value : { data: [] };
+            const offersResponse = results[2].status === 'fulfilled' ? results[2].value : { data: [] };
 
             const data = notesResponse.data;
             const toolsData = toolsResponse.data;

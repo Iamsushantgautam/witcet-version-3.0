@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Spinner, Alert } from 'react-bootstrap';
+import { SkeletonGrid } from '../components/Skeleton';
 import '../styles/Tools.css';
-import SearchBar from './SearchBar';
+import SearchBar from '../components/SearchBar';
 
 const Tools = () => {
     const [tools, setTools] = useState([]);
@@ -41,18 +42,17 @@ const Tools = () => {
             return tool.faviconUrl;
         }
         if (tool.icon && tool.icon !== '/images/default-tool-icon.png') {
-            return `${import.meta.env.VITE_API_URL}${tool.icon}`;
+            return `${import.meta.env.VITE_API_URL || 'https://admin-witcet.onrender.com'}${tool.icon}`;
         }
         // Return a default SVG icon as fallback
         return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230d6efd"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
     };
 
     const filteredTools = tools.filter(tool =>
-        tool.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        tool.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (tool.title && tool.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (tool.description && tool.description.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (tool.tag && tool.tag.toLowerCase().includes(searchTerm.toLowerCase()))
     );
-
     return (
         <Container className="tools-container">
             <div className="tools-header">

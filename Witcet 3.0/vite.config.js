@@ -8,7 +8,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      'react-native': 'react-native-web',
+      // 'react-native': 'react-native-web', // Removed to prevent Touch Event conflicts
     },
   },
 })

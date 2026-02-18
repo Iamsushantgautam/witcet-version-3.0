@@ -3,6 +3,7 @@ import { Navbar, Nav, Container, Form, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/Navbar.css';
 
+// Navigation component for the top of the page
 const Navigation = () => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
@@ -51,7 +52,7 @@ const Navigation = () => {
     ];
 
     return (
-        <Navbar expand="lg" bg="white" variant="light" className="custom-navbar sticky-top" expanded={expanded} ref={navbarRef}>
+        <Navbar expand="lg" variant="light" className="custom-navbar" expanded={expanded} ref={navbarRef}>
             <Container>
                 <Navbar.Brand as={Link} to="/" className="navbar-brand-custom">
                     <img
@@ -83,6 +84,8 @@ const Navigation = () => {
                     <Form className="mobile-search-form d-lg-none" onSubmit={handleSearch}>
                         <Form.Control
                             type="search"
+                            id="mobile-search-input"
+                            name="search"
                             placeholder="Search title, tag, code..."
                             className="mobile-search-input"
                             value={searchQuery}
@@ -90,12 +93,11 @@ const Navigation = () => {
                             autoFocus
                         />
                         <Button
-                            variant="success"
+                            variant="link"
                             type="submit"
-                            className="mobile-search-submit"
+                            className="mobile-search-submit text-success p-0"
                         >
-                            <i className="fas fa-search me-1"></i>
-                            Search
+                            <i className="fas fa-search" style={{ fontSize: '1.2rem' }}></i>
                         </Button>
                     </Form>
                 )}
@@ -118,6 +120,8 @@ const Navigation = () => {
                     <Form className="d-flex search-form d-none d-lg-flex" onSubmit={handleSearch}>
                         <Form.Control
                             type="search"
+                            id="desktop-search-input"
+                            name="search"
                             placeholder="Search title, tag, code..."
                             className="search-input"
                             value={searchQuery}

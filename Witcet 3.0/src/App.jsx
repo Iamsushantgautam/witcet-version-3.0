@@ -1,32 +1,31 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navigation from './components/Navbar';
-import Home from './components/Home';
+import Home from './pages/Home';
 import Footer from './components/Footer';
-import NoteDetails from './components/NoteDetails';
-import AllNotes from './components/AllNotes';
-import Quantums from './components/Quantums';
-import Pyqs from './components/Pyqs';
-import Updates from './components/Updates';
-import Contact from './components/Contact';
-import Feedback from './components/Feedback';
-import Help from './components/Help';
-import About from './components/About';
-import Policy from './components/Policy';
-import Search from './components/Search';
-import Tools from './components/Tools';
-import Offers from './components/Offers';
+import NoteDetails from './pages/NoteDetails';
+import AllNotes from './pages/AllNotes';
+import Quantums from './pages/Quantums';
+import Pyqs from './pages/Pyqs';
+import Updates from './pages/Updates';
+import Contact from './pages/Contact';
+import Feedback from './pages/Feedback';
+import Help from './pages/Help';
+import About from './pages/About';
+import Policy from './pages/Policy';
+import Search from './pages/Search';
+import Tools from './pages/Tools';
+import Offers from './pages/Offers';
 import ScrollToTop from './components/ScrollToTop';
-import { View, StyleSheet, Platform } from 'react-native';
+// React Native imports removed
 import './styles/App.css';
 
 const MainContent = () => {
   const location = useLocation();
-  // Hide global navigation on Home page only
-  const showGlobalNav = location.pathname !== '/';
+  const isHomePage = location.pathname === '/';
 
   return (
-    <View style={styles.container}>
-      {showGlobalNav && <Navigation />}
+    <div className={`main-content-wrapper ${isHomePage ? 'home-layout' : 'page-layout'}`}>
+      <Navigation />
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -48,7 +47,7 @@ const MainContent = () => {
       </Routes>
 
       <Footer />
-    </View>
+    </div>
   );
 };
 
@@ -60,13 +59,5 @@ function App() {
     </Router>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-    minHeight: Platform.OS === 'web' ? '100vh' : '100%',
-  },
-});
 
 export default App;

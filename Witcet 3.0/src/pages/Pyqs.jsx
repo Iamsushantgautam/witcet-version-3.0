@@ -3,8 +3,8 @@ import { Container, Row, Col, Card, Button, Form, Nav, Spinner, Alert } from 're
 import axios from 'axios';
 import '../styles/AllNotes.css'; // Reusing the standard landscape card styles
 import '../styles/Tools.css';
-import { SkeletonGrid } from './Skeleton';
-import SearchBar from './SearchBar';
+import { SkeletonGrid } from '../components/Skeleton';
+import SearchBar from '../components/SearchBar';
 
 const Pyqs = () => {
     const [pyqs, setPyqs] = useState([]);
