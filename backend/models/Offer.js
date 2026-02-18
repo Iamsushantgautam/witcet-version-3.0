@@ -18,6 +18,17 @@ const offerSchema = new mongoose.Schema({
 
     // Identifiers
     promoCode: { type: String, trim: true, uppercase: true }, // For generic codes like SAVE20
+    additionalPromoCodes: [{
+        code: { type: String, required: true, uppercase: true, trim: true },
+        expiryDate: { type: Date, required: true },
+        status: { type: String, enum: ['active', 'inactive'], default: 'active' },
+        usageCount: { type: Number, default: 0 },
+        // Per-code overrides
+        discountValue: { type: Number },
+        minPurchaseAmount: { type: Number },
+        totalUsageLimit: { type: Number },
+        startDate: { type: Date }
+    }],
     voucherCode: { type: String, trim: true, unique: true, sparse: true }, // For specific vouchers, sparse allows nulls to be non-unique
 
     // Value

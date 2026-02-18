@@ -1,0 +1,272 @@
+/* Profile Page Styles */
+.profile-section {
+    background-color: #f8fafc;
+    min-height: 100vh;
+    padding: 3rem 0;
+}
+
+.profile-card {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+    border: none;
+    overflow: hidden;
+    height: 100%;
+}
+
+/* Avatar Section */
+.profile-avatar-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 1.5rem;
+}
+
+.profile-avatar {
+    width: 100%;
+    height: 100%;
+    background-color: #2563eb;
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.edit-avatar-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+}
+
+.edit-avatar-badge:hover {
+    background-color: #f8fafc;
+    transform: scale(1.1);
+}
+
+.profile-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 0.25rem;
+}
+
+.profile-email {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 1.5rem;
+}
+
+.role-badge {
+    background-color: #f1f5f9;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 8px 20px;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.profile-divider {
+    border-top: 1px solid #f1f5f9;
+    margin: 2rem 0;
+    width: 100%;
+}
+
+.member-since-label {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.member-since-date {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #334155;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Logout */
+.logout-link {
+    color: #64748b;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-left: 0.5rem;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+}
+
+.logout-link:hover {
+    color: #ef4444;
+}
+
+/* Right Panel Styles */
+.profile-content-card {
+    padding: 2.5rem;
+}
+
+/* Custom Tabs */
+.profile-tabs {
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 2.5rem;
+    display: flex;
+    gap: 2rem;
+}
+
+.profile-tab-item {
+    padding-bottom: 1rem;
+    border-bottom: 2px solid transparent;
+    color: #94a3b8;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.profile-tab-item.active {
+    color: #06b6d4;
+    /* Cyan-500 equivalent based on image */
+    border-bottom-color: #06b6d4;
+}
+
+.profile-tab-item:hover:not(.active) {
+    color: #64748b;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.section-subtitle {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin-bottom: 2.5rem;
+    line-height: 1.5;
+}
+
+/* Form Styles */
+.form-label-custom {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.form-control-line {
+    border: none;
+    border-bottom: 1px solid #e2e8f0;
+    border-radius: 0;
+    padding: 0.75rem 0;
+    background-color: transparent;
+    font-weight: 600;
+    color: #0f172a;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-control-line:focus {
+    border-bottom-color: #06b6d4;
+}
+
+.form-control-line:disabled {
+    background-color: transparent;
+    color: #94a3b8;
+    cursor: not-allowed;
+}
+
+.input-group-custom {
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.input-icon-lock {
+    position: absolute;
+    right: 0;
+    bottom: 12px;
+    color: #cbd5e1;
+    font-size: 1rem;
+}
+
+.helper-text {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-top: 0.5rem;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Buttons */
+.save-btn {
+    background-color: #06b6d4;
+    /* Cyan */
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+    transition: all 0.2s;
+}
+
+.save-btn:hover {
+    background-color: #0891b2;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
+}
+
+.discard-btn {
+    color: #94a3b8;
+    font-weight: 700;
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    margin-right: 1.5rem;
+}
+
+.discard-btn:hover {
+    color: #64748b;
+}
+
+.security-note {
+    background-color: #fffcf2;
+    /* very light yellow warning bg? image shows white. keeping white */
+}

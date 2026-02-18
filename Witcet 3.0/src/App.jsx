@@ -16,6 +16,10 @@ import Search from './pages/Search';
 import Tools from './pages/Tools';
 import Offers from './pages/Offers';
 import ScrollToTop from './components/ScrollToTop';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import Profile from './pages/Profile';
 // React Native imports removed
 import './styles/App.css';
 
@@ -43,6 +47,13 @@ const MainContent = () => {
         <Route path="/help" element={<Help />} />
         <Route path="/about" element={<About />} />
         <Route path="/policy" element={<Policy />} />
+
+        {/* Auth Routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/profile" element={<Profile />} />
+
         <Route path="*" element={<Home />} />
       </Routes>
 

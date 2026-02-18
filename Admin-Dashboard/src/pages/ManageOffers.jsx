@@ -42,6 +42,87 @@ const ManageOffers = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [uploadingImage, setUploadingImage] = useState(false);
+    const [newAdditionalCode, setNewAdditionalCode] = useState({
+        code: '',
+        discountValue: '',
+        minPurchaseAmount: '',
+        totalUsageLimit: '',
+        startDate: '',
+        expiryDate: ''
+    });
+    const [editingCodeIndex, setEditingCodeIndex] = useState(null);
+
+    const addAdditionalCode = () => {
+        if (!newAdditionalCode.code || !newAdditionalCode.expiryDate) {
+            alert('Code and Expiry Date are required');
+            return;
+        }
+
+        const codeData = {
+            ...newAdditionalCode,
+            discountValue: Number(newAdditionalCode.discountValue) || undefined,
+            minPurchaseAmount: Number(newAdditionalCode.minPurchaseAmount) || undefined,
+            totalUsageLimit: Number(newAdditionalCode.totalUsageLimit) || undefined,
+            startDate: newAdditionalCode.startDate || undefined,
+            expiryDate: newAdditionalCode.expiryDate
+        };
+
+        if (editingCodeIndex !== null) {
+            // Update Existing Code
+            setFormData(prev => {
+                const updated = [...(prev.additionalPromoCodes || [])];
+                updated[editingCodeIndex] = { ...updated[editingCodeIndex], ...codeData };
+                return { ...prev, additionalPromoCodes: updated };
+            });
+            setEditingCodeIndex(null);
+        } else {
+            // Add New Code
+            setFormData(prev => ({
+                ...prev,
+                additionalPromoCodes: [
+                    ...(prev.additionalPromoCodes || []),
+                    { ...codeData, status: 'active', usageCount: 0 }
+                ]
+            }));
+        }
+
+        setNewAdditionalCode({
+            code: '',
+            discountValue: '',
+            minPurchaseAmount: '',
+            totalUsageLimit: '',
+            startDate: '',
+            expiryDate: ''
+        });
+    };
+
+    const handleEditAdditionalCode = (index) => {
+        const code = formData.additionalPromoCodes[index];
+        setNewAdditionalCode({
+            code: code.code || '',
+            discountValue: code.discountValue || '',
+            minPurchaseAmount: code.minPurchaseAmount || '',
+            totalUsageLimit: code.totalUsageLimit || '',
+            startDate: code.startDate ? new Date(code.startDate).toISOString().split('T')[0] : '',
+            expiryDate: code.expiryDate ? new Date(code.expiryDate).toISOString().split('T')[0] : ''
+        });
+        setEditingCodeIndex(index);
+    };
+
+    const removeAdditionalCode = (index) => {
+        if (editingCodeIndex === index) {
+            setEditingCodeIndex(null);
+            setNewAdditionalCode({
+                code: '', discountValue: '', minPurchaseAmount: '', totalUsageLimit: '', startDate: '', expiryDate: ''
+            });
+        }
+        setFormData(prev => ({
+            ...prev,
+            additionalPromoCodes: prev.additionalPromoCodes.filter((_, i) => i !== index)
+        }));
+    };
+
+
 
     const initialFormState = {
         title: '',
@@ -68,7 +149,8 @@ const ManageOffers = () => {
         redeemLink: '', // New field
         redeemSteps: '', // New field for instructions
         offerDetails: '', // New field for detailed terms
-        priorityOrder: 0
+        priorityOrder: 0,
+        additionalPromoCodes: []
     };
 
     const [formData, setFormData] = useState(initialFormState);
@@ -100,7 +182,12 @@ const ManageOffers = () => {
                 startDate: offer.startDate ? new Date(offer.startDate).toISOString().split('T')[0] : '',
                 endDate: offer.endDate ? new Date(offer.endDate).toISOString().split('T')[0] : '',
                 applicableCategories: offer.applicableCategories?.join(', ') || '',
-                applicableCourses: offer.applicableCourses?.join(', ') || ''
+                applicableCourses: offer.applicableCourses?.join(', ') || '',
+                additionalPromoCodes: offer.additionalPromoCodes ? offer.additionalPromoCodes.map(c => ({
+                    ...c,
+                    expiryDate: c.expiryDate ? new Date(c.expiryDate).toISOString().split('T')[0] : '',
+                    startDate: c.startDate ? new Date(c.startDate).toISOString().split('T')[0] : ''
+                })) : []
             });
         } else {
             setEditingOffer(null);
@@ -462,6 +549,142 @@ const ManageOffers = () => {
                                         </Col>
                                     )}
 
+                                    <Col md={12}>
+                                        <div className="bg-light p-3 rounded">
+                                            <h6 className="text-secondary mb-3 fw-bold">Additional Promo Codes (Detailed Configuration)</h6>
+                                            <p className="text-muted small mb-3">Add multiple codes, each with its own configuration. Leave fields empty to inherit from main offer.</p>
+
+                                            <div className="row g-2 align-items-end mb-3">
+                                                <div className="col-md-3">
+                                                    <Form.Label className="small text-muted mb-1">Code *</Form.Label>
+                                                    <Form.Control
+                                                        size="sm"
+                                                        type="text"
+                                                        placeholder="CODE"
+                                                        value={newAdditionalCode.code}
+                                                        onChange={e => setNewAdditionalCode({ ...newAdditionalCode, code: e.target.value.toUpperCase() })}
+                                                    />
+                                                </div>
+                                                <div className="col-md-2">
+                                                    <Form.Label className="small text-muted mb-1">Value</Form.Label>
+                                                    <Form.Control
+                                                        size="sm"
+                                                        type="number"
+                                                        placeholder={formData.offerType === 'percentage' ? '%' : formData.currency}
+                                                        value={newAdditionalCode.discountValue}
+                                                        onChange={e => setNewAdditionalCode({ ...newAdditionalCode, discountValue: e.target.value })}
+                                                    />
+                                                </div>
+                                                <div className="col-md-2">
+                                                    <Form.Label className="small text-muted mb-1">Min Purch</Form.Label>
+                                                    <Form.Control
+                                                        size="sm"
+                                                        type="number"
+                                                        placeholder="0"
+                                                        value={newAdditionalCode.minPurchaseAmount}
+                                                        onChange={e => setNewAdditionalCode({ ...newAdditionalCode, minPurchaseAmount: e.target.value })}
+                                                    />
+                                                </div>
+                                                <div className="col-md-2">
+                                                    <Form.Label className="small text-muted mb-1">Limit</Form.Label>
+                                                    <Form.Control
+                                                        size="sm"
+                                                        type="number"
+                                                        placeholder="Total"
+                                                        value={newAdditionalCode.totalUsageLimit}
+                                                        onChange={e => setNewAdditionalCode({ ...newAdditionalCode, totalUsageLimit: e.target.value })}
+                                                    />
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <Form.Label className="small text-muted mb-1">Start Date</Form.Label>
+                                                    <Form.Control
+                                                        size="sm"
+                                                        type="date"
+                                                        value={newAdditionalCode.startDate}
+                                                        onChange={e => setNewAdditionalCode({ ...newAdditionalCode, startDate: e.target.value })}
+                                                    />
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <Form.Label className="small text-muted mb-1">Expiry Date *</Form.Label>
+                                                    <Form.Control
+                                                        size="sm"
+                                                        type="date"
+                                                        value={newAdditionalCode.expiryDate}
+                                                        onChange={e => setNewAdditionalCode({ ...newAdditionalCode, expiryDate: e.target.value })}
+                                                    />
+                                                </div>
+                                                <div className="col-md-2">
+                                                    <div className="d-flex gap-1">
+                                                        <Button
+                                                            variant={editingCodeIndex !== null ? "warning" : "outline-primary"}
+                                                            size="sm"
+                                                            onClick={addAdditionalCode}
+                                                            className="flex-grow-1"
+                                                        >
+                                                            {editingCodeIndex !== null ? <><Edit size={16} className="me-1" /> Update</> : <><Plus size={16} className="me-1" /> Add</>}
+                                                        </Button>
+                                                        {editingCodeIndex !== null && (
+                                                            <Button
+                                                                variant="outline-secondary"
+                                                                size="sm"
+                                                                onClick={() => {
+                                                                    setEditingCodeIndex(null);
+                                                                    setNewAdditionalCode({
+                                                                        code: '', discountValue: '', minPurchaseAmount: '', totalUsageLimit: '', startDate: '', expiryDate: ''
+                                                                    });
+                                                                }}
+                                                            >
+                                                                <XCircle size={16} />
+                                                            </Button>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {formData.additionalPromoCodes?.length > 0 && (
+                                                <div className="table-responsive">
+                                                    <Table size="sm" bordered hover className="mb-0 bg-white small">
+                                                        <thead className="table-light">
+                                                            <tr>
+                                                                <th>Code</th>
+                                                                <th>Val</th>
+                                                                <th>Min</th>
+                                                                <th>Lmt</th>
+                                                                <th>Start</th>
+                                                                <th>End</th>
+                                                                <th>Cnt</th>
+                                                                <th style={{ width: '40px' }}></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {formData.additionalPromoCodes.map((code, idx) => (
+                                                                <tr key={idx}>
+                                                                    <td className="font-monospace text-primary fw-bold text-truncate" style={{ maxWidth: '80px' }} title={code.code}>{code.code}</td>
+                                                                    <td>{code.discountValue ? <Badge bg="info">{code.discountValue}</Badge> : '-'}</td>
+                                                                    <td>{code.minPurchaseAmount || '-'}</td>
+                                                                    <td>{code.totalUsageLimit || '-'}</td>
+                                                                    <td className="text-truncate" style={{ maxWidth: '70px' }} title={code.startDate}>{code.startDate}</td>
+                                                                    <td className="text-truncate" style={{ maxWidth: '70px' }} title={code.expiryDate}>{code.expiryDate}</td>
+                                                                    <td>{code.usageCount || 0}</td>
+                                                                    <td className="text-center">
+                                                                        <div className="d-flex justify-content-center gap-2">
+                                                                            <Button size="sm" variant="link" className="text-primary p-0" onClick={() => handleEditAdditionalCode(idx)} title="Edit">
+                                                                                <Edit size={14} />
+                                                                            </Button>
+                                                                            <Button size="sm" variant="link" className="text-danger p-0" onClick={() => removeAdditionalCode(idx)} title="Remove">
+                                                                                <Trash2 size={14} />
+                                                                            </Button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </Table>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </Col>
+
                                     <Col md={6}>
                                         <Form.Group>
                                             <Form.Label>{formData.offerType === 'percentage' ? 'Percentage Value (%)' : 'Discount Amount'}</Form.Label>
@@ -631,7 +854,7 @@ const ManageOffers = () => {
                     </Modal.Footer>
                 </Form>
             </Modal>
-        </Container>
+        </Container >
     );
 };
 

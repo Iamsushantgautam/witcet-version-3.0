@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-    name: { type: String, required: false },
+    name: { type: String, required: true },
+    username: { type: String, unique: true, sparse: true }, // Optional for schema (legacy support), enforced in Register
     email: { type: String, required: true, unique: true },
+    profilePicture: { type: String },
     password: { type: String, required: true },
     role: { type: String, default: 'user' },
     status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' },

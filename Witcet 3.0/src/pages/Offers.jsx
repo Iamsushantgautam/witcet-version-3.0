@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Alert, Badge, Button, OverlayTrigger, Tooltip, Modal } from 'react-bootstrap';
+import { Container, Alert, Badge, Button, OverlayTrigger, Tooltip, Modal, Form, Row, Col } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Offers.css';
 import SearchBar from '../components/SearchBar';
@@ -12,6 +12,40 @@ const Offers = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [copiedId, setCopiedId] = useState(null);
     const [revealedCodes, setRevealedCodes] = useState({});
+    const [offerIndices, setOfferIndices] = useState({}); // Track active code index per offer
+
+    const handleNextCode = (offerId, total) => {
+        setOfferIndices(prev => ({ ...prev, [offerId]: ((prev[offerId] || 0) + 1) % total }));
+    };
+
+    const handlePrevCode = (offerId, total) => {
+        setOfferIndices(prev => ({ ...prev, [offerId]: ((prev[offerId] || 0) - 1 + total) % total }));
+    };
+
+    // Touch Carousel Logic
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
+
+    const handleTouchStart = (e) => {
+        setTouchEnd(null);
+        setTouchStart(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchMove = (e) => {
+        setTouchEnd(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchEnd = (offerId, total) => {
+        if (!touchStart || !touchEnd) return;
+        const distance = touchStart - touchEnd;
+        const minSwipeDistance = 50;
+
+        if (distance > minSwipeDistance) {
+            handleNextCode(offerId, total); // Swipe Left -> Next
+        } else if (distance < -minSwipeDistance) {
+            handlePrevCode(offerId, total); // Swipe Right -> Prev
+        }
+    };
 
     // Modal State
     // Modal State
@@ -33,8 +67,63 @@ const Offers = () => {
     };
 
     useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) setUser(JSON.parse(storedUser));
         fetchOffers();
     }, []);
+
+    // Admin State
+    const [user, setUser] = useState(null);
+    const [showAddModal, setShowAddModal] = useState(false);
+    const [newOffer, setNewOffer] = useState({
+        title: '',
+        description: '',
+        offerType: 'percentage',
+        discountValue: '',
+        promoCode: '',
+        endDate: '',
+        minPurchaseAmount: '',
+        redeemSteps: '',
+        offerDetails: ''
+    });
+
+    const handleAddOffer = async (e) => {
+        e.preventDefault();
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/offers`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(newOffer)
+            });
+
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.message || 'Failed to create offer');
+            }
+
+            setShowAddModal(false);
+            setNewOffer({
+                title: '',
+                description: '',
+                offerType: 'percentage',
+                discountValue: '',
+                promoCode: '',
+                endDate: '',
+                minPurchaseAmount: '',
+                redeemSteps: '',
+                offerDetails: ''
+            });
+            fetchOffers();
+            alert('Offer created successfully!');
+        } catch (err) {
+            console.error(err);
+            alert(err.message);
+        }
+    };
 
     const fetchOffers = async () => {
         try {
@@ -98,6 +187,12 @@ const Offers = () => {
                     Save big on courses and materials with our latest promo codes and vouchers.
                 </p>
 
+                {user && user.role === 'admin' && (
+                    <Button variant="dark" className="my-3 shadow-sm rounded-pill px-4" onClick={() => setShowAddModal(true)}>
+                        <i className="fas fa-plus-circle me-2"></i> Add New Offer
+                    </Button>
+                )}
+
                 <SearchBar
                     value={searchTerm}
                     onChange={setSearchTerm}
@@ -133,127 +228,194 @@ const Offers = () => {
                 </div>
             ) : (
                 <div className="offers-grid">
-                    {filteredOffers.map((offer) => (
-                        <div className="offer-card" key={offer._id}>
-                            <div className="offer-banner-container">
-                                <Badge className="offer-type-badge">
-                                    {offer.offerType === 'percentage' ? `${offer.discountValue}% OFF` :
-                                        offer.offerType === 'fixed_amount' ? `FLAT ${formatCurrency(offer.discountValue)} OFF` :
-                                            'VOUCHER'}
-                                </Badge>
-                                <img
-                                    src={getBannerImage(offer)}
-                                    alt={offer.title}
-                                    className="offer-banner"
-                                    onError={(e) => {
-                                        e.target.src = 'https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
-                                    }}
-                                />
-                            </div>
+                    {filteredOffers.map((offer) => {
+                        const mainCodeObj = {
+                            code: offer.offerType === 'voucher' ? offer.voucherCode : offer.promoCode,
+                            discountValue: offer.discountValue,
+                            offerType: offer.offerType,
+                            expiryDate: offer.endDate,
+                            minPurchaseAmount: offer.minPurchaseAmount,
+                            isMain: true
+                        };
+                        const additionalCodes = offer.additionalPromoCodes || [];
+                        const allCodes = [mainCodeObj, ...additionalCodes].filter(c => c.code);
+                        const currentIndex = offerIndices[offer._id] || 0;
+                        const currentCode = allCodes[currentIndex] || mainCodeObj;
 
-                            <div className="offer-content">
-                                <h3 className="offer-title">{offer.title}</h3>
-                                <p className="offer-description">{offer.description}</p>
+                        return (
+                            <div className="offer-card" key={offer._id}>
+                                <div className="offer-banner-container">
+                                    <Badge className="offer-type-badge">
+                                        {offer.offerType === 'percentage' ? `${offer.discountValue}% OFF` :
+                                            offer.offerType === 'fixed_amount' ? `FLAT ${formatCurrency(offer.discountValue)} OFF` :
+                                                'VOUCHER'}
+                                    </Badge>
+                                    <img
+                                        src={getBannerImage(offer)}
+                                        alt={offer.title}
+                                        className="offer-banner"
+                                        onError={(e) => {
+                                            e.target.src = 'https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80';
+                                        }}
+                                    />
+                                </div>
 
+                                <div className="offer-content">
+                                    <h3 className="offer-title">{offer.title}</h3>
+                                    <p className="offer-description">{offer.description}</p>
 
+                                    {currentCode.discountValue && !currentCode.isMain && (
+                                        <div className="mb-3 animate__animated animate__fadeIn">
+                                            <Badge bg="light" className="border border-info text-info px-3 py-2 rounded-pill shadow-sm">
+                                                <i className="fas fa-tag me-2"></i>
+                                                <span className="fw-bold">
+                                                    {offer.offerType === 'percentage'
+                                                        ? `${currentCode.discountValue}% OFF`
+                                                        : `FLAT ${formatCurrency(currentCode.discountValue)} OFF`
+                                                    }
+                                                </span>
+                                            </Badge>
+                                        </div>
+                                    )}
 
-                                <div className="offer-meta">
-                                    <div className="promo-code-box">
-                                        <span className="promo-code" style={{ letterSpacing: '2px' }}>
-                                            {revealedCodes[offer._id]
-                                                ? (offer.offerType === 'voucher' ? offer.voucherCode : offer.promoCode || 'NO CODE')
-                                                : '••••••••'}
-                                        </span>
-                                        <div className="d-flex align-items-center gap-2">
-                                            <OverlayTrigger
-                                                placement="top"
-                                                overlay={<Tooltip>{revealedCodes[offer._id] ? 'Hide Code' : 'Show Code'}</Tooltip>}
-                                            >
-                                                <button
-                                                    className="copy-btn"
-                                                    onClick={() => toggleReveal(offer._id)}
-                                                    style={{ border: 'none', background: 'none', color: '#64748b' }}
-                                                >
-                                                    <i className={`fas ${revealedCodes[offer._id] ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                                                </button>
-                                            </OverlayTrigger>
+                                    <div className="offer-meta">
+                                        <div
+                                            className="promo-code-box position-relative"
+                                            onTouchStart={handleTouchStart}
+                                            onTouchMove={handleTouchMove}
+                                            onTouchEnd={() => handleTouchEnd(offer._id, allCodes.length)}
+                                        >
+                                            <div className="d-flex align-items-center justify-content-between w-100">
+                                                {/* Navigation - Left */}
+                                                {allCodes.length > 1 && (
+                                                    <button
+                                                        className="btn btn-link text-muted p-0 me-2"
+                                                        onClick={(e) => { e.stopPropagation(); handlePrevCode(offer._id, allCodes.length); }}
+                                                        style={{ textDecoration: 'none' }}
+                                                    >
+                                                        <i className="fas fa-chevron-left"></i>
+                                                    </button>
+                                                )}
 
-                                            {(offer.promoCode || offer.voucherCode) && revealedCodes[offer._id] && (
-                                                <OverlayTrigger
-                                                    placement="top"
-                                                    overlay={<Tooltip>{copiedId === offer._id ? 'Copied!' : 'Copy Code'}</Tooltip>}
-                                                >
+                                                {/* Code Display */}
+                                                <div className="flex-grow-1 text-center">
+                                                    <div className="d-flex align-items-center justify-content-center gap-2 mb-0">
+                                                        <span className="promo-code" style={{ letterSpacing: '2px', fontSize: '1.1rem' }}>
+                                                            {revealedCodes[offer._id] ? currentCode.code : '••••••••'}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                {/* Navigation - Right */}
+                                                {allCodes.length > 1 && (
+                                                    <button
+                                                        className="btn btn-link text-muted p-0 ms-2"
+                                                        onClick={(e) => { e.stopPropagation(); handleNextCode(offer._id, allCodes.length); }}
+                                                        style={{ textDecoration: 'none' }}
+                                                    >
+                                                        <i className="fas fa-chevron-right"></i>
+                                                    </button>
+                                                )}
+
+                                                {/* Actions - No Tooltips */}
+                                                <div className="d-flex align-items-center gap-2 ms-3 ps-3 border-start">
                                                     <button
                                                         className="copy-btn"
-                                                        onClick={() => handleCopyCode(offer.offerType === 'voucher' ? offer.voucherCode : offer.promoCode, offer._id)}
+                                                        onClick={() => toggleReveal(offer._id)}
+                                                        style={{ border: 'none', background: 'none', color: '#64748b' }}
                                                     >
-                                                        <i className={`fas ${copiedId === offer._id ? 'fa-check' : 'fa-copy'}`}></i>
+                                                        <i className={`fas ${revealedCodes[offer._id] ? 'fa-eye-slash' : 'fa-eye'}`}></i>
                                                     </button>
-                                                </OverlayTrigger>
-                                            )}
+
+                                                    {revealedCodes[offer._id] && (
+                                                        <button
+                                                            className="copy-btn"
+                                                            onClick={() => handleCopyCode(currentCode.code, `${offer._id}_${currentIndex}`)}
+                                                        >
+                                                            <i className={`fas ${copiedId === `${offer._id}_${currentIndex}` ? 'fa-check' : 'fa-copy'}`}></i>
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div className="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-dashed">
-                                        <div className="offer-expiry mb-0" style={{ fontSize: '0.8rem' }}>
-                                            <i className="far fa-clock me-1"></i>
-                                            {offer.endDate ? getDaysRemaining(offer.endDate) : 'Limited Time'}
+                                        {/* Dots Indicator Below Box */}
+                                        {allCodes.length > 1 && (
+                                            <div className="d-flex gap-1 mt-2 mb-1 justify-content-center">
+                                                {allCodes.map((_, idx) => (
+                                                    <div key={idx}
+                                                        style={{
+                                                            width: '4px',
+                                                            height: '4px',
+                                                            borderRadius: '50%',
+                                                            backgroundColor: idx === currentIndex ? '#3b82f6' : '#e2e8f0',
+                                                            transition: 'background-color 0.2s'
+                                                        }}
+                                                    ></div>
+                                                ))}
+                                            </div>
+                                        )}
+
+                                        <div className="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-dashed">
+                                            <div className="offer-expiry mb-0 detail-text" style={{ fontSize: '0.8rem', minWidth: '80px' }}>
+                                                <i className="far fa-clock me-1"></i>
+                                                {currentCode.expiryDate ? getDaysRemaining(currentCode.expiryDate) : 'Limited Time'}
+                                            </div>
+
+                                            <div className="d-flex align-items-center gap-2">
+                                                {currentCode.minPurchaseAmount > 0 && (
+                                                    <small className="text-muted" style={{ fontSize: '0.8rem' }}>
+                                                        Min: {formatCurrency(currentCode.minPurchaseAmount)}
+                                                    </small>
+                                                )}
+
+                                                {(offer.redeemSteps || offer.offerDetails) && (
+                                                    <Button
+                                                        variant="link"
+                                                        className="p-0 text-decoration-none d-flex align-items-center gap-1"
+                                                        style={{ fontSize: '0.8rem', color: '#3b82f6', fontWeight: '600' }}
+                                                        onClick={() => handleShowOffer(offer)}
+                                                    >
+                                                        <i className="fas fa-info-circle"></i>
+                                                        Details
+                                                    </Button>
+                                                )}
+                                            </div>
                                         </div>
 
-                                        <div className="d-flex align-items-center gap-2">
-                                            {offer.minPurchaseAmount > 0 && (
-                                                <small className="text-muted" style={{ fontSize: '0.8rem' }}>
-                                                    Min: {formatCurrency(offer.minPurchaseAmount)}
-                                                </small>
-                                            )}
+                                        <div className="mt-3">
+                                            <Button
+                                                variant="primary"
+                                                className="w-100 rounded-pill fw-bold"
+                                                style={{
+                                                    background: 'linear-gradient(135deg, #0284c7 0%, #3b82f6 100%)',
+                                                    border: 'none',
+                                                    padding: '10px'
+                                                }}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    if (currentCode.code) {
+                                                        navigator.clipboard.writeText(currentCode.code);
+                                                        setCopiedId(offer._id);
+                                                        setTimeout(() => setCopiedId(null), 2000);
+                                                    }
 
-                                            {(offer.redeemSteps || offer.offerDetails) && (
-                                                <Button
-                                                    variant="link"
-                                                    className="p-0 text-decoration-none d-flex align-items-center gap-1"
-                                                    style={{ fontSize: '0.8rem', color: '#3b82f6', fontWeight: '600' }}
-                                                    onClick={() => handleShowOffer(offer)}
-                                                >
-                                                    <i className="fas fa-info-circle"></i>
-                                                    Details
-                                                </Button>
-                                            )}
+                                                    const targetLink = offer.redeemLink || '/notes';
+                                                    if (targetLink.startsWith('http')) {
+                                                        window.open(targetLink, '_blank', 'noopener');
+                                                    } else {
+                                                        navigate(targetLink);
+                                                    }
+                                                }}
+                                            >
+                                                {copiedId === offer._id ? 'CODE COPIED!' : 'REDEEM NOW'}
+                                            </Button>
                                         </div>
-                                    </div>
-
-                                    <div className="mt-3">
-                                        <Button
-                                            variant="primary"
-                                            className="w-100 rounded-pill fw-bold"
-                                            style={{
-                                                background: 'linear-gradient(135deg, #0284c7 0%, #3b82f6 100%)',
-                                                border: 'none',
-                                                padding: '10px'
-                                            }}
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                const code = offer.offerType === 'voucher' ? offer.voucherCode : offer.promoCode;
-                                                if (code) {
-                                                    navigator.clipboard.writeText(code);
-                                                    setCopiedId(offer._id);
-                                                    setTimeout(() => setCopiedId(null), 2000);
-                                                }
-
-                                                const targetLink = offer.redeemLink || '/notes';
-                                                if (targetLink.startsWith('http')) {
-                                                    window.open(targetLink, '_blank', 'noopener');
-                                                } else {
-                                                    navigate(targetLink);
-                                                }
-                                            }}
-                                        >
-                                            {copiedId === offer._id ? 'CODE COPIED!' : 'REDEEM NOW'}
-                                        </Button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
             )}
 
@@ -389,6 +551,135 @@ const Offers = () => {
                             </div>
                         </div>
                     )}
+                </Modal.Body>
+            </Modal>
+        </Container>
+    );
+    return (
+        <Container className="offers-container">
+            {/* ... Existing ... */}
+            {/* Add Offer Modal */}
+            <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered size="lg">
+                <Modal.Header closeButton>
+                    <Modal.Title>Add New Offer</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form onSubmit={handleAddOffer}>
+                        <Row>
+                            <Col md={12}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Offer Title</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="e.g. Summer Sale"
+                                        required
+                                        value={newOffer.title}
+                                        onChange={(e) => setNewOffer({ ...newOffer, title: e.target.value })}
+                                    />
+                                </Form.Group>
+                            </Col>
+                            <Col md={12}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Description</Form.Label>
+                                    <Form.Control
+                                        as="textarea"
+                                        rows={2}
+                                        required
+                                        value={newOffer.description}
+                                        onChange={(e) => setNewOffer({ ...newOffer, description: e.target.value })}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Offer Type</Form.Label>
+                                    <Form.Select
+                                        value={newOffer.offerType}
+                                        onChange={(e) => setNewOffer({ ...newOffer, offerType: e.target.value })}
+                                    >
+                                        <option value="percentage">Percentage Discount</option>
+                                        <option value="fixed_amount">Fixed Amount Discount</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Discount Value</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        placeholder={newOffer.offerType === 'percentage' ? "e.g. 20 (%)" : "e.g. 500 (INR)"}
+                                        required
+                                        value={newOffer.discountValue}
+                                        onChange={(e) => setNewOffer({ ...newOffer, discountValue: e.target.value })}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Promo Code</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        placeholder="e.g. SAVE20"
+                                        value={newOffer.promoCode}
+                                        onChange={(e) => setNewOffer({ ...newOffer, promoCode: e.target.value.toUpperCase() })}
+                                    />
+                                    <Form.Text className="text-muted">For generic codes.</Form.Text>
+                                </Form.Group>
+                            </Col>
+                            <Col md={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Expiry Date</Form.Label>
+                                    <Form.Control
+                                        type="date"
+                                        required
+                                        value={newOffer.endDate}
+                                        onChange={(e) => setNewOffer({ ...newOffer, endDate: e.target.value })}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md={6}>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Minimum Purchase (Optional)</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        value={newOffer.minPurchaseAmount}
+                                        onChange={(e) => setNewOffer({ ...newOffer, minPurchaseAmount: e.target.value })}
+                                    />
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Redemption Steps (Optional)</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                placeholder="Step 1...&#10;Step 2..."
+                                value={newOffer.redeemSteps}
+                                onChange={(e) => setNewOffer({ ...newOffer, redeemSteps: e.target.value })}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Terms & Details (Optional)</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                placeholder="Detail 1...&#10;Detail 2..."
+                                value={newOffer.offerDetails}
+                                onChange={(e) => setNewOffer({ ...newOffer, offerDetails: e.target.value })}
+                            />
+                        </Form.Group>
+                        <div className="d-grid">
+                            <Button variant="primary" type="submit" size="lg">
+                                Create Offer
+                            </Button>
+                        </div>
+                    </Form>
                 </Modal.Body>
             </Modal>
         </Container>

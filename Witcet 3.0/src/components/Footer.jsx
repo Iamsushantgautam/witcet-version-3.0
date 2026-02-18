@@ -25,8 +25,15 @@ const Footer = () => {
                 <Container className="text-center text-md-start mt-5">
                     <Row className="mt-3">
                         <Col md={3} lg={4} xl={3} className="mx-auto mb-4">
+
                             <h6 className="text-uppercase fw-bold mb-4">
-                                <img src="https://witcet.com/wp-content/uploads/2025/01/witcet-logo-2.png" alt="" />Witcet
+                                <img
+                                    src="/images/Logo.png"
+                                    alt="Witcet Logo"
+                                    className="me-2"
+                                    style={{ height: '70px' }}
+                                />
+
                             </h6>
                             <p>
                                 We offer expert guidance, interactive study materials, and practice tests to help you excel in exams.
