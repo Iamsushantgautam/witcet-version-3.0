@@ -259,10 +259,11 @@ const Profile = () => {
                                     <Form onSubmit={handleUpdateProfile}>
                                         <Row className="mb-4">
                                             <Col md={6}>
-                                                <Form.Group>
+                                                <Form.Group controlId="fullName">
                                                     <Form.Label className="form-label-custom">FULL NAME</Form.Label>
                                                     <Form.Control
                                                         type="text"
+                                                        name="fullName"
                                                         value={name}
                                                         onChange={(e) => setName(e.target.value)}
                                                         className="form-control-line"
@@ -273,10 +274,11 @@ const Profile = () => {
                                                 </Form.Group>
                                             </Col>
                                             <Col md={6}>
-                                                <Form.Group>
+                                                <Form.Group controlId="username">
                                                     <Form.Label className="form-label-custom">USERNAME</Form.Label>
                                                     <Form.Control
                                                         type="text"
+                                                        name="username"
                                                         value={username}
                                                         onChange={(e) => setUsername(e.target.value)}
                                                         className="form-control-line"
@@ -288,11 +290,12 @@ const Profile = () => {
                                             </Col>
                                         </Row>
 
-                                        <Form.Group className="mb-5 position-relative">
+                                        <Form.Group className="mb-5 position-relative" controlId="email">
                                             <Form.Label className="form-label-custom">EMAIL ADDRESS</Form.Label>
                                             <div className="position-relative">
                                                 <Form.Control
                                                     type="email"
+                                                    name="email"
                                                     value={user?.email || ''}
                                                     disabled
                                                     className="form-control-line"
@@ -325,10 +328,11 @@ const Profile = () => {
                                     <p className="section-subtitle">Manage your password and account security preferences.</p>
 
                                     <Form onSubmit={handleChangePassword}>
-                                        <Form.Group className="mb-4">
+                                        <Form.Group className="mb-4" controlId="currentPassword">
                                             <Form.Label className="form-label-custom">CURRENT PASSWORD</Form.Label>
                                             <Form.Control
                                                 type="password"
+                                                name="currentPassword"
                                                 value={currentPassword}
                                                 onChange={(e) => setCurrentPassword(e.target.value)}
                                                 className="form-control-line"
@@ -339,10 +343,11 @@ const Profile = () => {
 
                                         <Row className="mb-5">
                                             <Col md={6}>
-                                                <Form.Group>
+                                                <Form.Group controlId="newPassword">
                                                     <Form.Label className="form-label-custom">NEW PASSWORD</Form.Label>
                                                     <Form.Control
                                                         type="password"
+                                                        name="newPassword"
                                                         value={newPassword}
                                                         onChange={(e) => setNewPassword(e.target.value)}
                                                         className="form-control-line"
@@ -353,10 +358,11 @@ const Profile = () => {
                                                 </Form.Group>
                                             </Col>
                                             <Col md={6}>
-                                                <Form.Group>
+                                                <Form.Group controlId="confirmPassword">
                                                     <Form.Label className="form-label-custom">CONFIRM PASSWORD</Form.Label>
                                                     <Form.Control
                                                         type="password"
+                                                        name="confirmPassword"
                                                         value={confirmNewPassword}
                                                         onChange={(e) => setConfirmNewPassword(e.target.value)}
                                                         className="form-control-line"

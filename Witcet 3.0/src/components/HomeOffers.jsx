@@ -13,6 +13,40 @@ const HomeOffers = () => {
     // Filter/Search states are not needed for home page, just show active offers
     const [copiedId, setCopiedId] = useState(null);
     const [revealedCodes, setRevealedCodes] = useState({});
+    const [offerIndices, setOfferIndices] = useState({}); // Track active code index per offer
+
+    const handleNextCode = (offerId, total) => {
+        setOfferIndices(prev => ({ ...prev, [offerId]: ((prev[offerId] || 0) + 1) % total }));
+    };
+
+    const handlePrevCode = (offerId, total) => {
+        setOfferIndices(prev => ({ ...prev, [offerId]: ((prev[offerId] || 0) - 1 + total) % total }));
+    };
+
+    // Touch Carousel Logic
+    const [touchStart, setTouchStart] = useState(null);
+    const [touchEnd, setTouchEnd] = useState(null);
+
+    const handleTouchStart = (e) => {
+        setTouchEnd(null);
+        setTouchStart(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchMove = (e) => {
+        setTouchEnd(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchEnd = (offerId, total) => {
+        if (!touchStart || !touchEnd) return;
+        const distance = touchStart - touchEnd;
+        const minSwipeDistance = 50;
+
+        if (distance > minSwipeDistance) {
+            handleNextCode(offerId, total); // Swipe Left -> Next
+        } else if (distance < -minSwipeDistance) {
+            handlePrevCode(offerId, total); // Swipe Right -> Prev
+        }
+    };
 
     // Modal State
     const [showModal, setShowModal] = useState(false);
@@ -132,126 +166,194 @@ const HomeOffers = () => {
                         {offerChunks.map((chunk, chunkIndex) => (
                             <Carousel.Item key={chunkIndex}>
                                 <div className="d-flex justify-content-center gap-4 px-2">
-                                    {chunk.map((offer) => (
-                                        <div key={offer._id} style={{ flex: `0 0 calc(${100 / chunkSize}% - 1.5rem)`, maxWidth: `calc(${100 / chunkSize}% - 1.5rem)` }}>
-                                            <div className="offer-card h-100">
-                                                <div className="offer-banner-container">
-                                                    <Badge className="offer-type-badge">
-                                                        {offer.offerType === 'percentage' ? `${offer.discountValue}% OFF` :
-                                                            offer.offerType === 'fixed_amount' ? `FLAT ${formatCurrency(offer.discountValue)} OFF` :
-                                                                'VOUCHER'}
-                                                    </Badge>
-                                                    <img
-                                                        src={getBannerImage(offer)}
-                                                        alt={offer.title}
-                                                        className="offer-banner"
-                                                        onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'; }}
-                                                    />
-                                                </div>
+                                    {chunk.map((offer) => {
+                                        const mainCodeObj = {
+                                            code: offer.offerType === 'voucher' ? offer.voucherCode : offer.promoCode,
+                                            discountValue: offer.discountValue,
+                                            offerType: offer.offerType,
+                                            expiryDate: offer.endDate,
+                                            minPurchaseAmount: offer.minPurchaseAmount,
+                                            isMain: true
+                                        };
+                                        const additionalCodes = offer.additionalPromoCodes || [];
+                                        const allCodes = [mainCodeObj, ...additionalCodes].filter(c => c.code);
+                                        const currentIndex = offerIndices[offer._id] || 0;
+                                        const currentCode = allCodes[currentIndex] || mainCodeObj;
 
-                                                <div className="offer-content">
-                                                    <h3 className="offer-title">{offer.title}</h3>
-                                                    <p className="offer-description">{offer.description}</p>
+                                        return (
+                                            <div key={offer._id} style={{ flex: `0 0 calc(${100 / chunkSize}% - 1.5rem)`, maxWidth: `calc(${100 / chunkSize}% - 1.5rem)` }}>
+                                                <div className="offer-card h-100">
+                                                    <div className="offer-banner-container">
+                                                        <Badge className="offer-type-badge">
+                                                            {offer.offerType === 'percentage' ? `${offer.discountValue}% OFF` :
+                                                                offer.offerType === 'fixed_amount' ? `FLAT ${formatCurrency(offer.discountValue)} OFF` :
+                                                                    'VOUCHER'}
+                                                        </Badge>
+                                                        <img
+                                                            src={getBannerImage(offer)}
+                                                            alt={offer.title}
+                                                            className="offer-banner"
+                                                            onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'; }}
+                                                        />
+                                                    </div>
 
-                                                    <div className="offer-meta">
-                                                        <div className="promo-code-box">
-                                                            <span className="promo-code" style={{ letterSpacing: '2px' }}>
-                                                                {revealedCodes[offer._id]
-                                                                    ? (offer.offerType === 'voucher' ? offer.voucherCode : offer.promoCode || 'NO CODE')
-                                                                    : '••••••••'}
-                                                            </span>
+                                                    <div className="offer-content">
+                                                        <h3 className="offer-title">{offer.title}</h3>
+                                                        <p className="offer-description">{offer.description}</p>
 
-                                                            <div className="d-flex align-items-center gap-2">
-                                                                <OverlayTrigger
-                                                                    placement="top"
-                                                                    overlay={<Tooltip>{revealedCodes[offer._id] ? 'Hide Code' : 'Show Code'}</Tooltip>}
-                                                                >
-                                                                    <button
-                                                                        className="copy-btn"
-                                                                        onClick={() => toggleReveal(offer._id)}
-                                                                        style={{ border: 'none', background: 'none', color: '#64748b' }}
-                                                                    >
-                                                                        <i className={`fas ${revealedCodes[offer._id] ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                                                                    </button>
-                                                                </OverlayTrigger>
+                                                        {currentCode.discountValue && !currentCode.isMain && (
+                                                            <div className="mb-3 animate__animated animate__fadeIn">
+                                                                <Badge bg="light" className="border border-info text-info px-3 py-2 rounded-pill shadow-sm">
+                                                                    <i className="fas fa-tag me-2"></i>
+                                                                    <span className="fw-bold">
+                                                                        {offer.offerType === 'percentage'
+                                                                            ? `${currentCode.discountValue}% OFF`
+                                                                            : `FLAT ${formatCurrency(currentCode.discountValue)} OFF`
+                                                                        }
+                                                                    </span>
+                                                                </Badge>
+                                                            </div>
+                                                        )}
 
-                                                                {(offer.promoCode || offer.voucherCode) && revealedCodes[offer._id] && (
-                                                                    <OverlayTrigger
-                                                                        placement="top"
-                                                                        overlay={<Tooltip>{copiedId === offer._id ? 'Copied!' : 'Copy Code'}</Tooltip>}
-                                                                    >
+                                                        <div className="offer-meta">
+                                                            <div
+                                                                className="promo-code-box position-relative"
+                                                                onTouchStart={handleTouchStart}
+                                                                onTouchMove={handleTouchMove}
+                                                                onTouchEnd={() => handleTouchEnd(offer._id, allCodes.length)}
+                                                            >
+                                                                <div className="d-flex align-items-center justify-content-between w-100">
+                                                                    {/* Navigation - Left */}
+                                                                    {allCodes.length > 1 && (
+                                                                        <button
+                                                                            className="btn btn-link text-muted p-0 me-2"
+                                                                            onClick={(e) => { e.stopPropagation(); handlePrevCode(offer._id, allCodes.length); }}
+                                                                            style={{ textDecoration: 'none' }}
+                                                                        >
+                                                                            <i className="fas fa-chevron-left"></i>
+                                                                        </button>
+                                                                    )}
+
+                                                                    {/* Code Display */}
+                                                                    <div className="flex-grow-1 text-center">
+                                                                        <div className="d-flex align-items-center justify-content-center gap-2 mb-0">
+                                                                            <span className="promo-code" style={{ letterSpacing: '2px', fontSize: '1.1rem' }}>
+                                                                                {revealedCodes[offer._id] ? currentCode.code : '••••••••'}
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    {/* Navigation - Right */}
+                                                                    {allCodes.length > 1 && (
+                                                                        <button
+                                                                            className="btn btn-link text-muted p-0 ms-2"
+                                                                            onClick={(e) => { e.stopPropagation(); handleNextCode(offer._id, allCodes.length); }}
+                                                                            style={{ textDecoration: 'none' }}
+                                                                        >
+                                                                            <i className="fas fa-chevron-right"></i>
+                                                                        </button>
+                                                                    )}
+
+                                                                    {/* Actions - No Tooltips for consistency with main page */}
+                                                                    <div className="d-flex align-items-center gap-2 ms-3 ps-3 border-start">
                                                                         <button
                                                                             className="copy-btn"
-                                                                            onClick={() => handleCopyCode(offer.offerType === 'voucher' ? offer.voucherCode : offer.promoCode, offer._id)}
+                                                                            onClick={() => toggleReveal(offer._id)}
+                                                                            style={{ border: 'none', background: 'none', color: '#64748b' }}
                                                                         >
-                                                                            <i className={`fas ${copiedId === offer._id ? 'fa-check' : 'fa-copy'}`}></i>
+                                                                            <i className={`fas ${revealedCodes[offer._id] ? 'fa-eye-slash' : 'fa-eye'}`}></i>
                                                                         </button>
-                                                                    </OverlayTrigger>
-                                                                )}
+
+                                                                        {revealedCodes[offer._id] && (
+                                                                            <button
+                                                                                className="copy-btn"
+                                                                                onClick={() => handleCopyCode(currentCode.code, `${offer._id}_${currentIndex}`)}
+                                                                            >
+                                                                                <i className={`fas ${copiedId === `${offer._id}_${currentIndex}` ? 'fa-check' : 'fa-copy'}`}></i>
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
 
-                                                        <div className="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-dashed">
-                                                            <div className="offer-expiry mb-0" style={{ fontSize: '0.8rem' }}>
-                                                                <i className="far fa-clock me-1"></i>
-                                                                {offer.endDate ? getDaysRemaining(offer.endDate) : 'Limited Time'}
+                                                            {/* Dots Indicator Below Box */}
+                                                            {allCodes.length > 1 && (
+                                                                <div className="d-flex gap-1 mt-2 mb-1 justify-content-center">
+                                                                    {allCodes.map((_, idx) => (
+                                                                        <div key={idx}
+                                                                            style={{
+                                                                                width: '4px',
+                                                                                height: '4px',
+                                                                                borderRadius: '50%',
+                                                                                backgroundColor: idx === currentIndex ? '#3b82f6' : '#e2e8f0',
+                                                                                transition: 'background-color 0.2s'
+                                                                            }}
+                                                                        ></div>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+
+                                                            <div className="d-flex justify-content-between align-items-center mt-3 pt-2 border-top border-dashed">
+                                                                <div className="offer-expiry mb-0 detail-text" style={{ fontSize: '0.8rem', minWidth: '80px' }}>
+                                                                    <i className="far fa-clock me-1"></i>
+                                                                    {currentCode.expiryDate ? getDaysRemaining(currentCode.expiryDate) : 'Limited Time'}
+                                                                </div>
+
+                                                                <div className="d-flex align-items-center gap-2">
+                                                                    {currentCode.minPurchaseAmount > 0 && (
+                                                                        <small className="text-muted" style={{ fontSize: '0.8rem' }}>
+                                                                            Min: {formatCurrency(currentCode.minPurchaseAmount)}
+                                                                        </small>
+                                                                    )}
+
+                                                                    {(offer.redeemSteps || offer.offerDetails) && (
+                                                                        <Button
+                                                                            variant="link"
+                                                                            className="p-0 text-decoration-none d-flex align-items-center gap-1"
+                                                                            style={{ fontSize: '0.8rem', color: '#3b82f6', fontWeight: '600' }}
+                                                                            onClick={() => handleShowOffer(offer)}
+                                                                        >
+                                                                            <i className="fas fa-info-circle"></i>
+                                                                            Details
+                                                                        </Button>
+                                                                    )}
+                                                                </div>
                                                             </div>
 
-                                                            <div className="d-flex align-items-center gap-2">
-                                                                {offer.minPurchaseAmount > 0 && (
-                                                                    <small className="text-muted" style={{ fontSize: '0.8rem' }}>
-                                                                        Min: {formatCurrency(offer.minPurchaseAmount)}
-                                                                    </small>
-                                                                )}
+                                                            <div className="mt-3">
+                                                                <Button
+                                                                    variant="primary"
+                                                                    className="w-100 rounded-pill fw-bold"
+                                                                    style={{
+                                                                        background: 'linear-gradient(135deg, #0284c7 0%, #3b82f6 100%)',
+                                                                        border: 'none',
+                                                                        padding: '10px'
+                                                                    }}
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault();
+                                                                        if (currentCode.code) {
+                                                                            navigator.clipboard.writeText(currentCode.code);
+                                                                            setCopiedId(`${offer._id}_${currentIndex}`);
+                                                                            setTimeout(() => setCopiedId(null), 2000);
+                                                                        }
 
-                                                                {(offer.redeemSteps || offer.offerDetails) && (
-                                                                    <Button
-                                                                        variant="link"
-                                                                        className="p-0 text-decoration-none d-flex align-items-center gap-1"
-                                                                        style={{ fontSize: '0.8rem', color: '#3b82f6', fontWeight: '600' }}
-                                                                        onClick={() => handleShowOffer(offer)}
-                                                                    >
-                                                                        <i className="fas fa-info-circle"></i>
-                                                                        Details
-                                                                    </Button>
-                                                                )}
+                                                                        const targetLink = offer.redeemLink || '/notes';
+                                                                        if (targetLink.startsWith('http')) {
+                                                                            window.open(targetLink, '_blank', 'noopener');
+                                                                        } else {
+                                                                            navigate(targetLink);
+                                                                        }
+                                                                    }}
+                                                                >
+                                                                    {copiedId === `${offer._id}_${currentIndex}` ? 'CODE COPIED!' : 'REDEEM NOW'}
+                                                                </Button>
                                                             </div>
-                                                        </div>
-
-                                                        <div className="mt-3">
-                                                            <Button
-                                                                variant="primary"
-                                                                className="w-100 rounded-pill fw-bold"
-                                                                style={{
-                                                                    background: 'linear-gradient(135deg, #0284c7 0%, #3b82f6 100%)',
-                                                                    border: 'none',
-                                                                    padding: '10px'
-                                                                }}
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    const code = offer.offerType === 'voucher' ? offer.voucherCode : offer.promoCode;
-                                                                    if (code) {
-                                                                        navigator.clipboard.writeText(code);
-                                                                        setCopiedId(offer._id);
-                                                                        setTimeout(() => setCopiedId(null), 2000);
-                                                                    }
-
-                                                                    const targetLink = offer.redeemLink || '/notes';
-                                                                    if (targetLink.startsWith('http')) {
-                                                                        window.open(targetLink, '_blank');
-                                                                    } else {
-                                                                        navigate(targetLink);
-                                                                    }
-                                                                }}
-                                                            >
-                                                                {copiedId === offer._id ? 'CODE COPIED!' : 'REDEEM NOW'}
-                                                            </Button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                             </Carousel.Item>
                         ))}

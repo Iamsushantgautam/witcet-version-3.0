@@ -553,11 +553,7 @@ const Offers = () => {
                     )}
                 </Modal.Body>
             </Modal>
-        </Container>
-    );
-    return (
-        <Container className="offers-container">
-            {/* ... Existing ... */}
+
             {/* Add Offer Modal */}
             <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered size="lg">
                 <Modal.Header closeButton>

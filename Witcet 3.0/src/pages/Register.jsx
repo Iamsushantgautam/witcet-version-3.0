@@ -67,7 +67,7 @@ const Register = () => {
                     {error && <Alert variant="danger">{error}</Alert>}
 
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3">
+                        <Form.Group className="mb-3" controlId="regName">
                             <Form.Label>Full Name</Form.Label>
                             <Form.Control
                                 type="text"
@@ -79,7 +79,7 @@ const Register = () => {
                             />
                         </Form.Group>
 
-                        <Form.Group className="mb-3">
+                        <Form.Group className="mb-3" controlId="regUsername">
                             <Form.Label>Username</Form.Label>
                             <Form.Control
                                 type="text"
@@ -91,7 +91,7 @@ const Register = () => {
                             />
                         </Form.Group>
 
-                        <Form.Group className="mb-3">
+                        <Form.Group className="mb-3" controlId="regEmail">
                             <Form.Label>Email Address</Form.Label>
                             <Form.Control
                                 type="email"
@@ -103,7 +103,7 @@ const Register = () => {
                             />
                         </Form.Group>
 
-                        <Form.Group className="mb-3">
+                        <Form.Group className="mb-3" controlId="regPassword">
                             <Form.Label>Password</Form.Label>
                             <InputGroup>
                                 <Form.Control
@@ -124,7 +124,7 @@ const Register = () => {
                             </InputGroup>
                         </Form.Group>
 
-                        <Form.Group className="mb-4">
+                        <Form.Group className="mb-4" controlId="regConfirmPassword">
                             <Form.Label>Confirm Password</Form.Label>
                             <Form.Control
                                 type={showPassword ? "text" : "password"}

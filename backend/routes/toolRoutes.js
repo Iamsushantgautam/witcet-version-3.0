@@ -76,7 +76,9 @@ const fetchFavicon = async (url) => {
             console.log('Could not parse HTML for favicon:', error.message);
         }
 
-        // Fallback to common favicon locations
+        // Only try the standard /favicon.ico fallback if we can't find anything else, 
+        // but if it's likely to 404, we'll return null to let the frontend handle the fallback.
+        // For now, let's keep the logic but move the fallback inside the try-catch of the baseUrl
         return `${baseUrl}/favicon.ico`;
     } catch (error) {
         console.error('Error fetching favicon:', error.message);

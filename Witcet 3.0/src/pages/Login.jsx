@@ -51,10 +51,11 @@ const Login = () => {
                     {error && <Alert variant="danger">{error}</Alert>}
 
                     <Form onSubmit={handleSubmit}>
-                        <Form.Group className="mb-3">
+                        <Form.Group className="mb-3" controlId="loginIdentifier">
                             <Form.Label>Email or Username</Form.Label>
                             <Form.Control
                                 type="text"
+                                name="identifier"
                                 placeholder="Enter email or username"
                                 value={identifier}
                                 onChange={(e) => setIdentifier(e.target.value)}
@@ -62,11 +63,12 @@ const Login = () => {
                             />
                         </Form.Group>
 
-                        <Form.Group className="mb-4">
+                        <Form.Group className="mb-4" controlId="loginPassword">
                             <Form.Label>Password</Form.Label>
                             <InputGroup>
                                 <Form.Control
                                     type={showPassword ? "text" : "password"}
+                                    name="password"
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
