@@ -285,58 +285,72 @@ const Offers = () => {
                                             onTouchMove={handleTouchMove}
                                             onTouchEnd={() => handleTouchEnd(offer._id, allCodes.length)}
                                         >
-                                            <div className="d-flex align-items-center justify-content-between w-100">
-                                                {/* Navigation - Left */}
-                                                {allCodes.length > 1 && (
-                                                    <button
-                                                        className="btn btn-link text-muted p-0 me-2"
-                                                        onClick={(e) => { e.stopPropagation(); handlePrevCode(offer._id, allCodes.length); }}
-                                                        style={{ textDecoration: 'none' }}
+                                            {offer.loginRequired && !user ? (
+                                                <div className="d-flex align-items-center justify-content-center w-100 py-1">
+                                                    <Button
+                                                        variant="link"
+                                                        className="text-primary fw-bold text-decoration-none p-0"
+                                                        onClick={() => navigate('/login')}
+                                                        style={{ fontSize: '0.9rem' }}
                                                     >
-                                                        <i className="fas fa-chevron-left"></i>
-                                                    </button>
-                                                )}
-
-                                                {/* Code Display */}
-                                                <div className="flex-grow-1 text-center">
-                                                    <div className="d-flex align-items-center justify-content-center gap-2 mb-0">
-                                                        <span className="promo-code" style={{ letterSpacing: '2px', fontSize: '1.1rem' }}>
-                                                            {revealedCodes[offer._id] ? currentCode.code : '••••••••'}
-                                                        </span>
-                                                    </div>
+                                                        <i className="fas fa-lock me-2"></i>
+                                                        Login to see code
+                                                    </Button>
                                                 </div>
-
-                                                {/* Navigation - Right */}
-                                                {allCodes.length > 1 && (
-                                                    <button
-                                                        className="btn btn-link text-muted p-0 ms-2"
-                                                        onClick={(e) => { e.stopPropagation(); handleNextCode(offer._id, allCodes.length); }}
-                                                        style={{ textDecoration: 'none' }}
-                                                    >
-                                                        <i className="fas fa-chevron-right"></i>
-                                                    </button>
-                                                )}
-
-                                                {/* Actions - No Tooltips */}
-                                                <div className="d-flex align-items-center gap-2 ms-3 ps-3 border-start">
-                                                    <button
-                                                        className="copy-btn"
-                                                        onClick={() => toggleReveal(offer._id)}
-                                                        style={{ border: 'none', background: 'none', color: '#64748b' }}
-                                                    >
-                                                        <i className={`fas ${revealedCodes[offer._id] ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                                                    </button>
-
-                                                    {revealedCodes[offer._id] && (
+                                            ) : (
+                                                <div className="d-flex align-items-center justify-content-between w-100">
+                                                    {/* Navigation - Left */}
+                                                    {allCodes.length > 1 && (
                                                         <button
-                                                            className="copy-btn"
-                                                            onClick={() => handleCopyCode(currentCode.code, `${offer._id}_${currentIndex}`)}
+                                                            className="btn btn-link text-muted p-0 me-2"
+                                                            onClick={(e) => { e.stopPropagation(); handlePrevCode(offer._id, allCodes.length); }}
+                                                            style={{ textDecoration: 'none' }}
                                                         >
-                                                            <i className={`fas ${copiedId === `${offer._id}_${currentIndex}` ? 'fa-check' : 'fa-copy'}`}></i>
+                                                            <i className="fas fa-chevron-left"></i>
                                                         </button>
                                                     )}
+
+                                                    {/* Code Display */}
+                                                    <div className="flex-grow-1 text-center">
+                                                        <div className="d-flex align-items-center justify-content-center gap-2 mb-0">
+                                                            <span className="promo-code" style={{ letterSpacing: '2px', fontSize: '1.1rem' }}>
+                                                                {revealedCodes[offer._id] ? currentCode.code : '••••••••'}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Navigation - Right */}
+                                                    {allCodes.length > 1 && (
+                                                        <button
+                                                            className="btn btn-link text-muted p-0 ms-2"
+                                                            onClick={(e) => { e.stopPropagation(); handleNextCode(offer._id, allCodes.length); }}
+                                                            style={{ textDecoration: 'none' }}
+                                                        >
+                                                            <i className="fas fa-chevron-right"></i>
+                                                        </button>
+                                                    )}
+
+                                                    {/* Actions - No Tooltips */}
+                                                    <div className="d-flex align-items-center gap-2 ms-3 ps-3 border-start">
+                                                        <button
+                                                            className="copy-btn"
+                                                            onClick={() => toggleReveal(offer._id)}
+                                                            style={{ border: 'none', background: 'none', color: '#64748b' }}
+                                                        >
+                                                            <i className={`fas ${revealedCodes[offer._id] ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                                        </button>
+
+                                                        {revealedCodes[offer._id] && (
+                                                            <button
+                                                                className="copy-btn"
+                                                                onClick={() => handleCopyCode(currentCode.code, `${offer._id}_${currentIndex}`)}
+                                                            >
+                                                                <i className={`fas ${copiedId === `${offer._id}_${currentIndex}` ? 'fa-check' : 'fa-copy'}`}></i>
+                                                            </button>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            )}
                                         </div>
 
                                         {/* Dots Indicator Below Box */}
@@ -394,6 +408,10 @@ const Offers = () => {
                                                 }}
                                                 onClick={(e) => {
                                                     e.preventDefault();
+                                                    if (offer.loginRequired && !user) {
+                                                        navigate('/login');
+                                                        return;
+                                                    }
                                                     if (currentCode.code) {
                                                         navigator.clipboard.writeText(currentCode.code);
                                                         setCopiedId(offer._id);

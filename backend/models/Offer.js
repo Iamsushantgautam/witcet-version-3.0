@@ -70,7 +70,7 @@ const offerSchema = new mongoose.Schema({
     redeemSteps: { type: String }, // Instructions on how to redeem
     offerDetails: { type: String }, // Detailed terms or description
     priorityOrder: { type: Number, default: 0 }, // For homepage display sorting
-
+    loginRequired: { type: Boolean, default: false }, // Whether user must be logged in to see/use the code
     // Meta
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 }, {

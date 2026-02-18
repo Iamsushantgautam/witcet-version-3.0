@@ -150,6 +150,7 @@ const ManageOffers = () => {
         redeemSteps: '', // New field for instructions
         offerDetails: '', // New field for detailed terms
         priorityOrder: 0,
+        loginRequired: false,
         additionalPromoCodes: []
     };
 
@@ -368,6 +369,7 @@ const ManageOffers = () => {
                                     <th>Usage</th>
                                     <th>Status</th>
                                     <th>Dates</th>
+                                    <th>Login Req</th>
                                     <th>Redeem Link</th>
                                     <th>Tracking</th>
                                     <th>Actions</th>
@@ -420,6 +422,17 @@ const ManageOffers = () => {
                                                 <div>Start: {new Date(offer.startDate).toLocaleDateString()}</div>
                                                 {offer.endDate && <div>End: {new Date(offer.endDate).toLocaleDateString()}</div>}
                                             </div>
+                                        </td>
+                                        <td>
+                                            {offer.loginRequired ? (
+                                                <Badge bg="warning" className="text-dark">
+                                                    <i className="fas fa-lock me-1"></i> Yes
+                                                </Badge>
+                                            ) : (
+                                                <Badge bg="light" className="text-muted border">
+                                                    <i className="fas fa-unlock me-1"></i> No
+                                                </Badge>
+                                            )}
                                         </td>
                                         <td>
                                             <div className="small text-truncate" style={{ maxWidth: '150px' }} title={offer.redeemLink}>
@@ -526,6 +539,19 @@ const ManageOffers = () => {
                                             <Form.Label>Priority Order (Homepage)</Form.Label>
                                             <Form.Control type="number" name="priorityOrder" value={formData.priorityOrder} onChange={handleInputChange} placeholder="0" />
                                             <Form.Text className="text-muted">Higher numbers appear first.</Form.Text>
+                                        </Form.Group>
+                                    </Col>
+                                    <Col md={6}>
+                                        <Form.Group className="mt-4">
+                                            <Form.Check
+                                                type="switch"
+                                                id="loginRequired"
+                                                name="loginRequired"
+                                                label="Login Required to See Code?"
+                                                checked={formData.loginRequired}
+                                                onChange={handleInputChange}
+                                            />
+                                            <Form.Text className="text-muted">Users must be logged in to copy or view promo codes.</Form.Text>
                                         </Form.Group>
                                     </Col>
                                 </Row>

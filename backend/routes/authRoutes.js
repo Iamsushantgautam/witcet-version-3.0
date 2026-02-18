@@ -215,7 +215,7 @@ router.post('/forgot-password', async (req, res) => {
                     'content-type': 'application/json'
                 },
                 body: JSON.stringify({
-                    sender: { name: 'Witcet Admin', email: 'no-reply@witcet.online' },
+                    sender: { name: 'Witcet Password Reset', email: 'no-reply@witcet.online' },
                     to: [{ email: email }],
                     subject: 'Witcet - Reset Your Password',
                     htmlContent: `
