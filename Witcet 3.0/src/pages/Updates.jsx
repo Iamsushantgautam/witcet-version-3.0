@@ -142,6 +142,17 @@ const Updates = () => {
                                                                 <i className="fa fa-file-pdf me-1"></i>Download
                                                             </a>
                                                         )}
+                                                        {update.link && (
+                                                            <a
+                                                                href={update.link}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="btn btn-sm btn-outline-info download-btn link-btn"
+                                                                title="Open Link"
+                                                            >
+                                                                <i className="fa fa-link me-1"></i>Open
+                                                            </a>
+                                                        )}
                                                     </div>
 
                                                     <div className="update-meta mt-auto">

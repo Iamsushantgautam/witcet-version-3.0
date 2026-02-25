@@ -117,6 +117,19 @@ const Updates = () => {
                                             View PDF
                                         </a>
                                     )}
+                                    {update.link && (
+                                        <div style={{ marginTop: '10px', fontSize: '0.85rem' }}>
+                                            <strong>General Link:</strong> <a
+                                                href={update.link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-primary"
+                                                style={{ wordBreak: 'break-all' }}
+                                            >
+                                                {update.link}
+                                            </a>
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="update-actions">

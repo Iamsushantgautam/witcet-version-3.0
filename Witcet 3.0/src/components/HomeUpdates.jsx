@@ -105,6 +105,16 @@ const HomeUpdates = () => {
                                                 <i className="fas fa-file-pdf me-1"></i> View PDF
                                             </Button>
                                         )}
+                                        {update.link && (
+                                            <Button
+                                                variant="outline-info"
+                                                size="sm"
+                                                className="rounded-pill px-3 fw-bold flex-grow-1"
+                                                onClick={() => window.open(update.link, '_blank')}
+                                            >
+                                                <i className="fas fa-link me-1"></i> Open Link
+                                            </Button>
+                                        )}
 
                                     </div>
                                 </Card.Body>

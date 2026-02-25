@@ -144,7 +144,6 @@ const ManageOffers = () => {
         applicableCategories: '', // Comma separated string for UI
         applicableCourses: '', // Comma separated string for UI
         userEligibility: 'all',
-        userEligibility: 'all',
         bannerImage: '',
         redeemLink: '', // New field
         redeemSteps: '', // New field for instructions

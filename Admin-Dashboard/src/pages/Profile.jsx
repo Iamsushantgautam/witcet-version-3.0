@@ -48,13 +48,15 @@ const Profile = () => {
                     name: user.name || 'Administrator',
                     email: user.email || 'admin@witcet.com',
                     role: user.role || 'Admin',
-                    createdAt: new Date().toLocaleDateString()
+                    createdAt: new Date().toLocaleDateString(),
+                    profilePicture: user.profilePicture || null
                 });
                 setEditData({
                     name: user.name || 'Administrator',
                     email: user.email || 'admin@witcet.com',
                     role: user.role || 'Admin',
-                    createdAt: new Date().toLocaleDateString()
+                    createdAt: new Date().toLocaleDateString(),
+                    profilePicture: user.profilePicture || null
                 });
             } catch (err) {
                 console.error('Error parsing user data:', err);
@@ -125,8 +127,12 @@ const Profile = () => {
                 <div className="profile-main">
                     <div className="profile-card">
                         <div className="profile-avatar-section">
-                            <div className="profile-avatar">
-                                <User size={48} />
+                            <div className="profile-avatar" style={{ overflow: 'hidden' }}>
+                                {userData.profilePicture ? (
+                                    <img src={userData.profilePicture} alt={userData.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                ) : (
+                                    userData.name?.charAt(0)?.toUpperCase()
+                                )}
                             </div>
                             <h3 className="profile-name">{userData.name}</h3>
                             <p className="profile-role-badge">{userData.role}</p>

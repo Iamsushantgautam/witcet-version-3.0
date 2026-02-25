@@ -13,6 +13,7 @@ const AddUpdate = () => {
         time: new Date().toTimeString().split(' ')[0].substring(0, 5),
         imageUrl: '',
         pdfLink: '',
+        link: '',
         isActive: true
     });
     const [loading, setLoading] = useState(false);
@@ -126,6 +127,18 @@ const AddUpdate = () => {
                         className="form-input"
                         placeholder="https://drive.google.com/..."
                         value={formData.pdfLink}
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label className="form-label">Custom Link (General Link)</label>
+                    <input
+                        type="text"
+                        name="link"
+                        className="form-input"
+                        placeholder="https://google.com/..."
+                        value={formData.link}
                         onChange={handleChange}
                     />
                 </div>

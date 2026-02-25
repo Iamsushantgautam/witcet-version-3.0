@@ -7,6 +7,7 @@ const updateSchema = new mongoose.Schema({
     time: { type: String, required: true },
     imageUrl: { type: String, default: '' },
     pdfLink: { type: String, default: '' },
+    link: { type: String, default: '' },
     isActive: { type: Boolean, default: true },
     createdAt: { type: Date, default: Date.now }
 });

@@ -14,6 +14,7 @@ const EditUpdate = () => {
         time: '',
         imageUrl: '',
         pdfLink: '',
+        link: '',
         isActive: true
     });
     const [loading, setLoading] = useState(true);
@@ -36,6 +37,7 @@ const EditUpdate = () => {
                 time: update.time || '',
                 imageUrl: update.imageUrl || '',
                 pdfLink: update.pdfLink || '',
+                link: update.link || '',
                 isActive: update.isActive !== undefined ? update.isActive : true
             });
             setLoading(false);
@@ -267,6 +269,18 @@ const EditUpdate = () => {
                         className="form-input"
                         placeholder="https://drive.google.com/..."
                         value={formData.pdfLink}
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label className="form-label">🔗 Custom Link (General Link)</label>
+                    <input
+                        type="url"
+                        name="link"
+                        className="form-input"
+                        placeholder="https://google.com/..."
+                        value={formData.link}
                         onChange={handleChange}
                     />
                 </div>
