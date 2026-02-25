@@ -15,6 +15,7 @@ import Policy from './pages/Policy';
 import Search from './pages/Search';
 import Tools from './pages/Tools';
 import Offers from './pages/Offers';
+import TcsNqt from './pages/TcsNqt';
 import ScrollToTop from './components/ScrollToTop';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -42,6 +43,7 @@ const MainContent = () => {
         <Route path="/updates" element={<Updates />} />
         <Route path="/tools" element={<Tools />} />
         <Route path="/offers" element={<Offers />} />
+        <Route path="/tcs-nqt" element={<TcsNqt />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/feedback" element={<Feedback />} />
         <Route path="/help" element={<Help />} />

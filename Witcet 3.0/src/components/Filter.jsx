@@ -57,6 +57,15 @@ const Filter = () => {
             bgColor: '#f0f9ff', // Soft Sky
             iconColor: '#0ea5e9',
             isIcon: false
+        },
+        {
+            title: 'TCS NQT',
+            subtitle: 'Complete Guide',
+            href: '/tcs-nqt',
+            icon: 'fas fa-laptop-code',
+            bgColor: '#eef2ff', // Soft Indigo
+            iconColor: '#4f46e5',
+            isIcon: true
         }
     ];
 
