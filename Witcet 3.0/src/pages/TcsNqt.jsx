@@ -30,7 +30,7 @@ const TcsNqt = () => {
                                     <Col md={4}>
                                         <div className="p-3 rounded bg-light">
                                             <span className="d-block text-muted small fw-bold text-uppercase">Registration End</span>
-                                            <span className="d-block h5 fw-bold text-danger mb-0">08 Mar 2026</span>
+                                            <span className="d-block h5 fw-bold text-danger mb-0">20 Mar 2026</span>
                                         </div>
                                     </Col>
                                     <Col md={4}>
