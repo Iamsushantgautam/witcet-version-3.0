@@ -52,6 +52,42 @@ const Database = () => {
         }
     };
 
+    const handleImageBackup = async (isPreview = false) => {
+        try {
+            setLoading(true);
+            setError('');
+            setSuccess('');
+
+            // Call Cloudinary gallery endpoint
+            const res = await api.get('/upload/gallery?folder=witcet');
+            const imageData = res.data.images || [];
+
+            if (isPreview) {
+                setPreviewData(imageData);
+                setPreviewTitle('Cloudinary Asset Backup');
+                setLoading(false);
+                return;
+            }
+
+            // Create download link for images JSON
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(imageData, null, 2));
+            const link = document.createElement('a');
+            link.setAttribute("href", dataStr);
+            const filename = `cloudinary_witcet_backup_${new Date().toISOString().split('T')[0]}.json`;
+            link.setAttribute("download", filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            setSuccess('Cloudinary backup downloaded successfully!');
+        } catch (err) {
+            console.error('Image Backup failed:', err);
+            setError('Failed to fetch Cloudinary data. Please check connection.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="database-page p-4">
             <div className="page-header mb-4">
@@ -77,7 +113,7 @@ const Database = () => {
                                     <p className="text-muted m-0">Download all collections in a single JSON file</p>
                                 </div>
                             </div>
-
+                            {/* ... (keep rest of full backup card contents) ... */}
                             <div className="alert alert-info border-0 bg-light-info mb-4">
                                 <div className="d-flex">
                                     <AlertTriangle className="text-info me-3" size={24} />
@@ -126,6 +162,49 @@ const Database = () => {
                                 >
                                     <Eye className="me-2" size={20} />
                                     Preview
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* NEW CLOUDINARY BACKUP CARD */}
+                    <div className="card border-0 shadow-sm mb-4">
+                        <div className="card-body p-4">
+                            <div className="d-flex align-items-center mb-4">
+                                <div className="bg-light-primary p-3 rounded-circle me-3">
+                                    <FileJson size={32} className="text-primary" />
+                                </div>
+                                <div>
+                                    <h4 className="m-0 fw-bold">Cloudinary Image Backup</h4>
+                                    <p className="text-muted m-0">Take backup of images present in database</p>
+                                </div>
+                            </div>
+                            
+                            <div className="alert alert-warning border-0 bg-light-warning mb-4">
+                                <div className="d-flex">
+                                    <Clock className="text-warning me-3" size={24} />
+                                    <div>
+                                        <p className="m-0 small">This will export the <strong>metadata and URLs</strong> of all images stored in the Cloudinary 'witcet' directory. It does not download physical files but provides a recovery list.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="d-flex gap-2">
+                                <button 
+                                    className="btn btn-success d-flex align-items-center py-2 px-4 fw-bold text-white"
+                                    onClick={() => handleImageBackup()}
+                                    disabled={loading}
+                                >
+                                    {loading ? <Loader2 className="animate-spin me-2" size={20} /> : <Download className="me-2" size={20} />}
+                                    Download Image Backup
+                                </button>
+                                <button 
+                                    className="btn btn-outline-success d-flex align-items-center py-2 px-3 fw-bold"
+                                    onClick={() => handleImageBackup(true)}
+                                    disabled={loading}
+                                >
+                                    <Eye className="me-2" size={20} />
+                                    Preview Metadata
                                 </button>
                             </div>
                         </div>
