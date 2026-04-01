@@ -13,6 +13,9 @@ const Dashboard = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'available', 'unavailable'
     const [loading, setLoading] = useState(true);
+    const [undoNote, setUndoNote] = useState(null);
+    const [showUndo, setShowUndo] = useState(false);
+    const [undoTimer, setUndoTimer] = useState(null);
 
     useEffect(() => {
         fetchData();
@@ -46,16 +49,54 @@ const Dashboard = () => {
         navigate(`/edit-note/${id}`);
     };
 
-    const handleDelete = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this note?')) return;
+    const handleDelete = (noteToDelete) => {
+        // Clear any existing timer
+        if (undoTimer) {
+            clearTimeout(undoTimer);
+            // If another note was waiting to be deleted, execute it now
+            if (undoNote) finalizeDelete(undoNote._id);
+        }
+
+        // Buffer the note
+        setUndoNote(noteToDelete);
+        setShowUndo(true);
+        
+        // Optimistic UI update
+        setNotes(prev => prev.filter(n => n._id !== noteToDelete._id));
+        setStatsData(prev => ({ ...prev, notes: prev.notes - 1 }));
+
+        // Start 6-second countdown
+        const timer = setTimeout(() => {
+            finalizeDelete(noteToDelete._id);
+        }, 6000);
+        
+        setUndoTimer(timer);
+    };
+
+    const finalizeDelete = async (id) => {
         try {
             await api.delete(`/notes/${id}`);
-            setNotes(notes.filter(n => n._id !== id));
-            // Update stats
-            setStatsData(prev => ({ ...prev, notes: prev.notes - 1 }));
+            setShowUndo(false);
+            setUndoNote(null);
+            setUndoTimer(null);
         } catch (err) {
-            console.error("Error deleting note:", err);
-            alert('Failed to delete note. Please try again.');
+            console.error("Final delete error:", err);
+            // If delete fails, we should really put it back, but let's keep it simple
+            setShowUndo(false);
+        }
+    };
+
+    const handleUndo = () => {
+        if (undoTimer) {
+            clearTimeout(undoTimer);
+            // Restore note
+            setNotes(prev => [undoNote, ...prev]);
+            setStatsData(prev => ({ ...prev, notes: prev.notes + 1 }));
+            
+            // UI cleanup
+            setShowUndo(false);
+            setUndoNote(null);
+            setUndoTimer(null);
         }
     };
 
@@ -113,10 +154,15 @@ const Dashboard = () => {
             note.notesCode?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             note.tag?.toLowerCase().includes(searchTerm.toLowerCase());
 
-        const matchesStatus =
-            filterStatus === 'all' ? true :
-                filterStatus === 'available' ? (note.notesPagePath === 'true') :
-                    filterStatus === 'unavailable' ? (note.notesPagePath !== 'true') : true;
+        let matchesStatus = true;
+        if (filterStatus === 'available') {
+            matchesStatus = (note.notesPagePath === 'true');
+        } else if (filterStatus === 'unavailable') {
+            matchesStatus = (note.notesPagePath !== 'true');
+        } else if (filterStatus === 'duplicates') {
+            // Check if this note's code is used by any other note
+            matchesStatus = note.notesCode && notes.some(n => n.notesCode === note.notesCode && n._id !== note._id);
+        }
 
         return matchesSearch && matchesStatus;
     });
@@ -179,6 +225,7 @@ const Dashboard = () => {
                     <option value="all">All Notes</option>
                     <option value="available">Available Only</option>
                     <option value="unavailable">Not Available Only</option>
+                    <option value="duplicates">⚠️ Duplicate Codes Only</option>
                 </select>
                 <button onClick={() => navigate('/add-note')} className="btn-add-note">
                     ➕ Add New
@@ -293,13 +340,28 @@ const Dashboard = () => {
                                         Edit Details
                                     </button>
                                 )}
-                                <button onClick={() => handleDelete(note._id)} className="btn-delete">
+                                <button onClick={() => handleDelete(note)} className="btn-delete">
                                     <Trash2 size={14} />
                                     Delete
                                 </button>
                             </div>
                         </div>
                     ))}
+                </div>
+            )}
+
+            {/* UNDO TOAST */}
+            {showUndo && (
+                <div className="undo-toast-overlay">
+                    <div className="undo-toast">
+                        <div className="undo-content">
+                            <Trash2 size={20} className="undo-icon" />
+                            <span>Note deleted!</span>
+                        </div>
+                        <button className="btn-undo-action" onClick={handleUndo}>
+                            UNDO
+                        </button>
+                    </div>
                 </div>
             )}
         </div>

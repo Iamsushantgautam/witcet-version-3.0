@@ -27,6 +27,14 @@ router.get('/:id', async (req, res) => {
 // Create note (Protected)
 router.post('/', adminAuth, async (req, res) => {
     try {
+        const { notesCode } = req.body;
+        
+        // Check for duplication
+        const existingNote = await Note.findOne({ notesCode });
+        if (existingNote) {
+            return res.status(400).json({ message: `A note with the code "${notesCode}" already exists. Please use a unique Notes Code.` });
+        }
+
         const note = new Note(req.body);
         const newNote = await note.save();
         res.status(201).json(newNote);

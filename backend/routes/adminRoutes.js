@@ -47,4 +47,48 @@ router.get('/backup', adminAuth, async (req, res) => {
     }
 });
 
+// --- Bulk Upload Data ---
+router.post('/upload-bulk', adminAuth, async (req, res) => {
+    try {
+        const { collection, data } = req.body;
+        
+        if (!collection || !data || !Array.isArray(data)) {
+            return res.status(400).json({ message: 'Invalid bulk data format. Collection name and array of data are required.' });
+        }
+
+        const models = mongoose.modelNames();
+        if (!models.includes(collection)) {
+            return res.status(400).json({ message: `Collection "${collection}" does not exist in the system.` });
+        }
+
+        const Model = mongoose.model(collection);
+        
+        // Use bulkWrite for efficient Upsert (Update if exists, Insert if new)
+        const operations = data.map(item => {
+            const doc = { ...item };
+            const id = doc._id || new mongoose.Types.ObjectId();
+            delete doc._id; // Remove _id if it's there to avoid immutable field error during update
+
+            return {
+                updateOne: {
+                    filter: { _id: id },
+                    update: { $set: doc },
+                    upsert: true
+                }
+            };
+        });
+
+        const result = await Model.bulkWrite(operations);
+        
+        res.json({ 
+            message: `Bulk upload to "${collection}" successful!`,
+            insertedCount: result.upsertedCount,
+            modifiedCount: result.modifiedCount
+        });
+    } catch (err) {
+        console.error('Bulk Upload Error:', err);
+        res.status(500).json({ message: 'Bulk upload failed. Please verify the JSON structure.' });
+    }
+});
+
 module.exports = router;

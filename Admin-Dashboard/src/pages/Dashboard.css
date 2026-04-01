@@ -281,6 +281,69 @@
     font-size: 0.95rem;
 }
 
+/* Undo Toast Styles */
+.undo-toast-overlay {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.undo-toast {
+    background: #1f2937;
+    color: #ffffff;
+    padding: 16px 24px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    min-width: 320px;
+}
+
+.undo-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.undo-icon {
+    color: #f87171;
+}
+
+.btn-undo-action {
+    background: #7c5fd9;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: auto;
+}
+
+.btn-undo-action:hover {
+    background: #6b4fc4;
+    transform: scale(1.05);
+}
+
+@keyframes slideUp {
+    from {
+        bottom: -100px;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .notes-grid {

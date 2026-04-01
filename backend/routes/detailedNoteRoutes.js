@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const DetailedNote = require('../models/DetailedNote');
-const auth = require('../middleware/auth');
+const adminAuth = require('../middleware/adminAuth');
 
 // Get all detailed notes
 router.get('/', async (req, res) => {
@@ -36,9 +36,17 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create detailed note (Protected)
-router.post('/', auth, async (req, res) => {
+router.post('/', adminAuth, async (req, res) => {
     try {
-        const { notesTitle, notesCode, introTitle, units } = req.body;
+        const { notesCode } = req.body;
+        
+        // Check for duplication
+        const existingNote = await DetailedNote.findOne({ notesCode });
+        if (existingNote) {
+            return res.status(400).json({ message: `A Detailed Note with the code "${notesCode}" already exists. Please use a unique Notes Code.` });
+        }
+
+        const { notesTitle, introTitle, units } = req.body;
         const note = new DetailedNote({ notesTitle, notesCode, introTitle, units });
         const newNote = await note.save();
         res.status(201).json(newNote);
@@ -48,7 +56,7 @@ router.post('/', auth, async (req, res) => {
 });
 
 // Update detailed note (Protected)
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', adminAuth, async (req, res) => {
     try {
         const updatedNote = await DetailedNote.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.json(updatedNote);
@@ -58,7 +66,7 @@ router.put('/:id', auth, async (req, res) => {
 });
 
 // Delete detailed note (Protected)
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', adminAuth, async (req, res) => {
     try {
         await DetailedNote.findByIdAndDelete(req.params.id);
         res.json({ message: 'Detailed note deleted' });

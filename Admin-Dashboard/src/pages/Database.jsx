@@ -205,10 +205,125 @@ const Database = () => {
                 </div>
 
                 <div className="col-md-4">
+                    {/* Bulk Data Import Section */}
+                    <div className="card border-0 shadow-sm mb-4">
+                        <div className="card-body p-4">
+                            <div className="d-flex align-items-center mb-3">
+                                <FileJson size={24} className="text-primary me-2" />
+                                <h5 className="m-0 fw-bold">Bulk Data Import</h5>
+                            </div>
+                            <p className="text-muted small mb-3">Upload data in bulk to a specific collection using a JSON file.</p>
+                            
+                            <div className="mb-3">
+                                <label className="form-label small fw-bold">Select Target Collection</label>
+                                <select 
+                                    className="form-select"
+                                    id="bulkCollection"
+                                    defaultValue=""
+                                >
+                                    <option value="" disabled>-- Choose Collection --</option>
+                                    <option value="Note">Primary Notes</option>
+                                    <option value="DetailedNote">Detailed Notes</option>
+                                    <option value="User">Users</option>
+                                    <option value="Update">Updates</option>
+                                    <option value="Tool">Tools</option>
+                                    <option value="Offer">Offers</option>
+                                </select>
+                            </div>
+
+                            <div className="mb-3">
+                                <label className="form-label small fw-bold">Upload JSON File</label>
+                                <input 
+                                    type="file" 
+                                    className="form-control" 
+                                    id="bulkFile"
+                                    accept=".json"
+                                />
+                            </div>
+
+                            <div className="mb-3">
+                                <label className="form-label small fw-bold">OR Paste JSON Data</label>
+                                <textarea 
+                                    className="form-control font-monospace" 
+                                    id="bulkPaste"
+                                    rows="5"
+                                    placeholder='[{ "title": "Maths", ... }]'
+                                    style={{ fontSize: '0.8rem' }}
+                                ></textarea>
+                            </div>
+
+                            <button 
+                                className="btn btn-primary w-100 py-2 fw-bold"
+                                onClick={async () => {
+                                    const collection = document.getElementById('bulkCollection').value;
+                                    const fileInput = document.getElementById('bulkFile');
+                                    const pasteInput = document.getElementById('bulkPaste');
+                                    const file = fileInput.files[0];
+                                    const pastedData = pasteInput.value.trim();
+
+                                    if (!collection) {
+                                        alert('Please select a target collection first!');
+                                        return;
+                                    }
+                                    if (!file && !pastedData) {
+                                        alert('Please select a JSON file or paste JSON data!');
+                                        return;
+                                    }
+
+                                    const processUpload = async (jsonData) => {
+                                        try {
+                                            setLoading(true);
+                                            setError('');
+                                            setSuccess('');
+
+                                            const response = await api.post('/admin/upload-bulk', {
+                                                collection,
+                                                data: Array.isArray(jsonData) ? jsonData : [jsonData]
+                                            });
+
+                                            setSuccess(response.data.message);
+                                            alert(response.data.message);
+                                            fileInput.value = ''; // Reset file input
+                                            pasteInput.value = ''; // Reset paste area
+                                        } catch (err) {
+                                            console.error('Import error:', err);
+                                            setError(err.response?.data?.message || 'Invalid JSON format or Upload failed.');
+                                        } finally {
+                                            setLoading(false);
+                                        }
+                                    };
+
+                                    if (file) {
+                                        const reader = new FileReader();
+                                        reader.onload = async (e) => {
+                                            try {
+                                                const jsonData = JSON.parse(e.target.result);
+                                                await processUpload(jsonData);
+                                            } catch (err) {
+                                                alert('Invalid JSON in file!');
+                                            }
+                                        };
+                                        reader.readAsText(file);
+                                    } else if (pastedData) {
+                                        try {
+                                            const jsonData = JSON.parse(pastedData);
+                                            await processUpload(jsonData);
+                                        } catch (err) {
+                                            alert('Invalid JSON pasted! Please check your syntax.');
+                                        }
+                                    }
+                                }}
+                                disabled={loading}
+                            >
+                                {loading ? 'Importing...' : 'Upload Data'}
+                            </button>
+                        </div>
+                    </div>
+
                     <div className="card border-0 shadow-sm bg-primary text-white">
                         <div className="card-body p-4">
                             <h5 className="fw-bold mb-3">Security Note</h5>
-                            <p className="small m-0">Backups are restricted to Super Administrators. Every backup attempt is logged for security monitoring.</p>
+                            <p className="small m-0">Backups and Imports are restricted to Super Administrators. Every data manipulation attempt is logged for security monitoring.</p>
                         </div>
                     </div>
                 </div>
