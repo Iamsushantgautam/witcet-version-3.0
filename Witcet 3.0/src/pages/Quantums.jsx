@@ -19,7 +19,7 @@ const Quantums = () => {
     // Categories configuration
     const categories = [
         { id: 'all', label: 'All' },
-        { id: '4th_year', label: ' 4th Year' },
+        { id: '4th_year', label: '🎓 4th Year' },
         { id: '3rd_year', label: '📢 3rd Year' },
         { id: '2nd_year', label: '📝 2nd Year' },
         { id: '1st_year', label: '📅 1st Year' }

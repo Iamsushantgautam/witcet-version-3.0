@@ -11,7 +11,8 @@ const Dashboard = () => {
     const [notes, setNotes] = useState([]);
     const [detailedNotes, setDetailedNotes] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'available', 'unavailable'
+    const [filterStatus, setFilterStatus] = useState('all'); // 'all', 'available', 'unavailable', 'duplicates'
+    const [filterYear, setFilterYear] = useState('all');
     const [loading, setLoading] = useState(true);
     const [undoNote, setUndoNote] = useState(null);
     const [showUndo, setShowUndo] = useState(false);
@@ -160,12 +161,17 @@ const Dashboard = () => {
         } else if (filterStatus === 'unavailable') {
             matchesStatus = (note.notesPagePath !== 'true');
         } else if (filterStatus === 'duplicates') {
-            // Check if this note's code is used by any other note
             matchesStatus = note.notesCode && notes.some(n => n.notesCode === note.notesCode && n._id !== note._id);
         }
 
-        return matchesSearch && matchesStatus;
+        const matchesYear = filterYear === 'all' || 
+            (note.tag?.toLowerCase().includes(filterYear.toLowerCase()) || 
+             note.tag?.toLowerCase().includes(filterYear.replace('_', ' ').toLowerCase()));
+
+        return matchesSearch && matchesStatus && matchesYear;
     });
+
+    const academicYears = ['1st_year', '2nd_year', '3rd_year', '4th_year'];
 
     return (
         <div className="dashboard-container">
@@ -216,17 +222,33 @@ const Dashboard = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
                 </div>
+                
+                {/* Status Filter */}
                 <select
                     className="status-filter search-input"
-                    style={{ maxWidth: '200px' }}
+                    style={{ maxWidth: '160px' }}
                     value={filterStatus}
                     onChange={(e) => setFilterStatus(e.target.value)}
                 >
-                    <option value="all">All Notes</option>
-                    <option value="available">Available Only</option>
-                    <option value="unavailable">Not Available Only</option>
-                    <option value="duplicates">⚠️ Duplicate Codes Only</option>
+                    <option value="all">Status: All</option>
+                    <option value="available">Available</option>
+                    <option value="unavailable">Inactive</option>
+                    <option value="duplicates">⚠️ Duplicates</option>
                 </select>
+
+                {/* Year Filter */}
+                <select
+                    className="status-filter search-input"
+                    style={{ maxWidth: '140px' }}
+                    value={filterYear}
+                    onChange={(e) => setFilterYear(e.target.value)}
+                >
+                    <option value="all">Year: All</option>
+                    {academicYears.map(year => (
+                        <option key={year} value={year}>{year.replace('_', ' ').toUpperCase()}</option>
+                    ))}
+                </select>
+
                 <button onClick={() => navigate('/add-note')} className="btn-add-note">
                     ➕ Add New
                 </button>

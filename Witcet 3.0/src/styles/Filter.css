@@ -35,7 +35,7 @@
     overflow: hidden;
 }
 
-.filter-item-card::before {
+/* .filter-item-card::before {
     content: '';
     position: absolute;
     top: 0;
@@ -45,13 +45,13 @@
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
-}
+} */
 
-.filter-item-card:hover {
+/* .filter-item-card:hover {
     transform: translateY(-12px);
     box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.12);
     border-color: rgba(13, 110, 253, 0.2);
-}
+} */
 
 .filter-icon-box {
     width: 72px;
@@ -66,7 +66,7 @@
     z-index: 2;
 }
 
-.filter-item-card:hover .filter-icon-box {
+.filter-item-card:hover {
     transform: scale(1.15) rotate(8deg);
     box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
 }

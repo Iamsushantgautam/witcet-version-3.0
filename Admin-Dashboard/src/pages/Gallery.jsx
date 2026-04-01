@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../utils/api';
-import { Copy, Check, ExternalLink, Loader2, Image as ImageIcon, Search, Upload, X, Plus } from 'lucide-react';
+import { Copy, Check, ExternalLink, Loader2, Image as ImageIcon, Search, Upload, X, Plus, Trash2 } from 'lucide-react';
 import './Gallery.css';
 
 const Gallery = ({ onSelect, isModal = false }) => {
@@ -13,6 +13,11 @@ const Gallery = ({ onSelect, isModal = false }) => {
     const [previewImage, setPreviewImage] = useState(null);
     const [folders, setFolders] = useState(['All']);
     
+    // Undo state
+    const [undoImg, setUndoImg] = useState(null);
+    const [showUndo, setShowUndo] = useState(false);
+    const [undoTimer, setUndoTimer] = useState(null);
+
     // Upload state
     const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
     const [uploading, setUploading] = useState(false);
@@ -50,6 +55,50 @@ const Gallery = ({ onSelect, isModal = false }) => {
             setError('Failed to fetch images');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDelete = (e, img) => {
+        e.stopPropagation(); // Avoid triggering select/preview
+        
+        // If there's an existing undo timer, process it immediately
+        if (undoTimer) {
+            processRealDelete();
+        }
+
+        setUndoImg(img);
+        setShowUndo(true);
+        setImages(images.filter(i => i.public_id !== img.public_id));
+        
+        const timer = setTimeout(() => {
+            processRealDelete(img.public_id);
+        }, 6000);
+        
+        setUndoTimer(timer);
+    };
+
+    const processRealDelete = async (public_id) => {
+        const idToDelete = public_id || (undoImg?.public_id);
+        if (!idToDelete) return;
+
+        try {
+            await api.delete(`/upload/delete?public_id=${encodeURIComponent(idToDelete)}`);
+        } catch (err) {
+            console.error('Real delete failed:', err);
+        } finally {
+            setUndoImg(null);
+            setShowUndo(false);
+            setUndoTimer(null);
+        }
+    };
+
+    const undoDelete = () => {
+        if (undoImg) {
+            setImages([undoImg, ...images]);
+            clearTimeout(undoTimer);
+            setUndoImg(null);
+            setShowUndo(false);
+            setUndoTimer(null);
         }
     };
 
@@ -169,13 +218,24 @@ const Gallery = ({ onSelect, isModal = false }) => {
                                     {img.public_id.replace(/^witcet\//, '')}
                                 </span>
                                 <div className="image-actions">
-                                    <button 
-                                        className={`btn-copy ${copiedId === img.public_id ? 'copied' : ''}`}
-                                        onClick={() => copyToClipboard(img.url, img.public_id)}
-                                        title="Copy URL"
-                                    >
-                                        {copiedId === img.public_id ? <Check size={14} /> : <Copy size={14} />}
-                                    </button>
+                                    <div className="action-btns-group">
+                                        <button 
+                                            className={`btn-copy ${copiedId === img.public_id ? 'copied' : ''}`}
+                                            onClick={() => copyToClipboard(img.url, img.public_id)}
+                                            title="Copy URL"
+                                        >
+                                            {copiedId === img.public_id ? <Check size={14} /> : <Copy size={14} />}
+                                        </button>
+                                        {!onSelect && (
+                                            <button 
+                                                className="btn-delete-item"
+                                                onClick={(e) => handleDelete(e, img)}
+                                                title="Delete Image"
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        )}
+                                    </div>
                                     <span className="image-meta">{img.format.toUpperCase()} • {img.width}x{img.height}</span>
                                 </div>
                             </div>
@@ -188,6 +248,20 @@ const Gallery = ({ onSelect, isModal = false }) => {
                     </div>
                 )}
             </div>
+
+            {/* Undo Toast */}
+            {showUndo && (
+                <div className="gallery-undo-toast">
+                    <div className="undo-content">
+                        <div className="undo-icon"><Trash2 size={18} /></div>
+                        <div className="undo-text">
+                            <strong>Image removed</strong>
+                            <span>{undoImg?.public_id.split('/').pop()}</span>
+                        </div>
+                    </div>
+                    <button className="btn-undo-action" onClick={undoDelete}>UNDO</button>
+                </div>
+            )}
 
             {/* Full-size Preview Lightbox */}
             {previewImage && (
@@ -265,3 +339,4 @@ const Gallery = ({ onSelect, isModal = false }) => {
 };
 
 export default Gallery;
+;
