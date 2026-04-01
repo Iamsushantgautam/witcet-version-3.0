@@ -13,7 +13,8 @@ import {
     LogOut,
     X,
     Tag,
-    Image as ImageIcon
+    Image as ImageIcon,
+    Database as DbIcon
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -32,6 +33,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { icon: <Wrench size={18} />, label: 'Tools', path: '/tools' },
         { icon: <Tag size={18} />, label: 'Offers', path: '/offers' },
         { icon: <ImageIcon size={18} />, label: 'Gallery', path: '/gallery' },
+        { icon: <DbIcon size={18} />, label: 'Database', path: '/database' }, // Database Management
     ];
 
     const handleLogout = () => {

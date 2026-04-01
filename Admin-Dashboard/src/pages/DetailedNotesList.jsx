@@ -65,7 +65,10 @@ const DetailedNotesList = () => {
 
     return (
         <div className="detailed-notes-container">
-            <h2 className="detailed-notes-heading">Detailed Notes List</h2>
+            <h2 className="detailed-notes-heading">
+                Detailed Notes List 
+                <span className="notes-count">({loading ? '...' : notes.length})</span>
+            </h2>
 
             {/* Search and Add Button */}
             <div className="search-container">

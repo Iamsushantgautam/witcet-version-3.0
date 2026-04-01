@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Admin = require('../models/Admin');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const auth = require('../middleware/auth'); // Ensure this middleware exists
@@ -29,13 +30,12 @@ router.post('/register', async (req, res) => {
             }
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-
+        // Password will be hashed by the User model's pre-save hook
         const newUser = new User({
             name,
             username,
-            email,
-            password: hashedPassword,
+            email: email.trim().toLowerCase(),
+            password, // Pass plain password
             role: 'user', // Default role
             status: 'Active'
         });
@@ -67,7 +67,79 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// --- Login Route ---
+// --- Admin Login Route (Separate Collection) ---
+router.post('/admin/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and Password are required' });
+        }
+
+        // Find strictly in the Admin collection
+        const admin = await Admin.findOne({ email: { $regex: new RegExp(`^${email.trim()}$`, 'i') } });
+
+        if (!admin) {
+            return res.status(401).json({ message: 'Invalid admin credentials' });
+        }
+
+        const isMatch = await bcrypt.compare(password, admin.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid admin credentials' });
+        }
+
+        // Generate JWT
+        const token = jwt.sign(
+            { userId: admin._id, role: 'admin' },
+            process.env.JWT_SECRET,
+            { expiresIn: '12h' }
+        );
+
+        res.json({
+            token,
+            user: { id: admin._id, name: admin.name, email: admin.email, role: 'admin' }
+        });
+
+        // --- Server-side Login Notification (Sealed and Secure) ---
+        (async () => {
+            try {
+                const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+                const time = new Date().toLocaleString();
+                
+                // Using Brevo (already in .env) to send secure alert
+                await fetch('https://api.brevo.com/v3/smtp/email', {
+                    method: 'POST',
+                    headers: {
+                        'accept': 'application/json',
+                        'api-key': process.env.BREVO_API_KEY,
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        sender: { name: 'Witcet Security', email: 'security@witcet.online' },
+                        to: [{ email: 'witcet@zohomail.in' }], // Original recipient
+                        subject: '⚠️ Admin Login Alert',
+                        htmlContent: `
+                            <div style="font-family: sans-serif; padding: 20px; border: 1px solid #ff4444; border-radius: 8px;">
+                                <h3 style="color: #ff4444;">Login Successful</h3>
+                                <p><strong>Email:</strong> ${admin.email}</p>
+                                <p><strong>Time:</strong> ${time}</p>
+                                <p><strong>IP:</strong> ${ip}</p>
+                                <p style="font-size: 11px; color: #666; margin-top: 20px;">Notification sent securely via backend.</p>
+                            </div>
+                        `
+                    })
+                });
+            } catch (err) {
+                console.error('Failed to send login alert:', err.message);
+            }
+        })();
+    } catch (err) {
+        console.error('Admin Login Error:', err);
+        res.status(500).json({ message: 'Server error during admin login' });
+    }
+});
+
+// --- Standard User Login Route ---
 router.post('/login', async (req, res) => {
     try {
         const { identifier, email, username, password } = req.body;
@@ -77,7 +149,6 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ message: 'Email/Username and Password are required' });
         }
 
-        // Find user by email or username
         const user = await User.findOne({
             $or: [
                 { email: { $regex: new RegExp(`^${loginId.trim()}$`, 'i') } },
@@ -89,17 +160,13 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        // Check password (using the hashed password from DB)
-        // Note: The User model pre-save hook handles hashing on create/update via save()
-        // Here we compare directly
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        // Generate JWT
         const token = jwt.sign(
-            { userId: user._id, role: user.role },
+            { userId: user._id, role: user.role || 'user' },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );
@@ -111,11 +178,11 @@ router.post('/login', async (req, res) => {
                 name: user.name,
                 username: user.username,
                 email: user.email,
-                role: user.role
+                role: user.role || 'user'
             }
         });
     } catch (err) {
-        console.error('Login Error:', err);
+        console.error('User Login Error:', err);
         res.status(500).json({ message: 'Server error during login' });
     }
 });

@@ -29,6 +29,14 @@
     flex: 1;
     padding: 16px 12px;
     overflow-y: auto;
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.sidebar-nav::-webkit-scrollbar {
+    display: none;
 }
 
 .sidebar-link {
@@ -59,8 +67,9 @@
 }
 
 .sidebar-footer {
-    padding: 20px 12px;
+    padding: 24px 16px;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(0, 0, 0, 0.05); /* Subtle distinction */
 }
 
 .logout-btn {
@@ -68,20 +77,33 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 12px;
-    background: rgba(255, 255, 255, 0.12);
-    color: #ffffff;
-    border: none;
-    border-radius: 10px;
-    font-size: 0.95rem;
-    font-weight: 600;
+    gap: 12px;
+    padding: 15px;
+    background: rgba(255, 77, 77, 0.08);
+    color: #ff7675;
+    border: 1px solid rgba(255, 77, 77, 0.2);
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     cursor: pointer;
-    transition: all 0.25s ease;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .logout-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: #ff7675;
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 8px 25px rgba(255, 118, 117, 0.4);
+    transform: translateY(-3px) scale(1.02);
+}
+
+.logout-btn:active {
+    transform: translateY(-1px) scale(0.98);
+    box-shadow: 0 4px 12px rgba(255, 118, 117, 0.3);
 }
 
 /* Mobile responsive */

@@ -14,16 +14,17 @@ app.use(cors());
 app.use(express.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-const auth = require('./middleware/auth');
+const adminAuth = require('./middleware/adminAuth');
 
 // Routes
 app.use('/api/auth', require('./routes/authRoutes.js'));
-app.use('/api/users', auth, require('./routes/userRoutes.js'));
+app.use('/api/users', adminAuth, require('./routes/userRoutes.js'));
 app.use('/api/notes', require('./routes/noteRoutes.js'));
 app.use('/api/detailed-notes', require('./routes/detailedNoteRoutes.js'));
 app.use('/api/updates', require('./routes/updateRoutes.js'));
-app.use('/api/stats', auth, require('./routes/statsRoutes.js'));
-app.use('/api/upload', auth, require('./routes/uploadRoutes.js'));
+app.use('/api/stats', adminAuth, require('./routes/statsRoutes.js'));
+app.use('/api/upload', adminAuth, require('./routes/uploadRoutes.js'));
+app.use('/api/admin', adminAuth, require('./routes/adminRoutes.js'));
 app.use('/api/tools', require('./routes/toolRoutes.js'));
 app.use('/api/offers', require('./routes/offerRoutes.js'));
 

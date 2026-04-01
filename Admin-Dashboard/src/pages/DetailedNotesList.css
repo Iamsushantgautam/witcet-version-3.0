@@ -10,6 +10,14 @@
     margin-bottom: 28px;
 }
 
+.notes-count {
+    font-size: 0.9rem;
+    color: #9ca3af;
+    font-weight: 500;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
 /* Detailed Notes Grid */
 .detailed-notes-grid {
     display: grid;

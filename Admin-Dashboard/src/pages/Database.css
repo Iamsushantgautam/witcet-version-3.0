@@ -1,0 +1,74 @@
+.preview-modal-content {
+    background: white;
+    width: 90%;
+    max-width: 900px;
+    max-height: 85vh;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.json-preview {
+    padding: 20px;
+    margin: 0;
+    max-height: 60vh;
+    overflow-y: auto;
+    background: #1e1e1e;
+    color: #ce9178;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.collection-item {
+    background: #ffffff;
+    transition: all 0.2s;
+}
+
+.collection-item:hover {
+    background: #f8f9fa;
+    border-color: var(--bs-primary) !important;
+}
+
+.bg-light-info {
+    background-color: #f0f7ff !important;
+}
+
+.database-page .card {
+    border-radius: 16px;
+    transition: transform 0.2s ease;
+}
+
+.database-page .card:hover {
+    transform: translateY(-2px);
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    color: #ff4d4d;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 77, 77, 0.1);
+}

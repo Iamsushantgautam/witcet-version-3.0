@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/Note');
-const auth = require('../middleware/auth');
+const adminAuth = require('../middleware/adminAuth');
 
 // Get all notes (Public)
 router.get('/', async (req, res) => {
@@ -25,7 +25,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create note (Protected)
-router.post('/', auth, async (req, res) => {
+router.post('/', adminAuth, async (req, res) => {
     try {
         const note = new Note(req.body);
         const newNote = await note.save();
@@ -36,7 +36,7 @@ router.post('/', auth, async (req, res) => {
 });
 
 // Update note (Protected)
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', adminAuth, async (req, res) => {
     try {
         const updatedNote = await Note.findByIdAndUpdate(req.params.id, req.body, { new: true });
         res.json(updatedNote);
@@ -46,7 +46,7 @@ router.put('/:id', auth, async (req, res) => {
 });
 
 // Delete note (Protected)
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', adminAuth, async (req, res) => {
     try {
         await Note.findByIdAndDelete(req.params.id);
         res.json({ message: 'Note deleted' });

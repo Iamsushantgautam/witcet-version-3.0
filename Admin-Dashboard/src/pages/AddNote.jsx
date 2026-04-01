@@ -28,7 +28,7 @@ const AddNote = () => {
     const [uploadingImage, setUploadingImage] = useState(false);
     const [uploadingQuantumImage, setUploadingQuantumImage] = useState(false);
     const [uploadingPyqImage, setUploadingPyqImage] = useState(false);
-    
+
     // Gallery selector state
     const [isGalleryOpen, setIsGalleryOpen] = useState(false);
     const [currentField, setCurrentField] = useState(null);
@@ -248,8 +248,7 @@ const AddNote = () => {
                             name="quantumTitle"
                             type="text"
                             className="form-input"
-                            required
-                            placeholder="Quantum Title"
+                            placeholder="Quantum Title "
                             value={formData.quantumTitle}
                             onChange={handleChange}
                         />
@@ -442,10 +441,10 @@ const AddNote = () => {
                 </button>
             </form>
 
-            <GalleryModal 
-                isOpen={isGalleryOpen} 
-                onClose={() => setIsGalleryOpen(false)} 
-                onSelect={handleGallerySelect} 
+            <GalleryModal
+                isOpen={isGalleryOpen}
+                onClose={() => setIsGalleryOpen(false)}
+                onSelect={handleGallerySelect}
             />
         </div>
     );

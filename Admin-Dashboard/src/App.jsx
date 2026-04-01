@@ -18,6 +18,7 @@ import ManageTools from './pages/ManageTools';
 import ManageOffers from './pages/ManageOffers';
 import ForgotPassword from './pages/ForgotPassword';
 import Gallery from './pages/Gallery';
+import Database from './pages/Database';
 import './App.css';
 import './styles/dashboard.css';
 
@@ -113,6 +114,7 @@ function App() {
             <Route path="offers" element={<ManageOffers />} />
             <Route path="users" element={<div className="p-8">Users Management (Coming Soon)</div>} />
             <Route path="gallery" element={<Gallery />} />
+            <Route path="database" element={<Database />} />
             <Route path="settings" element={<div className="p-8">Settings (Coming Soon)</div>} />
           </Route>
 
