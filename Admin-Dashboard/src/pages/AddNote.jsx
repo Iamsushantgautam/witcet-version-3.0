@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
-import { ArrowLeft, Upload, X } from 'lucide-react';
+import { ArrowLeft, Upload, X, ImageIcon } from 'lucide-react';
+import GalleryModal from '../components/GalleryModal';
 import './AddNote.css';
 import './Toggle.css';
 
@@ -27,6 +28,22 @@ const AddNote = () => {
     const [uploadingImage, setUploadingImage] = useState(false);
     const [uploadingQuantumImage, setUploadingQuantumImage] = useState(false);
     const [uploadingPyqImage, setUploadingPyqImage] = useState(false);
+    
+    // Gallery selector state
+    const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+    const [currentField, setCurrentField] = useState(null);
+
+    const openGallery = (fieldName) => {
+        setCurrentField(fieldName);
+        setIsGalleryOpen(true);
+    };
+
+    const handleGallerySelect = (url) => {
+        setFormData(prev => ({
+            ...prev,
+            [currentField]: url
+        }));
+    };
 
     const handleChange = (e) => {
         setFormData({
@@ -198,6 +215,14 @@ const AddNote = () => {
                                     style={{ display: 'none' }}
                                 />
                             </label>
+                            <button
+                                type="button"
+                                className="btn-gallery"
+                                onClick={() => openGallery('imagePath')}
+                            >
+                                <ImageIcon size={16} />
+                                Gallery
+                            </button>
                             {formData.imagePath && (
                                 <button
                                     type="button"
@@ -270,6 +295,14 @@ const AddNote = () => {
                                         style={{ display: 'none' }}
                                     />
                                 </label>
+                                <button
+                                    type="button"
+                                    className="btn-gallery"
+                                    onClick={() => openGallery('quantumImagePath')}
+                                >
+                                    <ImageIcon size={16} />
+                                    Gallery
+                                </button>
                                 {formData.quantumImagePath && (
                                     <button
                                         type="button"
@@ -348,6 +381,14 @@ const AddNote = () => {
                                         style={{ display: 'none' }}
                                     />
                                 </label>
+                                <button
+                                    type="button"
+                                    className="btn-gallery"
+                                    onClick={() => openGallery('pyqImage')}
+                                >
+                                    <ImageIcon size={16} />
+                                    Gallery
+                                </button>
                                 {formData.pyqImage && (
                                     <button
                                         type="button"
@@ -400,6 +441,12 @@ const AddNote = () => {
                     {loading ? 'Saving...' : 'Save Note'}
                 </button>
             </form>
+
+            <GalleryModal 
+                isOpen={isGalleryOpen} 
+                onClose={() => setIsGalleryOpen(false)} 
+                onSelect={handleGallerySelect} 
+            />
         </div>
     );
 };

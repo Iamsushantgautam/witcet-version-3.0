@@ -41,4 +41,42 @@ router.post('/upload-multiple', upload.array('images', 3), async (req, res) => {
     }
 });
 
+// Get images from Cloudinary folder
+router.get('/gallery', async (req, res) => {
+    try {
+        let folder = req.query.folder || 'witcet';
+        // Ensure folder prefix ends with / for exact folder matching
+        if (folder && !folder.endsWith('/')) {
+            folder += '/';
+        }
+        
+        // Using v2 api resources to list files in a folder
+        const { cloudinary } = require('../config/cloudinary');
+        
+        const result = await cloudinary.api.resources({
+            type: 'upload',
+            prefix: folder, // This will match 'witcet/' and its subfolders if we use the right parameters
+            max_results: 100,
+            resource_type: 'image'
+        });
+
+        // Filter to make sure it's exactly in that folder or subfolders
+        // Cloudinary prefix match is a start-with match.
+        
+        res.json({ 
+            images: result.resources.map(resource => ({
+                url: resource.secure_url,
+                public_id: resource.public_id,
+                created_at: resource.created_at,
+                width: resource.width,
+                height: resource.height,
+                format: resource.format
+            }))
+        });
+    } catch (err) {
+        console.error('Gallery fetch error:', err);
+        res.status(500).json({ message: 'Failed to fetch gallery' });
+    }
+});
+
 module.exports = router;

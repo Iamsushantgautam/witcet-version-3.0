@@ -12,7 +12,8 @@ import {
     Wrench,
     LogOut,
     X,
-    Tag
+    Tag,
+    Image as ImageIcon
 } from 'lucide-react';
 import './Sidebar.css';
 
@@ -30,6 +31,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { icon: <Bell size={18} />, label: 'Updates', path: '/updates' },
         { icon: <Wrench size={18} />, label: 'Tools', path: '/tools' },
         { icon: <Tag size={18} />, label: 'Offers', path: '/offers' },
+        { icon: <ImageIcon size={18} />, label: 'Gallery', path: '/gallery' },
     ];
 
     const handleLogout = () => {
