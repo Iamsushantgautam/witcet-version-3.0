@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Carousel, Button, Spinner, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import Skeleton from './Skeleton';
 import '../styles/Tools.css';
 
 const HomeTools = () => {
@@ -83,8 +84,24 @@ const HomeTools = () => {
                 </div>
 
                 {loading ? (
-                    <div className="text-center py-5">
-                        <Spinner animation="border" variant="primary" />
+                    <div className="d-flex justify-content-center gap-4 px-2 mb-5">
+                        {[...Array(chunkSize)].map((_, i) => (
+                            <div key={i} style={{ flex: `0 0 calc(${100 / chunkSize}% - 1.5rem)`, maxWidth: `calc(${100 / chunkSize}% - 1.5rem)` }}>
+                                <div className="tool-card h-100 p-4" style={{ border: '1px solid #e2e8f0', borderRadius: '16px' }}>
+                                    <div className="d-flex align-items-center mb-4">
+                                        <Skeleton style={{ width: '48px', height: '48px', borderRadius: '12px', marginRight: '16px' }} />
+                                        <div className="flex-grow-1">
+                                            <Skeleton style={{ width: '120px', height: '22px', marginBottom: '8px' }} />
+                                            <Skeleton style={{ width: '80px', height: '14px' }} />
+                                        </div>
+                                    </div>
+                                    <Skeleton style={{ width: '100%', height: '14px', marginBottom: '8px' }} />
+                                    <Skeleton style={{ width: '100%', height: '14px', marginBottom: '8px' }} />
+                                    <Skeleton style={{ width: '60%', height: '14px', marginBottom: '32px' }} />
+                                    <Skeleton style={{ width: '100px', height: '18px' }} />
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 ) : error ? (
                     <Alert variant="danger" className="text-center">{error}</Alert>

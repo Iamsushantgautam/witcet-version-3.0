@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Spinner, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Skeleton from './Skeleton';
 import '../styles/Updates.css';
 
 const HomeUpdates = () => {
@@ -36,9 +37,40 @@ const HomeUpdates = () => {
     }, []);
 
     if (loading) return (
-        <div className="text-center py-5">
-            <Spinner animation="border" variant="primary" />
-        </div>
+        <section className="home-updates-section py-5" style={{ background: '#fff' }}>
+            <Container>
+                <div className="d-flex justify-content-between align-items-end mb-4">
+                    <div>
+                        <Skeleton style={{ width: '120px', height: '30px', borderRadius: '50px', marginBottom: '12px' }} />
+                        <Skeleton style={{ width: '280px', height: '36px' }} />
+                    </div>
+                    <Skeleton style={{ width: '80px', height: '24px' }} />
+                </div>
+
+                <Row className="g-4">
+                    {[1, 2, 3].map((item) => (
+                        <Col lg={4} md={6} key={item}>
+                            <Card className="h-100 border-0 shadow-sm overflow-hidden" style={{ borderRadius: '24px' }}>
+                                <Card.Body className="d-flex flex-column p-4">
+                                    <Skeleton style={{ width: '100px', height: '16px', marginBottom: '20px' }} />
+                                    <Skeleton style={{ width: '100%', height: '22px', marginBottom: '10px' }} />
+                                    <Skeleton style={{ width: '80%', height: '22px', marginBottom: '20px' }} />
+                                    
+                                    <Skeleton style={{ width: '100%', height: '14px', marginBottom: '8px' }} />
+                                    <Skeleton style={{ width: '100%', height: '14px', marginBottom: '8px' }} />
+                                    <Skeleton style={{ width: '60%', height: '14px', marginBottom: '40px' }} />
+
+                                    <div className="d-flex gap-2 mt-auto">
+                                        <Skeleton style={{ height: '36px', flex: 1, borderRadius: '50px' }} />
+                                        <Skeleton style={{ height: '36px', flex: 1, borderRadius: '50px' }} />
+                                    </div>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            </Container>
+        </section>
     );
 
     if (error || updates.length === 0) return null;

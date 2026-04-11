@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Carousel, Modal, Button, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import Skeleton from './Skeleton';
 import '../styles/Offers.css';
 
 const HomeOffers = () => {
@@ -149,10 +150,32 @@ const HomeOffers = () => {
                 </div>
 
                 {loading ? (
-                    <div className="text-center py-5">
-                        <div className="spinner-border text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
+                    <div className="d-flex justify-content-center gap-4 px-2 mb-5">
+                        {[...Array(chunkSize)].map((_, i) => (
+                            <div key={i} style={{ flex: `0 0 calc(${100 / chunkSize}% - 1.5rem)`, maxWidth: `calc(${100 / chunkSize}% - 1.5rem)` }}>
+                                <div className="offer-card h-100 overflow-hidden" style={{ borderRadius: '20px' }}>
+                                    <Skeleton style={{ width: '100%', height: '180px', borderRadius: '0' }} />
+                                    <div className="offer-content p-4">
+                                        <Skeleton style={{ width: '80%', height: '24px', marginBottom: '12px' }} />
+                                        <Skeleton style={{ width: '100%', height: '14px', marginBottom: '8px' }} />
+                                        <Skeleton style={{ width: '90%', height: '14px', marginBottom: '24px' }} />
+                                        
+                                        <div className="p-3 mb-3" style={{ background: '#f8fafc', borderRadius: '12px' }}>
+                                            <div className="d-flex justify-content-center">
+                                                <Skeleton style={{ width: '120px', height: '20px' }} />
+                                            </div>
+                                        </div>
+
+                                        <div className="d-flex justify-content-between align-items-center mb-4">
+                                            <Skeleton style={{ width: '80px', height: '14px' }} />
+                                            <Skeleton style={{ width: '60px', height: '14px' }} />
+                                        </div>
+
+                                        <Skeleton style={{ width: '100%', height: '42px', borderRadius: '50px' }} />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 ) : offers.length === 0 ? (
                     <div className="text-center py-5">
